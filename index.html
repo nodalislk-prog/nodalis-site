@@ -442,12 +442,20 @@
 
 
   /* ---- gradient descent: lower sections switch to light-on-dark ---- */
-  #atelier, #enquire, footer{
+  #atelier, #petstore-teaser, #enquire, footer{
     --ink:#F4EFFB;
     --ink-soft:#CBBEE4;
     --yarn:#D9B95C;
     --hairline:rgba(217,185,92,.45);
     color:var(--ink);
+  }
+
+  /* ---------- petstore teaser ---------- */
+  #petstore-teaser{text-align:center;padding-top:clamp(48px,8vh,90px);padding-bottom:clamp(48px,8vh,90px)}
+  #petstore-teaser .teaser-line{
+    max-width:52ch;
+    margin:0 auto 38px;
+    color:var(--ink-soft);
   }
   #atelier .ph::after{color:rgba(244,239,251,.5)}
   footer{border-top-color:var(--hairline)}
@@ -557,6 +565,16 @@
       <p>From the first loop to the last, one pair of hands carries the piece through.</p>
     </div>
   </div>
+</section>
+
+<section id="petstore-teaser">
+  <div class="section-head">
+    <span class="knot" aria-hidden="true"></span>
+    <p class="eyebrow">New from the Atelier</p>
+    <h2>The Nodalis Petstore</h2>
+  </div>
+  <p class="teaser-line">Now crocheting for the softest members of the family — sweaters, bandanas, toys, and blankets, made to measure.</p>
+  <a class="cta" href="petstore.html">View the Nodalis Petstore</a>
 </section>
 
 <section id="enquire">
