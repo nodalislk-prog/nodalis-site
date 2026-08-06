@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NODALIS — Piece</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="catalog.css">
+</head>
+<body>
+
+<nav aria-label="Main">
+  <div class="nav-links"><a href="index.html">Home</a><a href="petstore.html">Petstore</a></div>
+  <a class="logotype" href="index.html">Nodalis</a>
+  <div class="nav-links right"><a href="index.html#enquire">Enquire</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a></div>
+</nav>
+
+<main>
+  <p class="crumb" id="crumb"><a href="index.html">Home</a></p>
+
+  <div class="product">
+    <div class="gallery">
+      <div class="frame"><div class="ph" id="main-ph" data-label="">
+        <img id="main-img" src="" alt="" onerror="this.style.display='none'">
+      </div></div>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+
+    <div class="pinfo">
+      <h1 id="p-name"></h1>
+      <p class="price" id="p-price"></p>
+      <p class="desc" id="p-desc"></p>
+
+      <p class="opt-label" id="color-label">Colour <span class="picked" id="picked-color"></span></p>
+      <div class="chips" id="colors"></div>
+
+      <p class="opt-label" id="size-label">Size <span class="picked" id="picked-size"></span></p>
+      <div class="chips" id="sizes"></div>
+
+      <button class="order-btn" onclick="order()">Order via WhatsApp</button>
+      <p class="order-hint">We reply personally to confirm measurements, timing, and payment.</p>
+    </div>
+  </div>
+
+  <div class="size-chart" id="size-chart" hidden>
+    <span class="knot" aria-hidden="true"></span>
+    <h2>Size Chart</h2>
+    <table id="chart-table"></table>
+    <p class="chart-note">Between sizes? Choose the larger one, or mention your exact measurements in the order message — every piece is made to order.</p>
+  </div>
+</main>
+
+<footer>Handmade in Sri Lanka · <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a> · <a href="index.html">nodalis.lk</a></footer>
+
+<script src="products.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+  const p = PRODUCTS.find(x => x.id === id) || PRODUCTS[0];
+  const cat = CATEGORIES[p.category] || {};
+  if (cat.group === 'pet') document.body.classList.add('pet');
+
+  document.title = 'NODALIS — ' + p.name;
+  document.getElementById('p-name').textContent = p.name;
+  document.getElementById('p-price').textContent = p.price || '';
+  document.getElementById('p-desc').textContent = p.description || p.short || '';
+  document.getElementById('crumb').innerHTML =
+    '<a href="index.html">Home</a> &nbsp;/&nbsp; ' +
+    '<a href="category.html?c=' + encodeURIComponent(p.category) + '">' + (cat.title || 'Collection') + '</a>' +
+    ' &nbsp;/&nbsp; ' + p.name;
+
+  /* ----- gallery: front / side / size guide ----- */
+  const views = [
+    { key:'front', label:'Front' },
+    { key:'side',  label:'Side' },
+    { key:'size',  label:'Size Guide' }
+  ];
+  const mainImg = document.getElementById('main-img');
+  const mainPh = document.getElementById('main-ph');
+  const thumbs = document.getElementById('thumbs');
+
+  function srcFor(v){ return 'images/products/' + p.id + '-' + v + '.jpg'; }
+  function show(v, btn){
+    mainImg.style.display = '';
+    mainImg.src = srcFor(v.key);
+    mainImg.alt = p.name + ' — ' + v.label;
+    mainPh.dataset.label = p.id + '-' + v.key + '.jpg';
+    thumbs.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+  views.forEach((v, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.innerHTML = '<span class="ph" data-label=""><img src="' + srcFor(v.key) + '" alt="" loading="lazy" onerror="this.remove()"></span>' +
+                  '<span class="tlabel">' + v.label + '</span>';
+    b.addEventListener('click', () => show(v, b));
+    thumbs.appendChild(b);
+    if (i === 0) show(v, b);
+  });
+
+  /* ----- colour & size chips ----- */
+  let pickedColor = null, pickedSize = null;
+  function chipGroup(list, mount, onPick){
+    const el = document.getElementById(mount);
+    (list || []).forEach(v => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = v;
+      b.addEventListener('click', () => {
+        el.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        onPick(v);
+      });
+      el.appendChild(b);
+    });
+  }
+  chipGroup(p.colors, 'colors', v => { pickedColor = v; document.getElementById('picked-color').textContent = '— ' + v; });
+  chipGroup(p.sizes,  'sizes',  v => { pickedSize  = v; document.getElementById('picked-size').textContent  = '— ' + v; });
+  if (!p.colors || !p.colors.length) document.getElementById('color-label').hidden = true;
+  if (!p.sizes  || !p.sizes.length)  document.getElementById('size-label').hidden  = true;
+
+  /* ----- size chart table ----- */
+  if (p.sizeChart && p.sizeChart.length > 1) {
+    const t = document.getElementById('chart-table');
+    p.sizeChart.forEach((row, i) => {
+      const tr = document.createElement('tr');
+      row.forEach(cell => {
+        const td = document.createElement(i === 0 ? 'th' : 'td');
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+      t.appendChild(tr);
+    });
+    document.getElementById('size-chart').hidden = false;
+  }
+
+  /* ----- order via WhatsApp ----- */
+  function order(){
+    const need = [];
+    if (p.colors && p.colors.length && !pickedColor) need.push('a colour');
+    if (p.sizes && p.sizes.length && !pickedSize) need.push('a size');
+    if (need.length) { alert('Please choose ' + need.join(' and ') + ' first.'); return; }
+    let msg = "Hello Nodalis! I'd like to order:\n";
+    msg += "Piece: " + p.name;
+    if (pickedSize)  msg += "\nSize: " + pickedSize;
+    if (pickedColor) msg += "\nColour: " + pickedColor;
+    msg += "\n" + location.origin + location.pathname + "?id=" + encodeURIComponent(p.id);
+    window.open("https://wa.me/94767003630?text=" + encodeURIComponent(msg), "_blank");
+  }
+</script>
+</body>
+</html>
