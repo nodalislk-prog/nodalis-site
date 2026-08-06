@@ -167,7 +167,7 @@
     position:relative;
     z-index:2;
     text-align:center;
-    margin-top:clamp(36px,6vh,64px);
+    margin-top:clamp(28px,4vh,44px);
     animation:rise 1.4s ease both .3s;
   }
   @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -228,8 +228,8 @@
   }
 
   /* ---------- shared section chrome ---------- */
-  section{position:relative;z-index:1;padding:clamp(80px,12vh,140px) clamp(20px,5vw,72px)}
-  .section-head{text-align:center;margin-bottom:clamp(48px,8vh,84px)}
+  section{position:relative;z-index:1;padding:clamp(40px,6vh,72px) clamp(20px,5vw,72px)}
+  .section-head{text-align:center;margin-bottom:clamp(24px,4vh,44px)}
   .section-head h2{
     font-family:var(--serif);
     font-weight:400;
@@ -276,7 +276,7 @@
   }
 
   /* ---------- collection groups: dogs / cats / general ---------- */
-  .group{margin:0 auto clamp(56px,9vh,96px);max-width:1180px}
+  .group{margin:0 auto clamp(40px,6vh,64px);max-width:1180px}
   .group:last-of-type{margin-bottom:0}
   .group-head{
     display:flex;
@@ -299,13 +299,25 @@
     text-transform:uppercase;
     color:var(--ink-soft);
   }
+  .group-link{
+    margin-left:auto;
+    font-size:12px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--yarn);
+    border-bottom:1px solid var(--hairline);
+    white-space:nowrap;
+    transition:color .3s;
+  }
+  .group-link:hover{color:var(--ink)}
   @media (max-width:720px){
     .group-head{flex-direction:column;gap:6px;align-items:flex-start}
+    .group-link{margin-left:0}
   }
   #collection{--ink-soft:#6E3A55}
   .collection-note{
     text-align:center;
-    margin:clamp(40px,7vh,64px) auto 0;
+    margin:clamp(28px,4vh,44px) auto 0;
     max-width:52ch;
     font-weight:400;
     font-size:14.5px;
@@ -503,7 +515,7 @@
       padding:190px clamp(16px,4vw,24px) 56px;
     }
     .hero-caption{margin-top:34px}
-    section{padding:64px clamp(16px,4vw,24px)}
+    section{padding:40px clamp(16px,4vw,24px)}
     .fitting-inner{gap:28px}
     .request-form .form-actions .cta{display:block;margin:0 auto 14px;width:100%;max-width:320px}
   }
@@ -548,6 +560,7 @@
     <div class="group-head">
       <h3>For Dogs</h3>
       <p class="group-note">Made to your dog's own measurements</p>
+      <a class="group-link" href="category.html?c=dogs">View all pieces</a>
     </div>
     <div class="collection-grid trio">
       <figure class="piece">
@@ -569,6 +582,7 @@
     <div class="group-head">
       <h3>For Cats</h3>
       <p class="group-note">Soft, safe, and endlessly chaseable</p>
+      <a class="group-link" href="category.html?c=cats">View all pieces</a>
     </div>
     <div class="collection-grid trio">
       <figure class="piece">
@@ -590,6 +604,7 @@
     <div class="group-head">
       <h3>For Every Companion</h3>
       <p class="group-note">Pieces for any pet, and the homes they share</p>
+      <a class="group-link" href="category.html?c=other">View all pieces</a>
     </div>
     <div class="collection-grid trio">
       <figure class="piece">

@@ -187,7 +187,7 @@
       padding:168px clamp(16px,4vw,24px) 56px;
     }
     .hero-caption{margin-top:34px}
-    section{padding:64px clamp(16px,4vw,24px)}
+    section{padding:40px clamp(16px,4vw,24px)}
     .atelier-inner{gap:28px}
     .request-form .form-actions .cta{display:block;margin:0 auto 14px;width:100%;max-width:320px}
   }
@@ -195,7 +195,7 @@
     position:relative;
     z-index:2;
     text-align:center;
-    margin-top:clamp(36px,6vh,64px);
+    margin-top:clamp(28px,4vh,44px);
     animation:rise 1.4s ease both .3s;
   }
   @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -256,8 +256,8 @@
   }
 
   /* ---------- shared section chrome ---------- */
-  section{position:relative;z-index:1;padding:clamp(80px,12vh,140px) clamp(20px,5vw,72px)}
-  .section-head{text-align:center;margin-bottom:clamp(48px,8vh,84px)}
+  section{position:relative;z-index:1;padding:clamp(40px,6vh,72px) clamp(20px,5vw,72px)}
+  .section-head{text-align:center;margin-bottom:clamp(24px,4vh,44px)}
   .section-head h2{
     font-family:var(--serif);
     font-weight:400;
@@ -293,9 +293,9 @@
     color:var(--ink-soft);
     margin-top:5px;
   }
-  /* editorial rhythm: 2 large, then 3 across */
-  .piece:nth-child(1),.piece:nth-child(2){grid-column:span 3}
-  .piece:nth-child(3),.piece:nth-child(4),.piece:nth-child(5){grid-column:span 2}
+  /* editorial rhythm: 3 across, two rows */
+  .piece:nth-child(n){grid-column:span 2}
+  .piece > a{display:block}
   @media (max-width:720px){
     .piece:nth-child(n){grid-column:span 6}
     .piece .frame{aspect-ratio:4/5}
@@ -442,7 +442,7 @@
 
 
   /* ---- gradient descent: lower sections switch to light-on-dark ---- */
-  #atelier, #petstore-teaser, #enquire, footer{
+  #atelier, #enquire, footer{
     --ink:#F4EFFB;
     --ink-soft:#CBBEE4;
     --yarn:#D9B95C;
@@ -450,12 +450,45 @@
     color:var(--ink);
   }
 
-  /* ---------- petstore teaser ---------- */
-  #petstore-teaser{text-align:center;padding-top:clamp(48px,8vh,90px);padding-bottom:clamp(48px,8vh,90px)}
+  /* ---------- petstore: compact strip ---------- */
+  #petstore-teaser{
+    text-align:center;
+    padding-top:clamp(28px,4vh,48px);
+    padding-bottom:clamp(36px,5vh,60px);
+    --ink:#3B2D59;
+    --ink-soft:#4A3B70;
+  }
+  #petstore-teaser .pet-tiles{
+    max-width:720px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:clamp(12px,2vw,22px);
+  }
+  #petstore-teaser .piece{grid-column:auto}
+  #petstore-teaser .piece .frame{aspect-ratio:1/1}
+  #petstore-teaser .piece .name{font-size:14px;letter-spacing:.14em;color:var(--ink)}
+  #petstore-teaser .piece .meta{font-size:10.5px;letter-spacing:.12em}
+  #petstore-teaser .piece figcaption{padding-top:11px}
   #petstore-teaser .teaser-line{
     max-width:52ch;
-    margin:0 auto 38px;
+    margin:clamp(20px,3vh,30px) auto 22px;
     color:var(--ink-soft);
+    font-size:15px;
+  }
+  /* bottom Instagram note lives in the dark zone */
+  #enquire .bottom-note{
+    margin-top:clamp(32px,5vh,52px);
+    color:var(--ink-soft);
+  }
+  #enquire .bottom-note a{
+    color:var(--ink);
+    border-color:#EBC96A;
+    outline-color:rgba(235,201,106,.45);
+  }
+  #enquire .bottom-note a:hover{
+    background:#EBC96A;
+    color:#3B2D59;
   }
   #atelier .ph::after{color:rgba(244,239,251,.5)}
   footer{border-top-color:var(--hairline)}
@@ -527,29 +560,56 @@
     <h2>The Collection</h2>
   </div>
   <div class="collection-grid">
-    <figure class="piece">
+    <figure class="piece"><a href="category.html?c=tops">
       <div class="frame"><div class="ph" data-label="Photograph — Tops"><img src="images/tops.jpg" alt="Nodalis handmade crochet tops" loading="lazy" onerror="this.remove()"></div></div>
       <figcaption><div class="name">Tops</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </figure>
-    <figure class="piece">
+    </a></figure>
+    <figure class="piece"><a href="category.html?c=skirts">
       <div class="frame"><div class="ph" data-label="Photograph — Skirts"><img src="images/skirts.jpg" alt="Nodalis handmade crochet skirts" loading="lazy" onerror="this.remove()"></div></div>
       <figcaption><div class="name">Skirts</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </figure>
-    <figure class="piece">
+    </a></figure>
+    <figure class="piece"><a href="category.html?c=bags">
       <div class="frame"><div class="ph" data-label="Photograph — Bags"><img src="images/bags.jpg" alt="Nodalis handmade crochet bags" loading="lazy" onerror="this.remove()"></div></div>
       <figcaption><div class="name">Bags</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </figure>
-    <figure class="piece">
+    </a></figure>
+    <figure class="piece"><a href="category.html?c=hats">
       <div class="frame"><div class="ph" data-label="Photograph — Hats"><img src="images/hats.jpg" alt="Nodalis handmade crochet hats" loading="lazy" onerror="this.remove()"></div></div>
       <figcaption><div class="name">Hats</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </figure>
-    <figure class="piece">
+    </a></figure>
+    <figure class="piece"><a href="category.html?c=accessories">
       <div class="frame"><div class="ph" data-label="Photograph — Accessories"><img src="images/accessories.jpg" alt="Nodalis handmade crochet accessories" loading="lazy" onerror="this.remove()"></div></div>
       <figcaption><div class="name">Accessories</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </figure>
+    </a></figure>
+    <figure class="piece"><a href="category.html?c=shirts">
+      <div class="frame"><div class="ph" data-label="Photograph — images/shirts.jpg"><img src="images/shirts.jpg" alt="Nodalis handmade crochet shirts and t-shirts" loading="lazy" onerror="this.remove()"></div></div>
+      <figcaption><div class="name">Shirts &amp; T-Shirts</div><div class="meta">Handmade · Made to order</div></figcaption>
+    </a></figure>
   </div>
 
-  <p class="collection-note">Check our Instagram to view our recent pieces — <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a></p>
+</section>
+
+<section id="petstore-teaser">
+  <div class="section-head">
+    <span class="knot" aria-hidden="true"></span>
+    <p class="eyebrow">New from the Atelier</p>
+    <h2>The Nodalis Petstore</h2>
+  </div>
+  <div class="collection-grid pet-tiles">
+    <figure class="piece"><a href="category.html?c=cats">
+      <div class="frame"><div class="ph" data-label="Photograph — images/pet-cats.jpg"><img src="images/pet-cats.jpg" alt="Nodalis handmade crochet pieces for cats" loading="lazy" onerror="this.remove()"></div></div>
+      <figcaption><div class="name">Cats</div><div class="meta">Handmade · Made to measure</div></figcaption>
+    </a></figure>
+    <figure class="piece"><a href="category.html?c=dogs">
+      <div class="frame"><div class="ph" data-label="Photograph — images/pet-dogs.jpg"><img src="images/pet-dogs.jpg" alt="Nodalis handmade crochet pieces for dogs" loading="lazy" onerror="this.remove()"></div></div>
+      <figcaption><div class="name">Dogs</div><div class="meta">Handmade · Made to measure</div></figcaption>
+    </a></figure>
+    <figure class="piece"><a href="category.html?c=other">
+      <div class="frame"><div class="ph" data-label="Photograph — images/pet-other.jpg"><img src="images/pet-other.jpg" alt="Nodalis handmade crochet pieces for every companion" loading="lazy" onerror="this.remove()"></div></div>
+      <figcaption><div class="name">Other</div><div class="meta">Blankets · Baskets · Toys</div></figcaption>
+    </a></figure>
+  </div>
+  <p class="teaser-line">Sweaters, bandanas, toys, and blankets for the softest members of the family — made to their own measurements.</p>
+  <a class="cta" href="petstore.html">Visit the Nodalis Petstore</a>
 </section>
 
 <section id="atelier">
@@ -567,15 +627,6 @@
   </div>
 </section>
 
-<section id="petstore-teaser">
-  <div class="section-head">
-    <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">New from the Atelier</p>
-    <h2>The Nodalis Petstore</h2>
-  </div>
-  <p class="teaser-line">Now crocheting for the softest members of the family — sweaters, bandanas, toys, and blankets, made to measure.</p>
-  <a class="cta" href="petstore.html">View the Nodalis Petstore</a>
-</section>
 
 <section id="enquire">
   <div class="section-head">
@@ -610,6 +661,7 @@
       <p class="ig-hint" id="ig-hint">Your message will be copied — just paste it in our Instagram chat.</p>
     </div>
   </form>
+  <p class="collection-note bottom-note">Check our Instagram to view our recent pieces — <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a></p>
 </section>
 
 <footer>
