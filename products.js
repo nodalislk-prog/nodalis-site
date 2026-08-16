@@ -28,7 +28,7 @@ const SITE = {
     "mens": {
       "bgTop": "#563467",
       "bgBottom": "#3a2544",
-      "ink": "#ead9ef",
+      "ink": "#492f50",
       "inkSoft": "#c4a9ce",
       "nav": "#241a29"
     },
