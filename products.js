@@ -46,8 +46,8 @@ const SITE = {
   "type": {
     "serif": "Cormorant Garamond",
     "sans": "EB Garamond",
-    "base": 17,
-    "hscale": 100
+    "base": 20,
+    "hscale": 95
   }
 };
 
