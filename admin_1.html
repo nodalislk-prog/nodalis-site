@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Nodalis — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4EFF9; --panel:#FFFFFF; --ink:#3B2D59; --ink-soft:#6E5E96;
+    --yarn:#B08A2E; --gold:#EBC96A; --hairline:rgba(176,138,46,.4);
+    --danger:#A33B3B; --ok:#3E7A4E;
+    --serif:'Bodoni Moda',Georgia,serif; --sans:'Jost',Helvetica,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;font-size:15.5px;line-height:1.6}
+  a{color:inherit}
+  h1{font-family:var(--serif);font-weight:400;letter-spacing:.08em}
+  .wrap{max-width:980px;margin:0 auto;padding:36px 20px 80px}
+  .brand{
+    text-align:center;font-family:var(--serif);letter-spacing:.5em;text-indent:.42em;
+    text-transform:uppercase;color:var(--yarn);font-size:20px;margin-bottom:6px;
+  }
+  .sub{text-align:center;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:34px}
+  .card{background:var(--panel);border:1px solid var(--hairline);padding:26px;margin-bottom:20px}
+  label{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:16px 0 6px}
+  input[type=text],input[type=password],textarea,select{
+    width:100%;font-family:var(--sans);font-weight:300;font-size:15px;color:var(--ink);
+    background:#FBF9FE;border:1px solid var(--hairline);padding:10px 12px;outline:none;
+  }
+  input:focus,textarea:focus,select:focus{border-color:var(--yarn)}
+  textarea{resize:vertical;min-height:80px}
+  button{
+    font-family:var(--sans);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    padding:12px 24px;border:1px solid var(--ink);background:transparent;color:var(--ink);
+    cursor:pointer;transition:all .25s;
+  }
+  button:hover{background:var(--ink);color:#fff}
+  button.primary{background:var(--ink);color:#fff}
+  button.primary:hover{background:#2A1F42}
+  button.danger{border-color:var(--danger);color:var(--danger)}
+  button.danger:hover{background:var(--danger);color:#fff}
+  button.small{padding:7px 14px;font-size:11px}
+  button:disabled{opacity:.45;cursor:default}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  @media(max-width:640px){.row,.row3{grid-template-columns:1fr}}
+  .plist{list-style:none}
+  .plist li{
+    display:flex;align-items:center;gap:14px;padding:13px 4px;border-bottom:1px solid var(--hairline);
+  }
+  .plist .pname{font-family:var(--serif);font-size:17px;flex:1}
+  .plist .pcat{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+  .imgslot{border:1px dashed var(--hairline);padding:12px;text-align:center}
+  .imgslot img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;margin-bottom:8px;background:#EFE9F6}
+  .imgslot .slotname{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+  .imgslot input[type=file]{width:100%;font-size:12px}
+  .chart-rows{width:100%;border-collapse:collapse;margin-top:4px}
+  .chart-rows td{padding:3px}
+  .chart-rows input{padding:8px 10px;font-size:14px}
+  .chart-rows .rowdel{width:38px}
+  .muted{color:var(--ink-soft);font-size:13px}
+  #log{
+    position:fixed;left:0;right:0;bottom:0;background:#2A1F42;color:#E8DFF7;
+    font-size:13px;padding:10px 20px;letter-spacing:.04em;display:none;
+  }
+  #log.err{background:#5A2323}
+  #log.ok{background:#24462E}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+  .hidden{display:none!important}
+  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55}
+  button.tab{border-color:var(--hairline);color:var(--ink-soft)}
+  button.tab.active{border-color:var(--ink);color:var(--ink);background:transparent}
+  .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+  .mslot{border:1px solid var(--hairline);background:var(--panel);padding:12px}
+  .mslot .mname{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-bottom:2px}
+  .mslot .mpath{font-size:11px;color:var(--ink-soft);margin-bottom:8px;word-break:break-all}
+  .mslot img,.mslot video{width:100%;aspect-ratio:1/1;object-fit:cover;background:#EFE9F6;display:block;margin-bottom:8px}
+  .mslot input[type=file]{width:100%;font-size:12px;margin-bottom:8px}
+  .mgroup-title{font-family:var(--serif);font-size:18px;letter-spacing:.06em;margin:26px 0 12px}
+  .mgroup-title:first-child{margin-top:0}
+  .hint a{color:var(--yarn)}
+  .tclr{width:64px;height:36px;padding:2px;border:1px solid var(--hairline);background:#fff}
+  .cat-row{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--hairline)}
+  .cat-row .cname{font-family:var(--serif);font-size:16px;flex:1}
+  .cat-row.child{padding-left:34px}
+  .cat-row .ccount{font-size:11px;letter-spacing:.14em;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Nodalis</div>
+  <div class="sub">Atelier Admin</div>
+
+  <!-- ============ LOGIN ============ -->
+  <div class="card" id="login-card">
+    <h1 style="font-size:22px;margin-bottom:8px">Sign in</h1>
+    <p class="muted">Paste your GitHub access token. It stays in this browser only — it is never put on the website.</p>
+    <label for="token">Access token</label>
+    <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
+    <label style="display:flex;align-items:center;gap:8px;margin-top:14px;text-transform:none;letter-spacing:.04em;font-size:13px">
+      <input type="checkbox" id="remember" style="width:auto"> Remember on this device
+    </label>
+    <div style="margin-top:18px"><button class="primary" onclick="signIn()">Sign in</button></div>
+    <p class="hint">To create a token: GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token. Repository access: <b>Only select repositories → nodalis-site</b>. Permissions: <b>Contents → Read and write</b>. Copy the token and keep it like a password.</p>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div id="dash" class="hidden">
+    <div class="topbar">
+      <div>
+        <button class="small tab active" id="tab-products" onclick="showTab('products')">Products</button>
+        <button class="small tab" id="tab-categories" onclick="showTab('categories')">Sections</button>
+        <button class="small tab" id="tab-theme" onclick="showTab('theme')">Colours</button>
+        <button class="small tab" id="tab-media" onclick="showTab('media')">Site Media</button>
+      </div>
+      <div>
+        <button class="small" id="addbtn" onclick="newProduct()">+ Add product</button>
+        <button class="small" onclick="signOut()">Sign out</button>
+      </div>
+    </div>
+    <div class="card" id="panel-products">
+      <ul class="plist" id="plist"></ul>
+      <p class="muted" id="plist-empty" style="padding:10px 4px">No products yet — add your first.</p>
+    </div>
+
+    <div id="panel-media" class="hidden">
+      <p class="muted" style="margin-bottom:16px">Every image and video on the website. Pick a new file and it replaces the old one — the live site updates about a minute later. Any image type works \u2014 it is automatically resized and converted for the web before upload. Videos should be MP4.</p>
+      <div id="media-groups"></div>
+    </div>
+
+    <div id="panel-categories" class="hidden">
+      <p class="muted" style="margin-bottom:16px">The sections of your shop. Main-page sections hold products directly; petstore sections (For Dogs, For Cats…) hold sub-sections like Sweaters or Bandanas. Rename anything, rearrange with the arrows, add new ones, or remove empty ones. Changes go live when you press <b>Publish section changes</b>.</p>
+      <div class="card"><div id="cat-tree"></div>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="small" onclick="catNew()">+ Add section</button>
+          <button class="primary" id="cat-save" onclick="catPublish()">Publish section changes</button>
+        </div>
+      </div>
+      <div class="card hidden" id="cat-editor">
+        <h1 style="font-size:19px;margin-bottom:4px" id="cat-ed-title">Edit section</h1>
+        <div class="row">
+          <div><label>Name (shown on the site)</label><input type="text" id="c-title" placeholder="Sweaters"></div>
+          <div><label>Where it lives</label><select id="c-parent"></select></div>
+        </div>
+        <div class="row">
+          <div><label>Small line under the tile</label><input type="text" id="c-meta" placeholder="Handmade · Made to measure"></div>
+          <div><label>Page subtitle</label><input type="text" id="c-line" placeholder="Handmade crochet dog sweaters, made to measure"></div>
+        </div>
+        <label>Web address name <span style="text-transform:none;letter-spacing:0">(auto — cannot change after creation)</span></label>
+        <input type="text" id="c-id" placeholder="dog-sweaters">
+        <div class="row" style="margin-top:16px;align-items:end">
+          <div class="imgslot"><div class="slotname">Tile picture</div><img id="c-img" alt=""><input type="file" accept="image/*" id="c-file"></div>
+          <div>
+            <button class="primary" onclick="catApply()">Done</button>
+            <button class="small" onclick="catCloseEditor()" style="margin-left:8px">Cancel</button>
+            <button class="danger small" id="c-del" onclick="catDelete()" style="margin-left:8px">Remove section</button>
+            <p class="hint">"Done" keeps the change in the list — press <b>Publish section changes</b> to make it live.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-theme" class="hidden">
+      <p class="muted" style="margin-bottom:16px">The site's colours. Pick, then press <b>Publish colours</b> — the whole site updates in about a minute. The homepage's signature gradient stays as designed; these control text, accents, and the shop pages.</p>
+      <div class="card">
+        <label style="margin-top:0">Gold accent (thread, frames, prices)</label>
+        <input type="color" id="t-gold" style="width:64px;height:40px;padding:2px;border:1px solid var(--hairline);background:#fff">
+        <div class="row" style="margin-top:20px">
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Main shop pages</h1>
+            <label>Background — top</label><input type="color" id="t-a-bgTop" class="tclr">
+            <label>Background — bottom</label><input type="color" id="t-a-bgBottom" class="tclr">
+            <label>Text</label><input type="color" id="t-a-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-a-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-a-nav" class="tclr">
+          </div>
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Petstore pages</h1>
+            <label>Background — top</label><input type="color" id="t-p-bgTop" class="tclr">
+            <label>Background — bottom</label><input type="color" id="t-p-bgBottom" class="tclr">
+            <label>Text</label><input type="color" id="t-p-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-p-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-p-nav" class="tclr">
+          </div>
+        </div>
+        <div style="margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="primary" onclick="themePublish()">Publish colours</button>
+          <button class="small" onclick="themeReset()">Back to original colours</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ EDITOR ============ -->
+  <div id="editor" class="hidden">
+    <div class="topbar">
+      <h1 style="font-size:22px" id="ed-title">Edit product</h1>
+      <button class="small" onclick="closeEditor()">← Back to list</button>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <label>Name</label>
+          <input type="text" id="f-name" placeholder="The Classic Dog Sweater">
+        </div>
+        <div>
+          <label>Category</label>
+          <select id="f-category"></select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Price (shown as typed)</label>
+          <input type="text" id="f-price" placeholder="from LKR 4,500">
+        </div>
+        <div>
+          <label>Web address name <span style="text-transform:none;letter-spacing:0">(auto — also the image filenames)</span></label>
+          <input type="text" id="f-id" placeholder="classic-dog-sweater">
+        </div>
+      </div>
+      <label>One-line description (category page)</label>
+      <input type="text" id="f-short" placeholder="Chunky ribbed warmth, made to measure">
+      <label>Full description (product page)</label>
+      <textarea id="f-desc"></textarea>
+      <div class="row">
+        <div>
+          <label>Colours (separate with commas)</label>
+          <input type="text" id="f-colors" placeholder="Cream, Dusty Rose, Sage">
+        </div>
+        <div>
+          <label>Sizes (separate with commas)</label>
+          <input type="text" id="f-sizes" placeholder="XS, S, M, L, XL">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label style="margin-top:0">Images — front, side, size guide</label>
+      <p class="muted" style="margin-bottom:14px">JPG images. New picks replace the current ones when you save.</p>
+      <div class="row3">
+        <div class="imgslot"><div class="slotname">Front</div><img id="img-front" alt=""><input type="file" accept="image/*" id="file-front"></div>
+        <div class="imgslot"><div class="slotname">Side</div><img id="img-side" alt=""><input type="file" accept="image/*" id="file-side"></div>
+        <div class="imgslot"><div class="slotname">Size Guide</div><img id="img-size" alt=""><input type="file" accept="image/*" id="file-size"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label style="margin-top:0">Size chart</label>
+      <p class="muted" style="margin-bottom:10px">First row is the header. Add or remove columns and rows as needed.</p>
+      <table class="chart-rows" id="chart"></table>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="small" onclick="chartAddRow()">+ Row</button>
+        <button class="small" onclick="chartAddCol()">+ Column</button>
+        <button class="small" onclick="chartDelCol()">− Column</button>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button class="primary" id="save-btn" onclick="saveProduct()">Save &amp; publish</button>
+      <button class="danger" id="del-btn" onclick="deleteProduct()">Delete product</button>
+    </div>
+    <p class="hint">After saving, the live site updates in about a minute.</p>
+  </div>
+</div>
+
+<div id="log"></div>
+
+<script>
+/* ================= config ================= */
+const OWNER = 'nodalislk-prog';
+const REPO  = 'nodalis-site';
+const BRANCH = 'main';
+const API = 'https://api.github.com';
+
+let token = null;
+let CATEGORIES = {}, PRODUCTS = [];
+let SITE = null;
+const DEFAULT_THEME = {
+  gold: "#B08A2E",
+  apparel: { bgTop:"#EFE8F8", bgBottom:"#D3C2EA", ink:"#3B2D59", inkSoft:"#6E5E96", nav:"#4A3078" },
+  pet:     { bgTop:"#FBEFF0", bgBottom:"#EFC3D3", ink:"#59283F", inkSoft:"#9C6580", nav:"#7A2C54" }
+};
+let productsSha = null;   // sha of products.js for updates
+let editingIndex = -1;    // -1 = new product
+let pickedFiles = { front:null, side:null, size:null };
+
+/* ================= helpers ================= */
+function log(msg, cls){
+  const el = document.getElementById('log');
+  el.textContent = msg; el.className = cls || ''; el.style.display = 'block';
+  if (cls === 'ok') setTimeout(()=>{ el.style.display='none'; }, 5000);
+}
+async function gh(path, opts){
+  opts = opts || {};
+  opts.headers = Object.assign({
+    'Authorization': 'Bearer ' + token,
+    'Accept': 'application/vnd.github+json'
+  }, opts.headers || {});
+  const r = await fetch(API + path, opts);
+  if (!r.ok && r.status !== 404) {
+    const t = await r.text();
+    throw new Error('GitHub said: ' + r.status + ' ' + t.slice(0,200));
+  }
+  return r;
+}
+function b64EncodeUtf8(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function slugify(s){
+  return s.toLowerCase().trim().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
+
+/* ================= auth ================= */
+function signIn(){
+  const t = document.getElementById('token').value.trim();
+  if (!t) { log('Paste your token first.', 'err'); return; }
+  token = t;
+  if (document.getElementById('remember').checked) {
+    try { localStorage.setItem('nodalis_admin_token', t); } catch(e){}
+  }
+  boot();
+}
+function signOut(){
+  try { localStorage.removeItem('nodalis_admin_token'); } catch(e){}
+  location.reload();
+}
+
+/* ================= load data ================= */
+async function boot(){
+  log('Loading products…');
+  try {
+    const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/products.js?ref='+BRANCH);
+    if (r.status === 404) throw new Error('products.js not found in the repo — upload it once via GitHub first.');
+    const j = await r.json();
+    productsSha = j.sha;
+    const src = decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))));
+    const fn = new Function(src + '; return {SITE: (typeof SITE!=="undefined"?SITE:null), CATEGORIES, PRODUCTS};');
+    const data = fn();
+    CATEGORIES = data.CATEGORIES; PRODUCTS = data.PRODUCTS;
+    SITE = data.SITE || { theme: JSON.parse(JSON.stringify(DEFAULT_THEME)) };
+    if (!SITE.theme) SITE.theme = JSON.parse(JSON.stringify(DEFAULT_THEME));
+    document.getElementById('login-card').classList.add('hidden');
+    document.getElementById('dash').classList.remove('hidden');
+    renderList();
+    log('Loaded ' + PRODUCTS.length + ' products.', 'ok');
+  } catch(e) {
+    token = null;
+    log(e.message.includes('401') ? 'That token was not accepted — check it and try again.' : e.message, 'err');
+  }
+}
+
+/* ================= product list ================= */
+function renderList(){
+  const ul = document.getElementById('plist');
+  ul.innerHTML = '';
+  document.getElementById('plist-empty').style.display = PRODUCTS.length ? 'none' : 'block';
+  PRODUCTS.forEach((p, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="pname">'+esc(p.name)+'</span>' +
+      '<span class="pcat">'+esc((CATEGORIES[p.category]||{}).title || p.category)+'</span>';
+    const b = document.createElement('button');
+    b.className = 'small'; b.textContent = 'Edit';
+    b.onclick = () => openEditor(i);
+    li.appendChild(b);
+    ul.appendChild(li);
+  });
+}
+
+/* ================= editor ================= */
+function fillCategorySelect(sel){
+  const s = document.getElementById('f-category');
+  s.innerHTML = '';
+  for (const k in CATEGORIES) {
+    const c = CATEGORIES[k];
+    const o = document.createElement('option');
+    const prefix = c.parent && CATEGORIES[c.parent] ? CATEGORIES[c.parent].title + ' — ' : (c.group === 'pet' ? 'Petstore — ' : '');
+    o.value = k; o.textContent = prefix + c.title;
+    s.appendChild(o);
+  }
+  if (sel) s.value = sel;
+}
+function newProduct(){ openEditor(-1); }
+function openEditor(i){
+  editingIndex = i;
+  pickedFiles = { front:null, side:null, size:null };
+  ['front','side','size'].forEach(v => { document.getElementById('file-'+v).value = ''; });
+  const p = i >= 0 ? PRODUCTS[i] : { name:'', category:'tops', price:'', short:'', description:'', colors:[], sizes:[], sizeChart:[['Size','Measurement (cm)'],['','']] , id:''};
+  document.getElementById('ed-title').textContent = i >= 0 ? 'Edit — ' + p.name : 'New product';
+  document.getElementById('f-name').value = p.name || '';
+  fillCategorySelect(p.category);
+  document.getElementById('f-price').value = p.price || '';
+  document.getElementById('f-id').value = p.id || '';
+  document.getElementById('f-short').value = p.short || '';
+  document.getElementById('f-desc').value = p.description || '';
+  document.getElementById('f-colors').value = (p.colors||[]).join(', ');
+  document.getElementById('f-sizes').value = (p.sizes||[]).join(', ');
+  renderChart(p.sizeChart && p.sizeChart.length ? p.sizeChart : [['Size','Measurement (cm)'],['','']]);
+  ['front','side','size'].forEach(v => {
+    const img = document.getElementById('img-'+v);
+    const stat = document.querySelector('#file-'+v).closest('.imgslot').querySelector('.slotname');
+    const base = v === 'size' ? 'Size Guide' : v.charAt(0).toUpperCase() + v.slice(1);
+    img.removeAttribute('src');
+    if (p.id) {
+      stat.textContent = base + ' — checking…';
+      previewInto(img, 'images/products/' + p.id + '-' + v + '.jpg').then(ok => {
+        stat.textContent = base + (ok ? ' — ✓ uploaded' : ' — no image yet');
+        stat.style.color = ok ? 'var(--ok)' : '';
+      });
+    } else {
+      stat.textContent = base + ' — no image yet';
+      stat.style.color = '';
+    }
+  });
+  document.getElementById('del-btn').style.display = i >= 0 ? '' : 'none';
+  document.getElementById('dash').classList.add('hidden');
+  document.getElementById('editor').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+function closeEditor(){
+  document.getElementById('editor').classList.add('hidden');
+  document.getElementById('dash').classList.remove('hidden');
+}
+document.getElementById('f-name').addEventListener('input', function(){
+  if (editingIndex < 0) document.getElementById('f-id').value = slugify(this.value);
+});
+['front','side','size'].forEach(v => {
+  document.getElementById('file-'+v).addEventListener('change', function(){
+    const f = this.files[0];
+    if (!f) { pickedFiles[v] = null; return; }
+    pickedFiles[v] = f;
+    const img = document.getElementById('img-'+v);
+    img.src = URL.createObjectURL(f);
+    const stat = this.closest('.imgslot').querySelector('.slotname');
+    const base = v === 'size' ? 'Size Guide' : v.charAt(0).toUpperCase() + v.slice(1);
+    stat.textContent = base + ' — ready, uploads on save';
+    stat.style.color = 'var(--yarn)';
+  });
+});
+
+/* ---- size chart grid ---- */
+function renderChart(rows){
+  const t = document.getElementById('chart');
+  t.innerHTML = '';
+  rows.forEach((row) => chartAddRow(row));
+}
+function chartAddRow(values){
+  const t = document.getElementById('chart');
+  const cols = t.rows.length ? t.rows[0].cells.length - 1 : (values ? values.length : 2);
+  const tr = t.insertRow();
+  const n = values ? values.length : cols;
+  for (let c = 0; c < n; c++) {
+    const td = tr.insertCell();
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.value = values ? (values[c] || '') : '';
+    td.appendChild(inp);
+  }
+  const del = tr.insertCell();
+  del.className = 'rowdel';
+  const b = document.createElement('button');
+  b.className = 'small'; b.textContent = '×'; b.title = 'Remove row';
+  b.onclick = () => { if (t.rows.length > 1) tr.remove(); };
+  del.appendChild(b);
+}
+function chartAddCol(){
+  const t = document.getElementById('chart');
+  for (const tr of t.rows) {
+    const td = tr.insertCell(tr.cells.length - 1);
+    const inp = document.createElement('input'); inp.type = 'text';
+    td.appendChild(inp);
+  }
+}
+function chartDelCol(){
+  const t = document.getElementById('chart');
+  if (!t.rows.length || t.rows[0].cells.length <= 2) return;
+  for (const tr of t.rows) tr.deleteCell(tr.cells.length - 2);
+}
+function readChart(){
+  const t = document.getElementById('chart');
+  const rows = [];
+  for (const tr of t.rows) {
+    const row = [];
+    for (let c = 0; c < tr.cells.length - 1; c++) row.push(tr.cells[c].querySelector('input').value.trim());
+    if (row.some(v => v !== '')) rows.push(row);
+  }
+  return rows.length > 1 ? rows : [];
+}
+
+/* ================= save / delete ================= */
+function serializeProducts(){
+  const header = '/* Nodalis site data — edited via admin.html on ' + new Date().toISOString().slice(0,10) + ' */\n\n';
+  return header +
+    'const SITE = ' + JSON.stringify(SITE, null, 2) + ';\n\n' +
+    'const CATEGORIES = ' + JSON.stringify(CATEGORIES, null, 2) + ';\n\n' +
+    'const PRODUCTS = ' + JSON.stringify(PRODUCTS, null, 2) + ';\n';
+}
+async function putFile(path, base64content, message, sha){
+  const body = { message: message, content: base64content, branch: BRANCH };
+  if (sha) body.sha = sha;
+  const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/'+path, {
+    method:'PUT', body: JSON.stringify(body)
+  });
+  if (r.status === 404) throw new Error('Could not write ' + path + ' — check the token has Contents: Read and write for this repo.');
+  return r.json();
+}
+async function getSha(path){
+  const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/'+encodeURI(path)+'?ref='+BRANCH);
+  if (r.status === 404) return null;
+  const j = await r.json();
+  return j.sha;
+}
+/* Loads a preview straight from GitHub (the source of truth), so it shows the
+   moment something is uploaded — no waiting for the live site to rebuild.
+   Returns true if the file exists. */
+async function previewInto(imgEl, path){
+  try {
+    const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/'+encodeURI(path)+'?ref='+BRANCH);
+    if (r.status === 404) { imgEl.removeAttribute('src'); return false; }
+    const j = await r.json();
+    if (j.content) {
+      imgEl.src = 'data:image/jpeg;base64,' + j.content.replace(/\n/g,'');
+    } else if (j.download_url) {
+      imgEl.src = j.download_url + (j.download_url.includes('?') ? '&' : '?') + 't=' + Date.now();
+    } else { imgEl.removeAttribute('src'); return false; }
+    return true;
+  } catch(e) { imgEl.removeAttribute('src'); return false; }
+}
+function fileToBase64(f){
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = () => rej(new Error('Could not read ' + f.name));
+    r.readAsDataURL(f);
+  });
+}
+/* Shrinks any picked image to web size before upload:
+   max side maxDim px, saved as compressed JPG (transparency flattened to white). */
+function processImage(f, maxDim, quality){
+  maxDim = maxDim || 1600; quality = quality || 0.85;
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        let w = img.naturalWidth, h = img.naturalHeight;
+        const scale = Math.min(1, maxDim / Math.max(w, h));
+        w = Math.max(1, Math.round(w * scale));
+        h = Math.max(1, Math.round(h * scale));
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(img.src);
+        res(c.toDataURL('image/jpeg', quality).split(',')[1]);
+      } catch(e) { rej(new Error('Could not process ' + f.name)); }
+    };
+    img.onerror = () => rej(new Error('Could not read ' + f.name + ' \u2014 is it an image?'));
+    img.src = URL.createObjectURL(f);
+  });
+}
+async function saveProduct(){
+  const btn = document.getElementById('save-btn');
+  try {
+    const name = document.getElementById('f-name').value.trim();
+    let id = slugify(document.getElementById('f-id').value.trim() || name);
+    if (!name) { log('The product needs a name.', 'err'); return; }
+    if (!id)   { log('The product needs a web address name.', 'err'); return; }
+    const clash = PRODUCTS.findIndex((p,ix) => p.id === id && ix !== editingIndex);
+    if (clash >= 0) { log('Another product already uses that web address name — change it.', 'err'); return; }
+
+    btn.disabled = true;
+    const p = {
+      id: id,
+      name: name,
+      category: document.getElementById('f-category').value,
+      price: document.getElementById('f-price').value.trim(),
+      short: document.getElementById('f-short').value.trim(),
+      description: document.getElementById('f-desc').value.trim(),
+      colors: document.getElementById('f-colors').value.split(',').map(s=>s.trim()).filter(Boolean),
+      sizes:  document.getElementById('f-sizes').value.split(',').map(s=>s.trim()).filter(Boolean),
+      sizeChart: readChart()
+    };
+    if (editingIndex >= 0) PRODUCTS[editingIndex] = p; else PRODUCTS.push(p);
+
+    /* upload any newly picked images first */
+    for (const v of ['front','side','size']) {
+      if (pickedFiles[v]) {
+        log('Uploading ' + v + ' image…');
+        const path = 'images/products/' + id + '-' + v + '.jpg';
+        const b64 = await processImage(pickedFiles[v], 1600, 0.85);
+        const sha = await getSha(path);
+        await putFile(path, b64, 'Admin: image ' + id + '-' + v, sha);
+      }
+    }
+
+    log('Saving product data…');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: save ' + name, productsSha)).content.sha;
+
+    log('Saved. The live site updates in about a minute.', 'ok');
+    ['front','side','size'].forEach(v => {
+      if (pickedFiles[v]) {
+        const stat = document.querySelector('#file-'+v).closest('.imgslot').querySelector('.slotname');
+        const base = v === 'size' ? 'Size Guide' : v.charAt(0).toUpperCase() + v.slice(1);
+        stat.textContent = base + ' — ✓ uploaded';
+        stat.style.color = 'var(--ok)';
+        pickedFiles[v] = null;
+      }
+    });
+    editingIndex = PRODUCTS.indexOf(p);
+    document.getElementById('ed-title').textContent = 'Edit — ' + p.name;
+    document.getElementById('del-btn').style.display = '';
+    renderList();
+  } catch(e) {
+    log(e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+async function deleteProduct(){
+  if (editingIndex < 0) return;
+  const p = PRODUCTS[editingIndex];
+  if (!confirm('Remove "' + p.name + '" from the website?\n\nIts images stay in the repo (harmless) — only the product listing is removed.')) return;
+  try {
+    document.getElementById('del-btn').disabled = true;
+    PRODUCTS.splice(editingIndex, 1);
+    log('Removing…');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: remove ' + p.name, productsSha)).content.sha;
+    log('Removed. The live site updates in about a minute.', 'ok');
+    renderList();
+    closeEditor();
+  } catch(e) {
+    log(e.message, 'err');
+  } finally {
+    document.getElementById('del-btn').disabled = false;
+  }
+}
+
+/* ================= site media ================= */
+const SITE_MEDIA = [
+  { group: 'Homepage — Hero Videos', items: [
+    { path:'videos/hero.mp4',  label:'Hero reel 1', video:true },
+    { path:'videos/hero2.mp4', label:'Hero reel 2', video:true },
+    { path:'videos/hero3.mp4', label:'Hero reel 3', video:true }
+  ]},
+  { group: 'Homepage — Collection Tiles', items: [
+    { path:'images/tops.jpg',        label:'Tops' },
+    { path:'images/skirts.jpg',      label:'Skirts' },
+    { path:'images/bags.jpg',        label:'Bags' },
+    { path:'images/hats.jpg',        label:'Hats' },
+    { path:'images/accessories.jpg', label:'Accessories' },
+    { path:'images/shirts.jpg',      label:'Shirts & T-Shirts' }
+  ]},
+  { group: 'Homepage — Petstore Strip & Atelier', items: [
+    { path:'images/pet-cats.jpg',  label:'Petstore — Cats tile' },
+    { path:'images/pet-dogs.jpg',  label:'Petstore — Dogs tile' },
+    { path:'images/pet-other.jpg', label:'Petstore — Other tile' },
+    { path:'images/atelier.jpg',   label:'Atelier photo' }
+  ]},
+  { group: 'Petstore Page — Heroes & Fitting', items: [
+    { path:'images/pet-hero1.jpg',  label:'Petstore hero 1' },
+    { path:'images/pet-hero2.jpg',  label:'Petstore hero 2' },
+    { path:'images/pet-hero3.jpg',  label:'Petstore hero 3' },
+    { path:'images/pet-fitting.jpg',label:'Fitting section photo' }
+  ]},
+  { group: 'Petstore Page — Category Tiles', items: [
+    { path:'images/dog-sweaters.jpg',   label:'Dogs — Sweaters' },
+    { path:'images/dog-bandanas.jpg',   label:'Dogs — Bandanas' },
+    { path:'images/dog-collars.jpg',    label:'Dogs — Collars & Leads' },
+    { path:'images/cat-toys.jpg',       label:'Cats — Toys' },
+    { path:'images/cat-beds.jpg',       label:'Cats — Beds & Caves' },
+    { path:'images/cat-collars.jpg',    label:'Cats — Collars' },
+    { path:'images/pet-blankets.jpg',   label:'Companion — Blankets' },
+    { path:'images/pet-baskets.jpg',    label:'Companion — Baskets' },
+    { path:'images/pet-accessories.jpg',label:'Companion — Toys & Accessories' }
+  ]}
+];
+
+function showTab(t){
+  ['products','categories','theme','media'].forEach(x => {
+    document.getElementById('tab-'+x).classList.toggle('active', t===x);
+    document.getElementById('panel-'+x).classList.toggle('hidden', t!==x);
+  });
+  document.getElementById('addbtn').style.display = t==='products' ? '' : 'none';
+  if (t==='media') renderMedia();
+  if (t==='categories') catRender();
+  if (t==='theme') themeFill();
+}
+function renderMedia(){
+  const root = document.getElementById('media-groups');
+  root.innerHTML = '';
+  SITE_MEDIA.forEach(g => {
+    const h = document.createElement('div');
+    h.className = 'mgroup-title'; h.textContent = g.group;
+    root.appendChild(h);
+    const grid = document.createElement('div');
+    grid.className = 'media-grid';
+    g.items.forEach(it => grid.appendChild(mediaSlot(it)));
+    root.appendChild(grid);
+  });
+}
+function mediaSlot(it){
+  const d = document.createElement('div');
+  d.className = 'mslot';
+  const nm = document.createElement('div'); nm.className='mname'; nm.textContent = it.label;
+  const pt = document.createElement('div'); pt.className='mpath'; pt.textContent = it.path;
+  let prev;
+  if (it.video) {
+    prev = document.createElement('video');
+    prev.muted = true; prev.controls = true; prev.preload = 'metadata';
+  } else {
+    prev = document.createElement('img');
+  }
+  const stat = document.createElement('div');
+  stat.className = 'mpath';
+  if (it.video) {
+    prev.src = it.path + '?t=' + Date.now();
+    prev.onerror = () => { prev.removeAttribute('src'); };
+    stat.textContent = '';
+    getSha(it.path).then(sha => {
+      stat.textContent = sha ? '✓ uploaded' : 'no video yet';
+      stat.style.color = sha ? 'var(--ok)' : '';
+    }).catch(()=>{});
+  } else {
+    stat.textContent = 'checking…';
+    previewInto(prev, it.path).then(ok => {
+      stat.textContent = ok ? '✓ uploaded' : 'no image yet';
+      stat.style.color = ok ? 'var(--ok)' : '';
+    });
+  }
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = it.video ? 'video/mp4' : 'image/*';
+  const btn = document.createElement('button');
+  btn.className = 'small'; btn.textContent = 'Replace';
+  btn.onclick = async () => {
+    const f = inp.files[0];
+    if (!f) { log('Choose a file for "' + it.label + '" first.', 'err'); return; }
+    const maxMB = it.video ? 90 : 20;
+    if (f.size > maxMB * 1024 * 1024) { log('That file is too large — keep it under ' + maxMB + ' MB.', 'err'); return; }
+    try {
+      btn.disabled = true;
+      log('Uploading ' + it.label + '…');
+      const b64 = it.video ? await fileToBase64(f) : await processImage(f, 2000, 0.85);
+      const sha = await getSha(it.path);
+      await putFile(it.path, b64, 'Admin: replace ' + it.path, sha);
+      prev.src = URL.createObjectURL(f);
+      inp.value = '';
+      stat.textContent = '✓ uploaded';
+      stat.style.color = 'var(--ok)';
+      log(it.label + ' replaced. Live in about a minute.', 'ok');
+    } catch(e) {
+      log(e.message, 'err');
+    } finally {
+      btn.disabled = false;
+    }
+  };
+  d.append(nm, pt, prev, stat, inp, btn);
+  return d;
+}
+
+/* ================= sections (categories) ================= */
+let catDirty = false;
+let catEditingId = null;      // null = new
+let pickedCatFiles = {};      // id -> File (tile pictures pending upload)
+
+function catProductCount(k){
+  return PRODUCTS.filter(p => p.category === k).length;
+}
+function catChildren(k){
+  return Object.keys(CATEGORIES).filter(x => CATEGORIES[x].parent === k);
+}
+function catKeysOrdered(){ return Object.keys(CATEGORIES); }
+function catRebuild(orderedKeys){
+  const next = {};
+  orderedKeys.forEach(k => { next[k] = CATEGORIES[k]; });
+  CATEGORIES = next;
+}
+function catSiblings(k){
+  const c = CATEGORIES[k];
+  return catKeysOrdered().filter(x => {
+    const o = CATEGORIES[x];
+    return (o.parent || null) === (c.parent || null) && (o.group === c.group);
+  });
+}
+function catMove(k, dir){
+  const keys = catKeysOrdered();
+  const sibs = catSiblings(k);
+  const si = sibs.indexOf(k);
+  const ti = si + dir;
+  if (ti < 0 || ti >= sibs.length) return;
+  const a = keys.indexOf(k), b = keys.indexOf(sibs[ti]);
+  keys[a] = sibs[ti]; keys[b] = k;
+  catRebuild(keys);
+  catDirty = true;
+  catRender();
+}
+function catRowHtml(k, isChild){
+  const c = CATEGORIES[k];
+  const n = catProductCount(k);
+  const kidn = catChildren(k).length;
+  const bits = [];
+  if (kidn) bits.push(kidn + ' sub-section' + (kidn>1?'s':''));
+  bits.push(n + ' piece' + (n===1?'':'s'));
+  return '<div class="cat-row' + (isChild ? ' child' : '') + '">' +
+    '<span class="cname">' + escHtml(c.title) + '</span>' +
+    '<span class="ccount">' + bits.join(' · ') + '</span>' +
+    '<button class="small" onclick="catMove(\'' + k + '\',-1)" title="Move up">\u2191</button>' +
+    '<button class="small" onclick="catMove(\'' + k + '\',1)" title="Move down">\u2193</button>' +
+    '<button class="small" onclick="catEdit(\'' + k + '\')">Edit</button>' +
+    '</div>';
+}
+function escHtml(s){ const d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
+function catRender(){
+  const mount = document.getElementById('cat-tree');
+  let out = '';
+  out += '<p class="muted" style="margin:4px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Main shop</p>';
+  catKeysOrdered().filter(k => CATEGORIES[k].group === 'apparel' && !CATEGORIES[k].parent)
+    .forEach(k => { out += catRowHtml(k, false); });
+  out += '<p class="muted" style="margin:20px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Petstore</p>';
+  catKeysOrdered().filter(k => CATEGORIES[k].group === 'pet' && !CATEGORIES[k].parent)
+    .forEach(pk => {
+      out += catRowHtml(pk, false);
+      catChildren(pk).forEach(ck => { out += catRowHtml(ck, true); });
+    });
+  mount.innerHTML = out;
+  document.getElementById('cat-save').textContent = catDirty ? 'Publish section changes \u25cf' : 'Publish section changes';
+}
+function catFillParentSelect(current){
+  const s = document.getElementById('c-parent');
+  s.innerHTML = '';
+  const add = (v, label) => { const o = document.createElement('option'); o.value=v; o.textContent=label; s.appendChild(o); };
+  add('apparel', 'Main shop \u2014 top level');
+  add('pet', 'Petstore \u2014 top level');
+  catKeysOrdered().filter(k => CATEGORIES[k].group === 'pet' && !CATEGORIES[k].parent)
+    .forEach(k => add('parent:' + k, 'Petstore \u2014 inside ' + CATEGORIES[k].title));
+  s.value = current || 'apparel';
+}
+function catNew(){ catOpenEditor(null); }
+function catEdit(k){ catOpenEditor(k); }
+function catOpenEditor(k){
+  catEditingId = k;
+  const c = k ? CATEGORIES[k] : { title:'', line:'', meta:'', group:'pet' };
+  document.getElementById('cat-ed-title').textContent = k ? ('Edit \u2014 ' + c.title) : 'New section';
+  document.getElementById('c-title').value = c.title || '';
+  document.getElementById('c-line').value = c.line || '';
+  document.getElementById('c-meta').value = c.meta || '';
+  const idEl = document.getElementById('c-id');
+  idEl.value = k || '';
+  idEl.disabled = !!k;
+  let where = 'apparel';
+  if (c.group === 'pet') where = c.parent ? ('parent:' + c.parent) : 'pet';
+  catFillParentSelect(where);
+  const img = document.getElementById('c-img');
+  const stat = document.querySelector('#c-file').closest('.imgslot').querySelector('.slotname');
+  img.removeAttribute('src');
+  if (k) {
+    stat.textContent = 'Tile picture — checking…';
+    previewInto(img, c.image || ('images/' + k + '.jpg')).then(ok => {
+      stat.textContent = 'Tile picture' + (ok ? ' — ✓ uploaded' : ' — no image yet');
+      stat.style.color = ok ? 'var(--ok)' : '';
+    });
+  } else {
+    stat.textContent = 'Tile picture — no image yet';
+    stat.style.color = '';
+  }
+  document.getElementById('c-file').value = '';
+  document.getElementById('c-del').style.display = k ? '' : 'none';
+  document.getElementById('cat-editor').classList.remove('hidden');
+  document.getElementById('cat-editor').scrollIntoView({behavior:'smooth'});
+}
+function catCloseEditor(){
+  document.getElementById('cat-editor').classList.add('hidden');
+  catEditingId = null;
+}
+document.getElementById('c-title').addEventListener('input', function(){
+  if (!catEditingId) document.getElementById('c-id').value = slugify(this.value);
+});
+document.getElementById('c-file').addEventListener('change', function(){
+  const f = this.files[0];
+  if (f) {
+    document.getElementById('c-img').src = URL.createObjectURL(f);
+    const stat = this.closest('.imgslot').querySelector('.slotname');
+    stat.textContent = 'Tile picture — ready, uploads on publish';
+    stat.style.color = 'var(--yarn)';
+  }
+});
+function catApply(){
+  const title = document.getElementById('c-title').value.trim();
+  if (!title) { log('The section needs a name.', 'err'); return; }
+  let id = catEditingId || slugify(document.getElementById('c-id').value.trim() || title);
+  if (!id) { log('The section needs a web address name.', 'err'); return; }
+  if (!catEditingId && CATEGORIES[id]) { log('A section with that web address name already exists.', 'err'); return; }
+  const where = document.getElementById('c-parent').value;
+  const entry = catEditingId ? CATEGORIES[id] : {};
+  entry.title = title;
+  entry.line = document.getElementById('c-line').value.trim() || title;
+  entry.meta = document.getElementById('c-meta').value.trim() || 'Handmade \u00b7 Made to order';
+  if (where === 'apparel') { entry.group = 'apparel'; delete entry.parent; }
+  else if (where === 'pet') { entry.group = 'pet'; delete entry.parent; }
+  else { entry.group = 'pet'; entry.parent = where.slice(7); }
+  if (entry.parent === id) { log('A section cannot live inside itself.', 'err'); return; }
+  if (!catEditingId) CATEGORIES[id] = entry;
+  const f = document.getElementById('c-file').files[0];
+  if (f) pickedCatFiles[id] = f;
+  catDirty = true;
+  catCloseEditor();
+  catRender();
+  log('Kept. Press \u201cPublish section changes\u201d to make it live.', 'ok');
+}
+async function catDelete(){
+  const k = catEditingId;
+  if (!k) return;
+  if (catProductCount(k) > 0) { log('Move or delete its pieces first \u2014 this section still has products.', 'err'); return; }
+  if (catChildren(k).length > 0) { log('Remove or move its sub-sections first.', 'err'); return; }
+  if (!confirm('Remove the section \u201c' + CATEGORIES[k].title + '\u201d from the website?')) return;
+  delete CATEGORIES[k];
+  delete pickedCatFiles[k];
+  catDirty = true;
+  catCloseEditor();
+  catRender();
+  log('Removed from the list. Press \u201cPublish section changes\u201d to make it live.', 'ok');
+}
+async function catPublish(){
+  const btn = document.getElementById('cat-save');
+  try {
+    btn.disabled = true;
+    for (const id in pickedCatFiles) {
+      log('Uploading tile picture for ' + id + '\u2026');
+      const path = (CATEGORIES[id] && CATEGORIES[id].image) ? CATEGORIES[id].image : ('images/' + id + '.jpg');
+      const b64 = await processImage(pickedCatFiles[id], 1000, 0.85);
+      const sha = await getSha(path);
+      await putFile(path, b64, 'Admin: section tile ' + id, sha);
+    }
+    pickedCatFiles = {};
+    log('Saving sections\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: sections', productsSha)).content.sha;
+    catDirty = false;
+    catRender();
+    log('Published. The live site updates in about a minute.', 'ok');
+  } catch(e) {
+    log(e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ================= colours (theme) ================= */
+function themeFill(){
+  const t = (SITE && SITE.theme) ? SITE.theme : DEFAULT_THEME;
+  document.getElementById('t-gold').value = t.gold || DEFAULT_THEME.gold;
+  ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
+    document.getElementById('t-a-'+k).value = (t.apparel && t.apparel[k]) || DEFAULT_THEME.apparel[k];
+    document.getElementById('t-p-'+k).value = (t.pet && t.pet[k]) || DEFAULT_THEME.pet[k];
+  });
+}
+function themeReset(){
+  SITE.theme = JSON.parse(JSON.stringify(DEFAULT_THEME));
+  themeFill();
+  log('Colours set back to the originals \u2014 press \u201cPublish colours\u201d to make it live.', 'ok');
+}
+async function themePublish(){
+  try {
+    SITE = SITE || {};
+    SITE.theme = {
+      gold: document.getElementById('t-gold').value,
+      apparel: {}, pet: {}
+    };
+    ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
+      SITE.theme.apparel[k] = document.getElementById('t-a-'+k).value;
+      SITE.theme.pet[k] = document.getElementById('t-p-'+k).value;
+    });
+    log('Saving colours\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: colours', productsSha)).content.sha;
+    log('Published. The live site updates in about a minute.', 'ok');
+  } catch(e) {
+    log(e.message, 'err');
+  }
+}
+
+/* ================= start ================= */
+(function(){
+  let saved = null;
+  try { saved = localStorage.getItem('nodalis_admin_token'); } catch(e){}
+  if (saved) { token = saved; boot(); }
+})();
+</script>
+</body>
+</html>
