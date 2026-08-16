@@ -52,6 +52,35 @@
   </div>
 </main>
 
+<div id="checkout" hidden style="position:fixed;inset:0;z-index:99;background:rgba(30,15,35,.5);display:flex;align-items:center;justify-content:center;padding:18px">
+  <div style="background:var(--bg-top);border:1px solid var(--hairline);outline:1px solid var(--hairline);outline-offset:5px;max-width:540px;width:100%;max-height:88vh;overflow:auto;padding:clamp(22px,4vw,36px)">
+    <span class="knot" aria-hidden="true"></span>
+    <h2 style="font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.06em;text-align:center;margin-bottom:6px">Complete Your Order</h2>
+    <p style="text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--yarn);margin-bottom:20px">Order ref <span id="co-ref"></span></p>
+    <p id="co-summary" style="text-align:center;color:var(--ink-soft);margin-bottom:24px"></p>
+
+    <p class="opt-label" style="margin-top:0">How would you like to pay?</p>
+    <div class="chips" id="co-methods"></div>
+
+    <div id="co-bank" hidden style="margin-top:20px;border:1px solid var(--hairline);padding:18px">
+      <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">Bank transfer details</p>
+      <div id="co-bank-rows"></div>
+      <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Please put your order ref <b id="co-ref2"></b> as the transfer remark.</p>
+    </div>
+
+    <div id="co-paypal" hidden style="margin-top:20px;border:1px solid var(--hairline);padding:18px;text-align:center">
+      <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">PayPal</p>
+      <a id="co-paypal-link" href="#" target="_blank" rel="noopener" class="order-btn" style="margin-top:0">Pay with PayPal</a>
+      <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Add your order ref <b id="co-ref3"></b> in the PayPal note.</p>
+    </div>
+
+    <p id="co-note" style="font-size:13px;color:var(--ink-soft);margin-top:20px"></p>
+
+    <button class="order-btn" style="width:100%;margin-top:22px" onclick="confirmOrder()">Send My Order on WhatsApp</button>
+    <p style="text-align:center;margin-top:14px"><a href="#" onclick="closeCheckout();return false" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;border-bottom:1px solid var(--hairline)">Cancel</a></p>
+  </div>
+</div>
+
 <footer>Handmade in Sri Lanka · <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a> · <a href="index.html">nodalis.lk</a></footer>
 
 <script src="products.js"></script>
@@ -199,21 +228,103 @@
   }
 
   /* ----- order via WhatsApp ----- */
+  let orderRef = '';
+  let payMethod = '';
+  function orderPrice(){
+    if (!(pickedSize && p.basePrice)) return null;
+    const i = (p.sizes || []).indexOf(pickedSize);
+    return Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0);
+  }
+  function pay(){ return (typeof SITE !== 'undefined' && SITE && SITE.payment) ? SITE.payment : {}; }
+  function copyText(t, btn){
+    const done = () => { const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(()=>{ btn.textContent = o; }, 1600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(done, done); }
+    else { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); done(); }
+  }
   function order(){
     const need = [];
     if (p.colors && p.colors.length && !pickedColor) need.push('a colour');
     if (p.sizes && p.sizes.length && !pickedSize) need.push('a size');
     if (need.length) { alert('Please choose ' + need.join(' and ') + ' first.'); return; }
+
+    orderRef = 'ND-' + Date.now().toString(36).toUpperCase().slice(-6);
+    payMethod = '';
+    document.getElementById('co-ref').textContent = orderRef;
+    document.getElementById('co-ref2').textContent = orderRef;
+    document.getElementById('co-ref3').textContent = orderRef;
+    const priceN = orderPrice();
+    document.getElementById('co-summary').textContent =
+      p.name + (pickedSize ? ' \u00b7 ' + pickedSize : '') + (pickedColor ? ' \u00b7 ' + pickedColor : '') +
+      (priceN ? ' \u00b7 ' + fmtLKR(priceN) : (p.price ? ' \u00b7 ' + p.price : ''));
+
+    const pm = pay();
+    const hasBank = !!(pm.accountNumber && pm.bankName);
+    const hasPaypal = !!pm.paypal;
+    const methods = document.getElementById('co-methods');
+    methods.innerHTML = '';
+    function addMethod(key, label){
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = label;
+      b.addEventListener('click', () => {
+        payMethod = label;
+        methods.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        document.getElementById('co-bank').hidden = key !== 'bank';
+        document.getElementById('co-paypal').hidden = key !== 'paypal';
+      });
+      methods.appendChild(b);
+      return b;
+    }
+    let firstBtn = null;
+    if (hasBank) firstBtn = addMethod('bank', 'Bank Transfer');
+    if (hasPaypal) { const b = addMethod('paypal', 'PayPal'); if (!firstBtn) firstBtn = b; }
+    if (!hasBank && !hasPaypal) {
+      const noneBtn = addMethod('none', 'Arrange on WhatsApp');
+      firstBtn = noneBtn;
+    }
+
+    if (hasBank) {
+      const rows = document.getElementById('co-bank-rows');
+      rows.innerHTML = '';
+      [['Bank', pm.bankName], ['Branch', pm.branch], ['Account name', pm.accountName], ['Account number', pm.accountNumber]]
+        .filter(r => r[1])
+        .forEach(r => {
+          const d = document.createElement('div');
+          d.style.cssText = 'display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--hairline)';
+          d.innerHTML = '<span style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);width:120px;flex-shrink:0"></span><b style="flex:1;font-weight:400;letter-spacing:.04em"></b>';
+          d.querySelector('span').textContent = r[0];
+          d.querySelector('b').textContent = r[1];
+          const cb = document.createElement('button');
+          cb.type = 'button'; cb.textContent = 'Copy';
+          cb.style.cssText = 'font-family:var(--sans);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--hairline);background:transparent;color:var(--ink);padding:5px 10px;cursor:pointer';
+          cb.addEventListener('click', () => copyText(r[1], cb));
+          d.appendChild(cb);
+          rows.appendChild(d);
+        });
+    }
+    if (hasPaypal) document.getElementById('co-paypal-link').href = pm.paypal;
+    document.getElementById('co-note').textContent = pm.note || '';
+    if (firstBtn) firstBtn.click();
+    document.getElementById('checkout').hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCheckout(){
+    document.getElementById('checkout').hidden = true;
+    document.body.style.overflow = '';
+  }
+  function confirmOrder(){
     let msg = "Hello Nodalis! I'd like to order:\n";
-    msg += "Piece: " + p.name;
+    msg += "Order ref: " + orderRef;
+    msg += "\nPiece: " + p.name;
     if (pickedSize)  msg += "\nSize: " + pickedSize;
     if (pickedColor) msg += "\nColour: " + pickedColor;
-    if (pickedSize && p.basePrice) {
-      const i = (p.sizes || []).indexOf(pickedSize);
-      msg += "\nPrice: " + fmtLKR(Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0));
-    }
+    const priceN = orderPrice();
+    if (priceN) msg += "\nPrice: " + fmtLKR(priceN);
+    if (payMethod) msg += "\nPaying by: " + payMethod;
+    msg += "\nI will send the payment receipt here.";
     msg += "\n" + location.origin + location.pathname + "?id=" + encodeURIComponent(p.id);
     window.open("https://wa.me/94767003630?text=" + encodeURIComponent(msg), "_blank");
+    closeCheckout();
   }
 </script>
 </body>

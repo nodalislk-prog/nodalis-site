@@ -116,6 +116,8 @@
         <button class="small tab" id="tab-categories" onclick="showTab('categories')">Sections</button>
         <button class="small tab" id="tab-theme" onclick="showTab('theme')">Colours</button>
         <button class="small tab" id="tab-media" onclick="showTab('media')">Site Media</button>
+        <button class="small tab" id="tab-orders" onclick="showTab('orders')">Orders</button>
+        <button class="small tab" id="tab-dashboard" onclick="showTab('dashboard')">Dashboard</button>
       </div>
       <div>
         <button class="small" id="addbtn" onclick="newProduct()">+ Add product</button>
@@ -191,6 +193,78 @@
           <button class="primary" onclick="themePublish()">Publish colours</button>
           <button class="small" onclick="themeReset()">Back to original colours</button>
         </div>
+      </div>
+    </div>
+
+    <div id="panel-orders" class="hidden">
+      <div class="card">
+        <label style="margin-top:0">Payment details shown at checkout</label>
+        <p class="muted" style="margin-bottom:10px">These appear to customers when they order. Leave PayPal empty to hide that option (check your account can <b>receive</b> money first). Bank details only allow deposits — safe to show.</p>
+        <div class="row">
+          <div><label>Bank name</label><input type="text" id="pay-bankName" placeholder="Commercial Bank"></div>
+          <div><label>Branch</label><input type="text" id="pay-branch" placeholder="Colombo 03"></div>
+        </div>
+        <div class="row">
+          <div><label>Account name</label><input type="text" id="pay-accountName" placeholder="K. Vadivel"></div>
+          <div><label>Account number</label><input type="text" id="pay-accountNumber" placeholder="8001234567"></div>
+        </div>
+        <div class="row">
+          <div><label>PayPal link (optional)</label><input type="text" id="pay-paypal" placeholder="https://paypal.me/yourname"></div>
+          <div><label>Note to customer</label><input type="text" id="pay-note" placeholder="After paying, send the receipt on WhatsApp with your order ref."></div>
+        </div>
+        <div style="margin-top:16px"><button class="primary" onclick="payPublish()">Publish payment details</button></div>
+      </div>
+
+      <div class="topbar" style="margin-top:26px">
+        <h1 style="font-size:20px">Orders</h1>
+        <button class="small" onclick="orderNew()">+ Add order</button>
+      </div>
+      <div class="card">
+        <ul class="plist" id="olist"></ul>
+        <p class="muted" id="olist-empty" style="padding:10px 4px">No orders yet. When a customer sends an order on WhatsApp, add it here.</p>
+      </div>
+
+      <div class="card hidden" id="order-editor">
+        <h1 style="font-size:19px;margin-bottom:4px" id="o-ed-title">New order</h1>
+        <div class="row">
+          <div><label>Order ref</label><input type="text" id="o-ref" placeholder="ND-ABC123 (from the WhatsApp message)"></div>
+          <div><label>Date</label><input type="text" id="o-date" placeholder="2026-08-16"></div>
+        </div>
+        <div class="row">
+          <div><label>Customer name</label><input type="text" id="o-customer"></div>
+          <div><label>Phone / contact</label><input type="text" id="o-phone"></div>
+        </div>
+        <div class="row">
+          <div><label>Piece</label><select id="o-product"></select></div>
+          <div><label>Size</label><input type="text" id="o-size" placeholder="M"></div>
+        </div>
+        <div class="row">
+          <div><label>Colour</label><input type="text" id="o-color"></div>
+          <div><label>Price (LKR, numbers only)</label><input type="text" id="o-price" inputmode="numeric" placeholder="5500"></div>
+        </div>
+        <div class="row">
+          <div><label>Paying by</label><select id="o-method"><option>Bank Transfer</option><option>PayPal</option><option>Cash</option><option>Other</option></select></div>
+          <div><label>Status</label><select id="o-status"><option>New</option><option>Paid</option><option>Making</option><option>Dispatched</option><option>In Transit</option><option>Delivered</option><option>Cancelled</option></select></div>
+        </div>
+        <label>Notes (measurements, address, anything)</label>
+        <textarea id="o-notes"></textarea>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="primary" onclick="orderSave()">Save order</button>
+          <button class="small" onclick="orderCloseEditor()">Cancel</button>
+          <button class="danger small" id="o-del" onclick="orderDelete()">Delete order</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-dashboard" class="hidden">
+      <div id="dash-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px"></div>
+      <div class="card">
+        <label style="margin-top:0">By status</label>
+        <div id="dash-status"></div>
+      </div>
+      <div class="card">
+        <label style="margin-top:0">Best sellers</label>
+        <div id="dash-top"></div>
       </div>
     </div>
   </div>
@@ -364,7 +438,8 @@ async function boot(){
     document.getElementById('login-card').classList.add('hidden');
     document.getElementById('dash').classList.remove('hidden');
     renderList();
-    log('Loaded ' + PRODUCTS.length + ' products.', 'ok');
+    await loadOrders();
+    log('Loaded ' + PRODUCTS.length + ' products, ' + ORDERS.length + ' orders.', 'ok');
   } catch(e) {
     token = null;
     log(e.message.includes('401') ? 'That token was not accepted — check it and try again.' : e.message, 'err');
@@ -763,7 +838,7 @@ const SITE_MEDIA = [
 ];
 
 function showTab(t){
-  ['products','categories','theme','media'].forEach(x => {
+  ['products','categories','theme','media','orders','dashboard'].forEach(x => {
     document.getElementById('tab-'+x).classList.toggle('active', t===x);
     document.getElementById('panel-'+x).classList.toggle('hidden', t!==x);
   });
@@ -771,6 +846,8 @@ function showTab(t){
   if (t==='media') renderMedia();
   if (t==='categories') catRender();
   if (t==='theme') themeFill();
+  if (t==='orders') { payFill(); orderRenderList(); }
+  if (t==='dashboard') dashRender();
 }
 function renderMedia(){
   const root = document.getElementById('media-groups');
@@ -1062,6 +1139,233 @@ async function themePublish(){
   } catch(e) {
     log(e.message, 'err');
   }
+}
+
+/* ================= orders ================= */
+let ORDERS = [];
+let ordersSha = null;
+let orderEditingIndex = -1;
+
+async function loadOrders(){
+  try {
+    const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/orders.js?ref='+BRANCH);
+    if (r.status === 404) { ORDERS = []; ordersSha = null; return; }
+    const j = await r.json();
+    ordersSha = j.sha;
+    const src = decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))));
+    const fn = new Function(src + '; return (typeof ORDERS!=="undefined") ? ORDERS : [];');
+    ORDERS = fn() || [];
+  } catch(e) { ORDERS = []; ordersSha = null; }
+}
+function serializeOrders(){
+  return '/* Nodalis orders \u2014 edited via admin.html */\n\nconst ORDERS = ' + JSON.stringify(ORDERS, null, 2) + ';\n';
+}
+async function saveOrdersFile(msg){
+  const res = await putFile('orders.js', b64EncodeUtf8(serializeOrders()), msg, ordersSha);
+  ordersSha = res.content.sha;
+}
+function fmtLKRn(n){ return 'LKR ' + Number(n||0).toLocaleString('en-US'); }
+const ORDER_STATUSES = ['New','Paid','Making','Dispatched','In Transit','Delivered','Cancelled'];
+
+function orderRenderList(){
+  const ul = document.getElementById('olist');
+  ul.innerHTML = '';
+  document.getElementById('olist-empty').style.display = ORDERS.length ? 'none' : 'block';
+  ORDERS.slice().reverse().forEach((o) => {
+    const i = ORDERS.indexOf(o);
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="pname" style="font-size:15px"></span>' +
+      '<span class="pcat"></span><span class="pcat" style="color:var(--yarn)"></span>';
+    li.querySelector('.pname').textContent = (o.ref ? o.ref + ' \u00b7 ' : '') + (o.customer || 'Customer') + ' \u2014 ' + (o.productName || '');
+    li.querySelectorAll('.pcat')[0].textContent = o.date || '';
+    li.querySelectorAll('.pcat')[1].textContent = o.price ? fmtLKRn(o.price) : '';
+    const sel = document.createElement('select');
+    sel.style.cssText = 'width:auto;padding:6px 8px;font-size:12px';
+    ORDER_STATUSES.forEach(s => { const op = document.createElement('option'); op.textContent = s; sel.appendChild(op); });
+    sel.value = o.status || 'New';
+    sel.addEventListener('change', async () => {
+      o.status = sel.value;
+      try { log('Updating status\u2026'); await saveOrdersFile('Admin: order ' + (o.ref||'') + ' \u2192 ' + o.status); log('Status saved: ' + o.status, 'ok'); }
+      catch(e){ log(e.message, 'err'); }
+    });
+    li.appendChild(sel);
+    const b = document.createElement('button');
+    b.className = 'small'; b.textContent = 'Edit';
+    b.onclick = () => orderOpenEditor(i);
+    li.appendChild(b);
+    ul.appendChild(li);
+  });
+}
+function orderFillProductSelect(sel){
+  const s = document.getElementById('o-product');
+  s.innerHTML = '';
+  const blank = document.createElement('option'); blank.value=''; blank.textContent='\u2014 pick a piece \u2014'; s.appendChild(blank);
+  PRODUCTS.forEach(p => { const o = document.createElement('option'); o.value = p.id; o.textContent = p.name; s.appendChild(o); });
+  if (sel) s.value = sel;
+}
+function orderNew(){ orderOpenEditor(-1); }
+function orderOpenEditor(i){
+  orderEditingIndex = i;
+  const o = i >= 0 ? ORDERS[i] : { ref:'', date:new Date().toISOString().slice(0,10), customer:'', phone:'', productId:'', size:'', color:'', price:'', method:'Bank Transfer', status:'New', notes:'' };
+  document.getElementById('o-ed-title').textContent = i >= 0 ? ('Edit \u2014 ' + (o.ref || o.customer || 'order')) : 'New order';
+  document.getElementById('o-ref').value = o.ref || '';
+  document.getElementById('o-date').value = o.date || '';
+  document.getElementById('o-customer').value = o.customer || '';
+  document.getElementById('o-phone').value = o.phone || '';
+  orderFillProductSelect(o.productId || '');
+  document.getElementById('o-size').value = o.size || '';
+  document.getElementById('o-color').value = o.color || '';
+  document.getElementById('o-price').value = o.price != null && o.price !== '' ? o.price : '';
+  document.getElementById('o-method').value = o.method || 'Bank Transfer';
+  document.getElementById('o-status').value = o.status || 'New';
+  document.getElementById('o-notes').value = o.notes || '';
+  document.getElementById('o-del').style.display = i >= 0 ? '' : 'none';
+  document.getElementById('order-editor').classList.remove('hidden');
+  document.getElementById('order-editor').scrollIntoView({behavior:'smooth'});
+}
+function orderCloseEditor(){
+  document.getElementById('order-editor').classList.add('hidden');
+  orderEditingIndex = -1;
+}
+/* picking a piece + size auto-suggests the price */
+function orderSuggestPrice(){
+  const pid = document.getElementById('o-product').value;
+  const size = document.getElementById('o-size').value.trim();
+  const p = PRODUCTS.find(x => x.id === pid);
+  if (!p || !p.basePrice) return;
+  const i = (p.sizes || []).indexOf(size);
+  const priceEl = document.getElementById('o-price');
+  if (priceEl.value.trim() === '') {
+    priceEl.value = Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0);
+  }
+}
+document.getElementById('o-product').addEventListener('change', orderSuggestPrice);
+document.getElementById('o-size').addEventListener('input', orderSuggestPrice);
+
+async function orderSave(){
+  const pid = document.getElementById('o-product').value;
+  const p = PRODUCTS.find(x => x.id === pid);
+  const o = {
+    ref: document.getElementById('o-ref').value.trim(),
+    date: document.getElementById('o-date').value.trim() || new Date().toISOString().slice(0,10),
+    customer: document.getElementById('o-customer').value.trim(),
+    phone: document.getElementById('o-phone').value.trim(),
+    productId: pid,
+    productName: p ? p.name : '',
+    size: document.getElementById('o-size').value.trim(),
+    color: document.getElementById('o-color').value.trim(),
+    price: parseInt(String(document.getElementById('o-price').value).replace(/[^0-9]/g,''), 10) || 0,
+    method: document.getElementById('o-method').value,
+    status: document.getElementById('o-status').value,
+    notes: document.getElementById('o-notes').value.trim()
+  };
+  if (!o.customer && !o.ref) { log('Give the order at least a customer name or a ref.', 'err'); return; }
+  if (orderEditingIndex >= 0) ORDERS[orderEditingIndex] = o; else ORDERS.push(o);
+  try {
+    log('Saving order\u2026');
+    await saveOrdersFile('Admin: order ' + (o.ref || o.customer));
+    log('Order saved.', 'ok');
+    orderCloseEditor();
+    orderRenderList();
+  } catch(e) { log(e.message, 'err'); }
+}
+async function orderDelete(){
+  if (orderEditingIndex < 0) return;
+  const o = ORDERS[orderEditingIndex];
+  if (!confirm('Delete this order (' + (o.ref || o.customer || '') + ')? For a cancelled sale, setting status to Cancelled is usually better \u2014 it keeps the record.')) return;
+  ORDERS.splice(orderEditingIndex, 1);
+  try {
+    log('Deleting\u2026');
+    await saveOrdersFile('Admin: delete order ' + (o.ref || ''));
+    log('Order deleted.', 'ok');
+    orderCloseEditor();
+    orderRenderList();
+  } catch(e) { log(e.message, 'err'); }
+}
+
+/* ================= payment details ================= */
+function payFill(){
+  const pm = (SITE && SITE.payment) ? SITE.payment : {};
+  ['bankName','branch','accountName','accountNumber','paypal','note'].forEach(k => {
+    document.getElementById('pay-'+k).value = pm[k] || '';
+  });
+}
+async function payPublish(){
+  SITE = SITE || {};
+  SITE.payment = {};
+  ['bankName','branch','accountName','accountNumber','paypal','note'].forEach(k => {
+    SITE.payment[k] = document.getElementById('pay-'+k).value.trim();
+  });
+  try {
+    log('Saving payment details\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: payment details', productsSha)).content.sha;
+    log('Published. Checkout updates in about a minute.', 'ok');
+  } catch(e) { log(e.message, 'err'); }
+}
+
+/* ================= dashboard ================= */
+function dashRender(){
+  const active = ORDERS.filter(o => o.status !== 'Cancelled');
+  const paid = active.filter(o => ['Paid','Making','Dispatched','In Transit','Delivered'].includes(o.status));
+  const revenue = paid.reduce((s,o) => s + (Number(o.price)||0), 0);
+  const delivered = active.filter(o => o.status === 'Delivered');
+  const month = new Date().toISOString().slice(0,7);
+  const thisMonth = paid.filter(o => (o.date||'').startsWith(month));
+  const monthRevenue = thisMonth.reduce((s,o) => s + (Number(o.price)||0), 0);
+
+  const cards = [
+    ['Revenue (paid orders)', fmtLKRn(revenue)],
+    ['Revenue this month', fmtLKRn(monthRevenue)],
+    ['Orders', String(active.length)],
+    ['Delivered', String(delivered.length)],
+    ['Awaiting payment', String(active.filter(o => o.status === 'New').length)],
+    ['In progress', String(active.filter(o => ['Paid','Making','Dispatched','In Transit'].includes(o.status)).length)]
+  ];
+  const cm = document.getElementById('dash-cards');
+  cm.innerHTML = '';
+  cards.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'card';
+    d.style.marginBottom = '0';
+    d.innerHTML = '<div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px"></div>' +
+      '<div style="font-family:var(--serif);font-size:24px"></div>';
+    d.querySelector('div').textContent = c[0];
+    d.querySelectorAll('div')[1].textContent = c[1];
+    cm.appendChild(d);
+  });
+
+  const st = document.getElementById('dash-status');
+  st.innerHTML = '';
+  ORDER_STATUSES.forEach(s => {
+    const n = ORDERS.filter(o => o.status === s).length;
+    if (!n) return;
+    const d = document.createElement('div');
+    d.style.cssText = 'display:flex;justify-content:space-between;padding:8px 2px;border-bottom:1px solid var(--hairline)';
+    d.innerHTML = '<span></span><b style="font-weight:400"></b>';
+    d.querySelector('span').textContent = s;
+    d.querySelector('b').textContent = n;
+    st.appendChild(d);
+  });
+  if (!st.children.length) st.innerHTML = '<p class="muted">No orders yet.</p>';
+
+  const tops = {};
+  paid.forEach(o => {
+    const k = o.productName || o.productId || 'Unknown';
+    tops[k] = tops[k] || { n:0, rev:0 };
+    tops[k].n++; tops[k].rev += Number(o.price)||0;
+  });
+  const tp = document.getElementById('dash-top');
+  tp.innerHTML = '';
+  Object.keys(tops).sort((a,b) => tops[b].rev - tops[a].rev).slice(0,8).forEach(k => {
+    const d = document.createElement('div');
+    d.style.cssText = 'display:flex;justify-content:space-between;gap:10px;padding:8px 2px;border-bottom:1px solid var(--hairline)';
+    d.innerHTML = '<span style="flex:1"></span><span class="pcat"></span><b style="font-weight:400"></b>';
+    d.querySelector('span').textContent = k;
+    d.querySelector('.pcat').textContent = tops[k].n + ' sold';
+    d.querySelector('b').textContent = fmtLKRn(tops[k].rev);
+    tp.appendChild(d);
+  });
+  if (!tp.children.length) tp.innerHTML = '<p class="muted">Sales will appear here.</p>';
 }
 
 /* ================= start ================= */

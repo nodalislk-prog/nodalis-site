@@ -4,6 +4,14 @@
    ===================================================================== */
 
 const SITE = {
+  "payment": {
+    "bankName": "",
+    "branch": "",
+    "accountName": "",
+    "accountNumber": "",
+    "paypal": "",
+    "note": "After paying, please send us the receipt on WhatsApp with your order reference."
+  },
   "theme": {
     "gold": "#B08A2E",
     "apparel": {
