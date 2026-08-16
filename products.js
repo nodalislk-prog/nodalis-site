@@ -10,44 +10,44 @@ const SITE = {
     "note": "After paying, please send us the receipt on WhatsApp with your order reference."
   },
   "theme": {
-    "gold": "#791111",
+    "gold": "#b08a2e",
     "apparel": {
-      "bgTop": "#ffe5fe",
-      "bgBottom": "#300d2a",
-      "ink": "#221528",
-      "inkSoft": "#000000",
-      "nav": "#992fa7"
+      "bgTop": "#f5eef9",
+      "bgBottom": "#e3d2ed",
+      "ink": "#563467",
+      "inkSoft": "#8e6bb8",
+      "nav": "#563467"
     },
     "pet": {
       "bgTop": "#fbeff0",
-      "bgBottom": "#ffffff",
-      "ink": "#2c1620",
-      "inkSoft": "#000000",
-      "nav": "#be4182"
+      "bgBottom": "#efc3d3",
+      "ink": "#59283f",
+      "inkSoft": "#9c6580",
+      "nav": "#7a2c54"
     },
     "mens": {
-      "bgTop": "#e6b8ff",
-      "bgBottom": "#221f23",
-      "ink": "#1f191d",
-      "inkSoft": "#000000",
-      "nav": "#5e066a"
+      "bgTop": "#563467",
+      "bgBottom": "#3a2544",
+      "ink": "#ead9ef",
+      "inkSoft": "#c4a9ce",
+      "nav": "#241a29"
     },
     "home": {
       "g0": "#f3ebfb",
-      "g1": "#cda5ee",
-      "g2": "#9c71d0",
-      "g3": "#5f3493",
-      "g4": "#2e134e",
-      "ink": "#050000",
-      "inkSoft": "#000000",
-      "nav": "#4e166a"
+      "g1": "#dcc4f0",
+      "g2": "#9c7bc6",
+      "g3": "#6b5072",
+      "g4": "#25302c",
+      "ink": "#563467",
+      "inkSoft": "#8e6bb8",
+      "nav": "#563467"
     }
   },
   "type": {
-    "serif": "Marcellus",
-    "sans": "Karla",
-    "base": 19,
-    "hscale": 105
+    "serif": "Cormorant Garamond",
+    "sans": "EB Garamond",
+    "base": 17,
+    "hscale": 100
   }
 };
 
