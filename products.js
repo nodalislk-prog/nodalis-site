@@ -12,21 +12,21 @@ const SITE = {
   "theme": {
     "gold": "#ffae00",
     "apparel": {
-      "bgTop": "#000000",
+      "bgTop": "#ffffff",
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
       "nav": "#751f55"
     },
     "pet": {
-      "bgTop": "#000000",
+      "bgTop": "#ffffff",
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
       "nav": "#ac3997"
     },
     "mens": {
-      "bgTop": "#000000",
+      "bgTop": "#ffffff",
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
