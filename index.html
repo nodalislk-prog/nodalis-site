@@ -7,7 +7,7 @@
 <meta name="description" content="Nodalis. Handmade crochet pieces, made to order in Sri Lanka.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --bone:#F6F3FB;
@@ -16,8 +16,10 @@
     --ink-soft:#8E6BB8;
     --yarn:#B08A2E;      /* antique gold accent: thread, knots, links */
     --hairline:rgba(176,138,46,.42);
-    --serif:'Bodoni Moda', 'Didot', Georgia, serif;
-    --sans:'Jost', 'Futura', Helvetica, sans-serif;
+    --serif:'Cormorant Garamond', Georgia, serif;
+    --hscale:1;
+    --fs-base:17px;
+    --sans:'EB Garamond', Georgia, serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -32,7 +34,7 @@
     color:var(--ink);
     font-family:var(--sans);
     font-weight:300;
-    font-size:16.5px;
+    font-size:var(--fs-base);
     line-height:1.75;
     letter-spacing:.01em;
     -webkit-font-smoothing:antialiased;
@@ -209,7 +211,7 @@
   .hero-caption h1{
     font-family:var(--serif);
     font-weight:400;
-    font-size:clamp(32px,4.6vw,54px);
+    font-size:calc(var(--hscale)*clamp(26px,3.6vw,42px));
     letter-spacing:.06em;
     line-height:1.15;
     margin-bottom:22px;
@@ -261,7 +263,7 @@
   .section-head h2{
     font-family:var(--serif);
     font-weight:400;
-    font-size:clamp(24px,3.2vw,38px);
+    font-size:calc(var(--hscale)*clamp(22px,2.8vw,34px));
     letter-spacing:.08em;
   }
   .section-head .eyebrow{margin-bottom:10px}
@@ -346,7 +348,7 @@
     font-family:var(--serif);
     font-weight:400;
     font-style:italic;
-    font-size:clamp(26px,3.2vw,38px);
+    font-size:calc(var(--hscale)*clamp(22px,2.8vw,34px));
     line-height:1.25;
     letter-spacing:.03em;
     margin-bottom:22px;
@@ -526,8 +528,8 @@
   .chapter{position:relative;max-width:1060px;margin:0 auto}
   .chapter-num{
     position:absolute;top:-24px;left:-8px;z-index:0;
-    font-family:var(--serif);font-size:clamp(110px,18vw,220px);line-height:1;
-    color:var(--ink);opacity:.07;font-style:italic;pointer-events:none;user-select:none;
+    font-family:var(--serif);font-size:clamp(80px,13vw,150px);line-height:1;
+    color:var(--ink);opacity:.06;font-style:italic;pointer-events:none;user-select:none;
   }
   .chapter-grid{
     position:relative;z-index:1;
@@ -540,10 +542,10 @@
   }
   .chapter-copy h2{
     font-family:var(--serif);font-weight:400;
-    font-size:clamp(30px,4.6vw,54px);letter-spacing:.03em;line-height:1.08;margin-bottom:18px;
+    font-size:calc(var(--hscale)*clamp(24px,3.2vw,38px));letter-spacing:.04em;line-height:1.15;margin-bottom:18px;
   }
   .chapter-copy .chap-line{
-    font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.7vw,19px);
+    font-family:var(--serif);font-style:italic;font-size:clamp(15px,1.5vw,17.5px);
     color:var(--ink-soft);line-height:1.65;max-width:38ch;margin-bottom:26px;
   }
   .chapter-copy .cta{margin-top:0}
@@ -818,6 +820,21 @@
         r.setProperty('--hairline','rgba('+c[0]+','+c[1]+','+c[2]+',.42)');
       }
     }
+      var ty = (typeof SITE!=='undefined' && SITE.type) ? SITE.type : null;
+      if (ty) {
+        if (ty.serif) r.setProperty('--serif', "'" + ty.serif + "', Georgia, serif");
+        if (ty.sans) r.setProperty('--sans', "'" + ty.sans + "', Georgia, serif");
+        if (ty.base) r.setProperty('--fs-base', ty.base + 'px');
+        if (ty.hscale) r.setProperty('--hscale', (ty.hscale/100));
+        var fams = [];
+        if (ty.serif) fams.push(ty.serif);
+        if (ty.sans && ty.sans !== ty.serif) fams.push(ty.sans);
+        if (fams.length) {
+          var fl = document.createElement('link'); fl.rel = 'stylesheet';
+          fl.href = 'https://fonts.googleapis.com/css2?' + fams.map(function(f){ return 'family=' + f.trim().replace(/ /g,'+') + ':ital,wght@0,400;0,500;0,600;1,400;1,500'; }).join('&') + '&display=swap';
+          document.head.appendChild(fl);
+        }
+      }
   }catch(e){}
 
   /* scroll-reveal for chapters */

@@ -13,10 +13,11 @@
     --bg:#F4EFF9; --panel:#FFFFFF; --ink:#3B2D59; --ink-soft:#6E5E96;
     --yarn:#B08A2E; --gold:#EBC96A; --hairline:rgba(176,138,46,.4);
     --danger:#A33B3B; --ok:#3E7A4E;
-    --serif:'Bodoni Moda',Georgia,serif; --sans:'Jost',Helvetica,sans-serif;
+    --serif:'Cormorant Garamond',Georgia,serif; --sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --radius:12px; --shadow:0 1px 3px rgba(59,45,89,.08), 0 8px 24px rgba(59,45,89,.06);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;font-size:15.5px;line-height:1.6}
+  body{background:linear-gradient(180deg,#F6F1FB,#EFE7F7);min-height:100vh;color:var(--ink);font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.6}
   a{color:inherit}
   h1{font-family:var(--serif);font-weight:400;letter-spacing:.08em}
   .wrap{max-width:980px;margin:0 auto;padding:36px 20px 80px}
@@ -25,22 +26,23 @@
     text-transform:uppercase;color:var(--yarn);font-size:20px;margin-bottom:6px;
   }
   .sub{text-align:center;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:34px}
-  .card{background:var(--panel);border:1px solid var(--hairline);padding:26px;margin-bottom:20px}
+  .card{background:var(--panel);border:1px solid rgba(176,138,46,.25);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin-bottom:22px}
   label{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:16px 0 6px}
-  input[type=text],input[type=password],textarea,select{
-    width:100%;font-family:var(--sans);font-weight:300;font-size:15px;color:var(--ink);
-    background:#FBF9FE;border:1px solid var(--hairline);padding:10px 12px;outline:none;
+  input[type=text],input[type=password],textarea,select,input[type=number]{
+    width:100%;font-family:var(--sans);font-weight:400;font-size:15px;color:var(--ink);
+    background:#FBF9FE;border:1px solid rgba(110,94,150,.35);border-radius:8px;padding:11px 13px;outline:none;transition:border-color .2s, box-shadow .2s;
   }
+  input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(176,138,46,.18)}
   input:focus,textarea:focus,select:focus{border-color:var(--yarn)}
   textarea{resize:vertical;min-height:80px}
   button{
-    font-family:var(--sans);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
-    padding:12px 24px;border:1px solid var(--ink);background:transparent;color:var(--ink);
-    cursor:pointer;transition:all .25s;
+    font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+    padding:12px 22px;border:1px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);
+    cursor:pointer;transition:all .2s;
   }
   button:hover{background:var(--ink);color:#fff}
-  button.primary{background:var(--ink);color:#fff}
-  button.primary:hover{background:#2A1F42}
+  button.primary{background:var(--yarn);border-color:var(--yarn);color:#fff}
+  button.primary:hover{background:#96751F;border-color:#96751F}
   button.danger{border-color:var(--danger);color:var(--danger)}
   button.danger:hover{background:var(--danger);color:#fff}
   button.small{padding:7px 14px;font-size:11px}
@@ -72,8 +74,9 @@
   .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}
   .hidden{display:none!important}
   .hint{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55}
-  button.tab{border-color:var(--hairline);color:var(--ink-soft)}
-  button.tab.active{border-color:var(--ink);color:var(--ink);background:transparent}
+  button.tab{border-color:transparent;background:rgba(255,255,255,.6);color:var(--ink-soft)}
+  button.tab:hover{background:#fff;color:var(--ink)}
+  button.tab.active{background:var(--ink);border-color:var(--ink);color:#fff;box-shadow:var(--shadow)}
   .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
   .mslot{border:1px solid var(--hairline);background:var(--panel);padding:12px}
   .mslot .mname{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-bottom:2px}
@@ -208,9 +211,39 @@
             <label>Top bar</label><input type="color" id="t-h-nav" class="tclr">
           </div>
         </div>
-        <div style="margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <button class="primary" onclick="themePublish()">Publish colours</button>
-          <button class="small" onclick="themeReset()">Back to original colours</button>
+        <div class="card" style="margin-top:26px">
+          <h1 style="font-size:17px;margin-bottom:4px">Typography</h1>
+          <p class="muted" style="margin-bottom:14px">Fonts and sizes for the whole website — headings, story text, everything.</p>
+          <div class="row">
+            <div>
+              <label>Headings font</label>
+              <select id="t-f-serif">
+                <option>Cormorant Garamond</option><option>Playfair Display</option><option>EB Garamond</option>
+                <option>Libre Caslon Text</option><option>Italiana</option><option>Marcellus</option>
+                <option>Cinzel</option><option>Bodoni Moda</option>
+              </select>
+              <label>Body text font</label>
+              <select id="t-f-sans">
+                <option>EB Garamond</option><option>Lora</option><option>Cormorant Garamond</option>
+                <option>Crimson Pro</option><option>Source Serif 4</option><option>Karla</option>
+                <option>Nunito Sans</option><option>Jost</option>
+              </select>
+            </div>
+            <div>
+              <label>Body text size — <span id="t-f-base-out">17</span>px</label>
+              <input type="range" id="t-f-base" min="14" max="20" step="0.5" value="17" oninput="document.getElementById('t-f-base-out').textContent=this.value">
+              <label>Heading size — <span id="t-f-hscale-out">100</span>%</label>
+              <input type="range" id="t-f-hscale" min="80" max="125" step="5" value="100" oninput="document.getElementById('t-f-hscale-out').textContent=this.value">
+              <p class="muted" style="margin-top:10px">Smaller % = quieter, more book-like headlines.</p>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="small" onclick="typeReset()">Restore default fonts</button>
+          </div>
+        </div>
+        <div style="margin-top:22px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="primary" onclick="themePublish()">Save &amp; publish design</button>
+          <button class="small" onclick="themeReset()">Restore default colours</button>
         </div>
       </div>
     </div>
@@ -1156,7 +1189,21 @@ async function catPublish(){
 }
 
 /* ================= colours (theme) ================= */
+const DEFAULT_TYPE = { serif:'Cormorant Garamond', sans:'EB Garamond', base:17, hscale:100 };
+function typeFill(){
+  const ty = (SITE && SITE.type) || {};
+  document.getElementById('t-f-serif').value = ty.serif || DEFAULT_TYPE.serif;
+  document.getElementById('t-f-sans').value = ty.sans || DEFAULT_TYPE.sans;
+  const b = ty.base || DEFAULT_TYPE.base, s = ty.hscale || DEFAULT_TYPE.hscale;
+  document.getElementById('t-f-base').value = b; document.getElementById('t-f-base-out').textContent = b;
+  document.getElementById('t-f-hscale').value = s; document.getElementById('t-f-hscale-out').textContent = s;
+}
+function typeReset(){
+  delete SITE.type; typeFill();
+  log('Fonts reset — press “Save & publish design” to make it live.');
+}
 function themeFill(){
+  typeFill();
   const t = (SITE && SITE.theme) ? SITE.theme : DEFAULT_THEME;
   document.getElementById('t-gold').value = t.gold || DEFAULT_THEME.gold;
   ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
@@ -1188,6 +1235,12 @@ async function themePublish(){
     ['g0','g1','g2','g3','g4','ink','inkSoft','nav'].forEach(k => {
       SITE.theme.home[k] = document.getElementById('t-h-'+k).value;
     });
+    SITE.type = {
+      serif: document.getElementById('t-f-serif').value,
+      sans: document.getElementById('t-f-sans').value,
+      base: parseFloat(document.getElementById('t-f-base').value),
+      hscale: parseInt(document.getElementById('t-f-hscale').value, 10)
+    };
     log('Saving colours\u2026');
     productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: colours', productsSha)).content.sha;
     log('Published. The live site updates in about a minute.', 'ok');

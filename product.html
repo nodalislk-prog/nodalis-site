@@ -6,7 +6,7 @@
 <title>NODALIS — Piece</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="catalog.css">
 </head>
 <body>
@@ -102,6 +102,23 @@
       if(pp.nav){ const c=hexRgb(pp.nav); r.setProperty('--nav-bg','rgba('+c[0]+','+c[1]+','+c[2]+',.94)'); }
       if(t.gold){ r.setProperty('--yarn', t.gold); const g=hexRgb(t.gold); r.setProperty('--hairline','rgba('+g[0]+','+g[1]+','+g[2]+',.42)'); r.setProperty('--gold-bright', t.gold); }
     }catch(e){}
+    var r = document.documentElement.style;
+      var ty = (typeof SITE!=='undefined' && SITE.type) ? SITE.type : null;
+      if (ty) {
+        if (ty.serif) r.setProperty('--serif', "'" + ty.serif + "', Georgia, serif");
+        if (ty.sans) r.setProperty('--sans', "'" + ty.sans + "', Georgia, serif");
+        if (ty.base) r.setProperty('--fs-base', ty.base + 'px');
+        if (ty.hscale) r.setProperty('--hscale', (ty.hscale/100));
+        var fams = [];
+        if (ty.serif) fams.push(ty.serif);
+        if (ty.sans && ty.sans !== ty.serif) fams.push(ty.sans);
+        if (fams.length) {
+          var fl = document.createElement('link'); fl.rel = 'stylesheet';
+          fl.href = 'https://fonts.googleapis.com/css2?' + fams.map(function(f){ return 'family=' + f.trim().replace(/ /g,'+') + ':ital,wght@0,400;0,500;0,600;1,400;1,500'; }).join('&') + '&display=swap';
+          document.head.appendChild(fl);
+        }
+      }
+
   }
   const params = new URLSearchParams(location.search);
   const id = params.get('id');
