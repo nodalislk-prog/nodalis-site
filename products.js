@@ -13,7 +13,7 @@ const SITE = {
     "gold": "#791111",
     "apparel": {
       "bgTop": "#ffe5fe",
-      "bgBottom": "#ffffff",
+      "bgBottom": "#300d2a",
       "ink": "#221528",
       "inkSoft": "#832f80",
       "nav": "#992fa7"
@@ -27,7 +27,7 @@ const SITE = {
     },
     "mens": {
       "bgTop": "#e6b8ff",
-      "bgBottom": "#ffffff",
+      "bgBottom": "#221f23",
       "ink": "#1f191d",
       "inkSoft": "#b37fbd",
       "nav": "#5e066a"
@@ -39,7 +39,7 @@ const SITE = {
       "g3": "#5f3493",
       "g4": "#2e134e",
       "ink": "#050000",
-      "inkSoft": "#000000",
+      "inkSoft": "#ffffff",
       "nav": "#5e2e76"
     }
   },
