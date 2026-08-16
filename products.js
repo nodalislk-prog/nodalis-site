@@ -14,15 +14,15 @@ const SITE = {
     "apparel": {
       "bgTop": "#0008ff",
       "bgBottom": "#d3c2ea",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
+      "ink": "#998a8a",
+      "inkSoft": "#837c7c",
       "nav": "#0400ff"
     },
     "pet": {
       "bgTop": "#000000",
       "bgBottom": "#efc3d3",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
+      "ink": "#9e9a9a",
+      "inkSoft": "#6e6868",
       "nav": "#000000"
     }
   }
