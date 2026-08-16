@@ -16,7 +16,7 @@ const SITE = {
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#852982"
+      "nav": "#751f55"
     },
     "pet": {
       "bgTop": "#000000",
