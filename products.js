@@ -16,21 +16,21 @@ const SITE = {
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#570026"
+      "nav": "#852982"
     },
     "pet": {
       "bgTop": "#000000",
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#570047"
+      "nav": "#6f1f61"
     },
     "mens": {
       "bgTop": "#000000",
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#49006b"
+      "nav": "#371e7b"
     },
     "home": {
       "g0": "#000000",
@@ -40,7 +40,7 @@ const SITE = {
       "g4": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#720864"
+      "nav": "#792e7a"
     }
   },
   "type": {
