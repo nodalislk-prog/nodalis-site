@@ -10,7 +10,7 @@ const SITE = {
     "note": "After paying, please send us the receipt on WhatsApp with your order reference."
   },
   "theme": {
-    "gold": "#b08a2e",
+    "gold": "#770e0e",
     "apparel": {
       "bgTop": "#f5eef9",
       "bgBottom": "#e3d2ed",
