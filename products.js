@@ -178,6 +178,12 @@ const CATEGORIES = {
     "group": "pet",
     "parent": "other",
     "meta": "Handmade · Made to order"
+  },
+  "frocks": {
+    "title": "Frocks",
+    "line": "Frocks",
+    "meta": "Handmade · Made to order",
+    "group": "apparel"
   }
 };
 
