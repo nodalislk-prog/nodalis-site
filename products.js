@@ -46,8 +46,8 @@ const SITE = {
   "type": {
     "serif": "Italiana",
     "sans": "Lora",
-    "base": 18,
-    "hscale": 90
+    "base": 20,
+    "hscale": 85
   }
 };
 
