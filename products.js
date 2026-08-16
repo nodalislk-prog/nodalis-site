@@ -311,15 +311,10 @@ const PRODUCTS = [
     "name": "The Lavender Ruffle Dress",
     "category": "dog-dresses",
     "price": "from LKR 5,500",
-    "basePrice": 5500,
-    "sizeStep": 500,
     "short": "Bobble-stitch bodice with a full ruffled skirt",
     "description": "A lavender dress worked in a textured bobble stitch, flowing into a full ruffled skirt. Made to your dog's own neck, chest and back measurements, with room to move comfortably.",
     "colors": [
-      "Lavender",
-      "Dusty Rose",
-      "Cream",
-      "Custom colour"
+      "Lavender"
     ],
     "sizes": [
       "XS",
@@ -379,7 +374,9 @@ const PRODUCTS = [
         "80–95",
         "60–75"
       ]
-    ]
+    ],
+    "basePrice": 5500,
+    "sizeStep": 500
   },
   {
     "id": "pastel-ruffle-dress",
