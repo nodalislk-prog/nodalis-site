@@ -10,20 +10,20 @@ const SITE = {
     "note": "After paying, please send us the receipt on WhatsApp with your order reference."
   },
   "theme": {
-    "gold": "#B08A2E",
+    "gold": "#b08a2e",
     "apparel": {
-      "bgTop": "#EFE8F8",
-      "bgBottom": "#D3C2EA",
-      "ink": "#3B2D59",
-      "inkSoft": "#6E5E96",
-      "nav": "#4A3078"
+      "bgTop": "#000000",
+      "bgBottom": "#d3c2ea",
+      "ink": "#ffffff",
+      "inkSoft": "#ffffff",
+      "nav": "#4a3078"
     },
     "pet": {
-      "bgTop": "#FBEFF0",
-      "bgBottom": "#EFC3D3",
-      "ink": "#59283F",
-      "inkSoft": "#9C6580",
-      "nav": "#7A2C54"
+      "bgTop": "#fbeff0",
+      "bgBottom": "#efc3d3",
+      "ink": "#59283f",
+      "inkSoft": "#9c6580",
+      "nav": "#7a2c54"
     }
   }
 };
