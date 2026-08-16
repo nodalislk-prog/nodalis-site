@@ -40,7 +40,7 @@ const SITE = {
       "g4": "#2e134e",
       "ink": "#050000",
       "inkSoft": "#ffffff",
-      "nav": "#5e2e76"
+      "nav": "#4e166a"
     }
   },
   "type": {
