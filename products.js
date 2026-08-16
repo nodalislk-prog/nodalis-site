@@ -26,11 +26,11 @@ const SITE = {
       "nav": "#7a2c54"
     },
     "mens": {
-      "bgTop": "#d4d1e5",
-      "bgBottom": "#9797f7",
+      "bgTop": "#293161",
+      "bgBottom": "#5151a4",
       "ink": "#0c0b13",
-      "inkSoft": "#545b7d",
-      "nav": "#272588"
+      "inkSoft": "#ffffff",
+      "nav": "#201f7f"
     },
     "home": {
       "g0": "#f3ebfb",
