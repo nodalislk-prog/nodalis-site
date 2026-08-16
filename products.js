@@ -12,22 +12,22 @@ const SITE = {
   "theme": {
     "gold": "#791111",
     "apparel": {
-      "bgTop": "#ffe5e5",
-      "bgBottom": "#fdafaf",
+      "bgTop": "#ffe5fe",
+      "bgBottom": "#ffffff",
       "ink": "#221528",
-      "inkSoft": "#832f2f",
-      "nav": "#770909"
+      "inkSoft": "#832f80",
+      "nav": "#992fa7"
     },
     "pet": {
       "bgTop": "#fbeff0",
-      "bgBottom": "#efc3d3",
+      "bgBottom": "#ffffff",
       "ink": "#2c1620",
       "inkSoft": "#6b4759",
       "nav": "#be4182"
     },
     "mens": {
       "bgTop": "#e6b8ff",
-      "bgBottom": "#5d136c",
+      "bgBottom": "#ffffff",
       "ink": "#1f191d",
       "inkSoft": "#b37fbd",
       "nav": "#5e066a"
