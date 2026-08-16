@@ -13,7 +13,7 @@ const SITE = {
     "gold": "#b08a2e",
     "apparel": {
       "bgTop": "#f5eef9",
-      "bgBottom": "#e3d2ed",
+      "bgBottom": "#e3bef9",
       "ink": "#563467",
       "inkSoft": "#8e6bb8",
       "nav": "#563467"
@@ -36,7 +36,7 @@ const SITE = {
       "g0": "#452e5c",
       "g1": "#dcc4f0",
       "g2": "#9c7bc6",
-      "g3": "#6b5072",
+      "g3": "#eec3f9",
       "g4": "#380264",
       "ink": "#000000",
       "inkSoft": "#662e5c",
