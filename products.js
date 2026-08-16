@@ -28,14 +28,14 @@ const SITE = {
     "mens": {
       "bgTop": "#f3e7f9",
       "bgBottom": "#3a2544",
-      "ink": "#ead9ef",
-      "inkSoft": "#c4a9ce",
+      "ink": "#000000",
+      "inkSoft": "#d1cad3",
       "nav": "#241a29"
     },
     "home": {
-      "g0": "#f3ebfb",
-      "g1": "#dcc4f0",
-      "g2": "#9c7bc6",
+      "g0": "#e8d1ff",
+      "g1": "#cd8fff",
+      "g2": "#885ac4",
       "g3": "#6b5072",
       "g4": "#520561",
       "ink": "#563467",
