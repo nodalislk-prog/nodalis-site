@@ -13,7 +13,7 @@ const SITE = {
     "gold": "#b08a2e",
     "apparel": {
       "bgTop": "#f5eef9",
-      "bgBottom": "#e3bef9",
+      "bgBottom": "#e3d2ed",
       "ink": "#563467",
       "inkSoft": "#8e6bb8",
       "nav": "#563467"
@@ -28,25 +28,25 @@ const SITE = {
     "mens": {
       "bgTop": "#563467",
       "bgBottom": "#3a2544",
-      "ink": "#492f50",
-      "inkSoft": "#7f4992",
+      "ink": "#ead9ef",
+      "inkSoft": "#c4a9ce",
       "nav": "#241a29"
     },
     "home": {
-      "g0": "#452e5c",
+      "g0": "#f3ebfb",
       "g1": "#dcc4f0",
       "g2": "#9c7bc6",
-      "g3": "#eec3f9",
-      "g4": "#380264",
-      "ink": "#000000",
-      "inkSoft": "#662e5c",
+      "g3": "#6b5072",
+      "g4": "#25302c",
+      "ink": "#563467",
+      "inkSoft": "#8e6bb8",
       "nav": "#563467"
     }
   },
   "type": {
     "serif": "Cormorant Garamond",
     "sans": "EB Garamond",
-    "base": 20,
+    "base": 17,
     "hscale": 100
   }
 };
