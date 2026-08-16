@@ -131,6 +131,7 @@
     { key:'size',  label:'Size Guide' }
   ];
   let currentView = 'front';
+  let pickedColor = null, pickedSize = null;
   function colorSlug(s){
     return String(s).toLowerCase().trim().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   }
@@ -180,7 +181,6 @@
   });
 
   /* ----- colour & size chips ----- */
-  let pickedColor = null, pickedSize = null;
   function chipGroup(list, mount, onPick){
     const el = document.getElementById(mount);
     (list || []).forEach(v => {
