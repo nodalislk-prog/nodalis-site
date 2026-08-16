@@ -168,7 +168,7 @@ const PRODUCTS = [
     "description": "A chunky ribbed sweater in rose pink, finished with hand-crocheted daisy appliqués front and back. Crocheted entirely by hand to your dog's own neck, chest and back measurements. Soft, fur-friendly yarn; gentle cold hand-wash.",
     "colors": [
       "Rose Pink",
-      "Cream"
+      "Yellow"
     ],
     "sizes": [
       "XS",
