@@ -44,8 +44,8 @@ const SITE = {
     }
   },
   "type": {
-    "serif": "EB Garamond",
-    "sans": "EB Garamond",
+    "serif": "Marcellus",
+    "sans": "Karla",
     "base": 19,
     "hscale": 105
   }
