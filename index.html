@@ -802,6 +802,12 @@
           document.body.style.background = 'linear-gradient(180deg,' +
             hm.g0 + ' 0%,' + hm.g1 + ' 30%,' + hm.g2 + ' 62%,' + hm.g3 + ' 82%,' + hm.g4 + ' 100%)';
         }
+        if (hm.nav) {
+          var hh = hm.nav.replace('#','');
+          var nc = [parseInt(hh.slice(0,2),16), parseInt(hh.slice(2,4),16), parseInt(hh.slice(4,6),16)];
+          var navEl = document.getElementById('nav');
+          if (navEl) navEl.style.background = 'rgba(' + nc[0] + ',' + nc[1] + ',' + nc[2] + ',.92)';
+        }
       } else {
         if(t.apparel && t.apparel.ink) r.setProperty('--ink', t.apparel.ink);
         if(t.apparel && t.apparel.inkSoft) r.setProperty('--ink-soft', t.apparel.inkSoft);

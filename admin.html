@@ -205,6 +205,7 @@
             <label>Night (bottom)</label><input type="color" id="t-h-g4" class="tclr">
             <label>Text</label><input type="color" id="t-h-ink" class="tclr">
             <label>Soft text</label><input type="color" id="t-h-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-h-nav" class="tclr">
           </div>
         </div>
         <div style="margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
@@ -393,7 +394,7 @@ const DEFAULT_THEME = {
   apparel: { bgTop:"#F5EEF9", bgBottom:"#E3D2ED", ink:"#563467", inkSoft:"#8E6BB8", nav:"#563467" },
   pet:     { bgTop:"#FBEFF0", bgBottom:"#EFC3D3", ink:"#59283F", inkSoft:"#9C6580", nav:"#7A2C54" },
   mens:    { bgTop:"#563467", bgBottom:"#3A2544", ink:"#EAD9EF", inkSoft:"#C4A9CE", nav:"#241A29" },
-  home:    { g0:"#F3EBFB", g1:"#DCC4F0", g2:"#9C7BC6", g3:"#6B5072", g4:"#25302C", ink:"#563467", inkSoft:"#8E6BB8" }
+  home:    { g0:"#F3EBFB", g1:"#DCC4F0", g2:"#9C7BC6", g3:"#6B5072", g4:"#25302C", ink:"#563467", inkSoft:"#8E6BB8", nav:"#563467" }
 };
 let productsSha = null;   // sha of products.js for updates
 let editingIndex = -1;    // -1 = new product
@@ -1163,7 +1164,7 @@ function themeFill(){
     document.getElementById('t-p-'+k).value = (t.pet && t.pet[k]) || DEFAULT_THEME.pet[k];
     document.getElementById('t-m-'+k).value = (t.mens && t.mens[k]) || DEFAULT_THEME.mens[k];
   });
-  ['g0','g1','g2','g3','g4','ink','inkSoft'].forEach(k => {
+  ['g0','g1','g2','g3','g4','ink','inkSoft','nav'].forEach(k => {
     document.getElementById('t-h-'+k).value = (t.home && t.home[k]) || DEFAULT_THEME.home[k];
   });
 }
@@ -1184,7 +1185,7 @@ async function themePublish(){
       SITE.theme.pet[k] = document.getElementById('t-p-'+k).value;
       SITE.theme.mens[k] = document.getElementById('t-m-'+k).value;
     });
-    ['g0','g1','g2','g3','g4','ink','inkSoft'].forEach(k => {
+    ['g0','g1','g2','g3','g4','ink','inkSoft','nav'].forEach(k => {
       SITE.theme.home[k] = document.getElementById('t-h-'+k).value;
     });
     log('Saving colours\u2026');
