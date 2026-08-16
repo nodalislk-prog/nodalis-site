@@ -19,10 +19,10 @@ const SITE = {
       "nav": "#4a3078"
     },
     "pet": {
-      "bgTop": "#fbeff0",
+      "bgTop": "#000000",
       "bgBottom": "#efc3d3",
-      "ink": "#59283f",
-      "inkSoft": "#9c6580",
+      "ink": "#ffffff",
+      "inkSoft": "#ffffff",
       "nav": "#7a2c54"
     }
   }
