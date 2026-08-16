@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NODALIS — Piece</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="catalog.css">
+</head>
+<body>
+
+<nav aria-label="Main">
+  <div class="nav-links"><a href="index.html">Home</a><a href="petstore.html">Petstore</a></div>
+  <a class="logotype" href="index.html">Nodalis</a>
+  <div class="nav-links right"><a href="index.html#enquire">Enquire</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a></div>
+</nav>
+
+<main>
+  <p class="crumb" id="crumb"><a href="index.html">Home</a></p>
+
+  <div class="product">
+    <div class="gallery">
+      <div class="frame"><div class="ph" id="main-ph" data-label="">
+        <img id="main-img" src="" alt="" onerror="this.style.display='none'">
+      </div></div>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+
+    <div class="pinfo">
+      <h1 id="p-name"></h1>
+      <p class="price" id="p-price"></p>
+      <p class="desc" id="p-desc"></p>
+
+      <p class="opt-label" id="color-label">Colour <span class="picked" id="picked-color"></span></p>
+      <div class="chips" id="colors"></div>
+
+      <p class="opt-label" id="size-label">Size <span class="picked" id="picked-size"></span></p>
+      <div class="chips" id="sizes"></div>
+
+      <button class="order-btn" onclick="order()">Order via WhatsApp</button>
+      <p class="order-hint">We reply personally to confirm measurements, timing, and payment.</p>
+    </div>
+  </div>
+
+  <div class="size-chart" id="size-chart" hidden>
+    <span class="knot" aria-hidden="true"></span>
+    <h2>Size Chart</h2>
+    <table id="chart-table"></table>
+    <p class="chart-note">Between sizes? Choose the larger one, or mention your exact measurements in the order message — every piece is made to order.</p>
+  </div>
+</main>
+
+<div id="checkout" style="display:none;position:fixed;inset:0;z-index:99;background:rgba(30,15,35,.5);align-items:center;justify-content:center;padding:18px">
+  <div style="background:var(--bg-top);border:1px solid var(--hairline);outline:1px solid var(--hairline);outline-offset:5px;max-width:560px;width:100%;max-height:88vh;overflow:auto;padding:clamp(22px,4vw,36px)">
+    <span class="knot" aria-hidden="true"></span>
+    <h2 style="font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.06em;text-align:center;margin-bottom:6px">Complete Your Order</h2>
+    <p style="text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--yarn);margin-bottom:8px">Order ref <span id="co-ref"></span></p>
+    <p id="co-summary" style="text-align:center;color:var(--ink-soft);margin-bottom:26px"></p>
+
+    <div id="co-pay-section">
+      <p class="opt-label" style="margin-top:0">Step 1 — Make your payment</p>
+
+      <div id="co-paypal" hidden style="border:1px solid var(--hairline);padding:18px;margin-bottom:14px;text-align:center">
+        <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">PayPal</p>
+        <a id="co-paypal-link" href="#" target="_blank" rel="noopener" class="order-btn" style="margin-top:0">Pay with PayPal</a>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Add your order ref <b id="co-ref3"></b> in the PayPal note.</p>
+      </div>
+
+      <div id="co-bank" hidden style="border:1px solid var(--hairline);padding:18px;margin-bottom:14px">
+        <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px" id="co-bank-title">Bank deposit</p>
+        <div id="co-bank-rows"></div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Please put your order ref <b id="co-ref2"></b> as the deposit remark.</p>
+      </div>
+
+      <p id="co-nopay" hidden style="color:var(--ink-soft);font-size:14px;border:1px solid var(--hairline);padding:14px 16px;margin-bottom:14px">We will share the payment details with you personally on WhatsApp.</p>
+    </div>
+
+    <p class="opt-label">Step 2 — Send us your order &amp; receipt</p>
+    <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:6px">Press the button below — WhatsApp opens with your order already written. Then <b style="font-weight:500;color:var(--ink)">attach your payment receipt</b> (a screenshot or photo) in the chat, and your order is confirmed.</p>
+    <p id="co-note" style="font-size:12.5px;color:var(--ink-soft)"></p>
+
+    <button class="order-btn" style="width:100%;margin-top:18px" onclick="confirmOrder()">Open WhatsApp &amp; Send My Order</button>
+    <p style="text-align:center;margin-top:14px"><a href="#" onclick="closeCheckout();return false" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;border-bottom:1px solid var(--hairline)">Cancel</a></p>
+  </div>
+</div>
+
+<footer>Handmade in Sri Lanka · <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a> · <a href="index.html">nodalis.lk</a></footer>
+
+<script src="products.js"></script>
+<script>
+  function hexRgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+  function applyTheme(pal){
+    try{
+      const t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null; if(!t) return;
+      const pp = t[pal] || {}; const r = document.documentElement.style;
+      if(pp.bgTop) r.setProperty('--bg-top', pp.bgTop);
+      if(pp.bgBottom) r.setProperty('--bg-bottom', pp.bgBottom);
+      if(pp.ink) r.setProperty('--ink', pp.ink);
+      if(pp.inkSoft) r.setProperty('--ink-soft', pp.inkSoft);
+      if(pp.nav){ const c=hexRgb(pp.nav); r.setProperty('--nav-bg','rgba('+c[0]+','+c[1]+','+c[2]+',.94)'); }
+      if(t.gold){ r.setProperty('--yarn', t.gold); const g=hexRgb(t.gold); r.setProperty('--hairline','rgba('+g[0]+','+g[1]+','+g[2]+',.42)'); r.setProperty('--gold-bright', t.gold); }
+    }catch(e){}
+  }
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+  const p = PRODUCTS.find(x => x.id === id) || PRODUCTS[0];
+  const cat = CATEGORIES[p.category] || {};
+  if (cat.group === 'pet') document.body.classList.add('pet');
+  applyTheme(cat.group === 'pet' ? 'pet' : 'apparel');
+
+  document.title = 'NODALIS — ' + p.name;
+  document.getElementById('p-name').textContent = p.name;
+  function fmtLKR(n){ return 'LKR ' + Number(n).toLocaleString('en-US'); }
+  function startingPriceText(){
+    if (p.price) return p.price;
+    if (p.basePrice) return 'from ' + fmtLKR(p.basePrice);
+    return '';
+  }
+  document.getElementById('p-price').textContent = startingPriceText();
+  document.getElementById('p-desc').textContent = p.description || p.short || '';
+  let crumb = '<a href="index.html">Home</a>';
+  if (cat.group === 'pet') crumb += ' &nbsp;/&nbsp; <a href="petstore.html">Petstore</a>';
+  if (cat.parent && CATEGORIES[cat.parent]) {
+    crumb += ' &nbsp;/&nbsp; <a href="category.html?c=' + encodeURIComponent(cat.parent) + '">' + CATEGORIES[cat.parent].title + '</a>';
+  }
+  crumb += ' &nbsp;/&nbsp; <a href="category.html?c=' + encodeURIComponent(p.category) + '">' + (cat.title || 'Collection') + '</a>' +
+    ' &nbsp;/&nbsp; ' + p.name;
+  document.getElementById('crumb').innerHTML = crumb;
+
+  /* ----- gallery: front / side / size guide ----- */
+  const views = [
+    { key:'front', label:'Front' },
+    { key:'side',  label:'Side' },
+    { key:'size',  label:'Size Guide' }
+  ];
+  let currentView = 'front';
+  let pickedColor = null, pickedSize = null;
+  function colorSlug(s){
+    return String(s).toLowerCase().trim().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
+  /* If a colour is picked and a photo exists for it, show it; otherwise keep the default. */
+  function applyColorImage(){
+    if (currentView === 'size') return;
+    const fallback = srcFor(currentView);
+    if (!pickedColor) { mainImg.onerror = null; mainImg.src = fallback; return; }
+    const variant = 'images/products/' + p.id + '-' + currentView + '-' + colorSlug(pickedColor) + '.jpg';
+    const probe = new Image();
+    probe.onload = () => { mainImg.onerror = null; mainImg.src = variant; };
+    probe.onerror = () => { mainImg.onerror = null; mainImg.src = fallback; };
+    probe.src = variant;
+  }
+  const mainImg = document.getElementById('main-img');
+  const mainPh = document.getElementById('main-ph');
+  const thumbs = document.getElementById('thumbs');
+
+  function srcFor(v){ return 'images/products/' + p.id + '-' + v + '.jpg'; }
+  function show(v, btn){
+    currentView = v.key;
+    mainImg.style.display = '';
+    mainImg.src = srcFor(v.key);
+    mainImg.alt = p.name + ' — ' + v.label;
+    /* size guides are often wide — show them whole, never cropped */
+    if (v.key === 'size') {
+      mainImg.style.objectFit = 'contain';
+      mainImg.style.background = '#FFFFFF';
+    } else {
+      mainImg.style.objectFit = '';
+      mainImg.style.background = '';
+    }
+    mainPh.dataset.label = p.id + '-' + v.key + '.jpg';
+    thumbs.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    applyColorImage();
+  }
+  views.forEach((v, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.innerHTML = '<span class="ph" data-label=""><img src="' + srcFor(v.key) + '" alt="" loading="lazy" onerror="this.remove()"' +
+                  (v.key === 'size' ? ' style="object-fit:contain;background:#FFFFFF"' : '') + '></span>' +
+                  '<span class="tlabel">' + v.label + '</span>';
+    b.addEventListener('click', () => show(v, b));
+    thumbs.appendChild(b);
+    if (i === 0) show(v, b);
+  });
+
+  /* ----- colour & size chips ----- */
+  function chipGroup(list, mount, onPick){
+    const el = document.getElementById(mount);
+    (list || []).forEach(v => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = v;
+      b.addEventListener('click', () => {
+        el.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        onPick(v);
+      });
+      el.appendChild(b);
+    });
+  }
+  chipGroup(p.colors, 'colors', v => {
+    pickedColor = v;
+    document.getElementById('picked-color').textContent = '— ' + v;
+    applyColorImage();
+  });
+  chipGroup(p.sizes,  'sizes',  v => {
+    pickedSize  = v;
+    document.getElementById('picked-size').textContent  = '— ' + v;
+    if (p.basePrice) {
+      const i = (p.sizes || []).indexOf(v);
+      const price = Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0);
+      document.getElementById('p-price').textContent = fmtLKR(price) + ' — size ' + v;
+    }
+  });
+  if (!p.colors || !p.colors.length) document.getElementById('color-label').hidden = true;
+  if (!p.sizes  || !p.sizes.length)  document.getElementById('size-label').hidden  = true;
+
+  /* ----- size chart table ----- */
+  if (p.sizeChart && p.sizeChart.length > 1) {
+    const t = document.getElementById('chart-table');
+    p.sizeChart.forEach((row, i) => {
+      const tr = document.createElement('tr');
+      row.forEach(cell => {
+        const td = document.createElement(i === 0 ? 'th' : 'td');
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+      t.appendChild(tr);
+    });
+    document.getElementById('size-chart').hidden = false;
+  }
+
+  /* ----- order via WhatsApp ----- */
+  let orderRef = '';
+  function orderPrice(){
+    if (!(pickedSize && p.basePrice)) return null;
+    const i = (p.sizes || []).indexOf(pickedSize);
+    return Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0);
+  }
+  function pay(){ return (typeof SITE !== 'undefined' && SITE && SITE.payment) ? SITE.payment : {}; }
+  function copyText(t, btn){
+    const done = () => { const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(()=>{ btn.textContent = o; }, 1600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(done, done); }
+    else { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); done(); }
+  }
+  function order(){
+    const need = [];
+    if (p.colors && p.colors.length && !pickedColor) need.push('a colour');
+    if (p.sizes && p.sizes.length && !pickedSize) need.push('a size');
+    if (need.length) { alert('Please choose ' + need.join(' and ') + ' first.'); return; }
+
+    orderRef = 'ND-' + Date.now().toString(36).toUpperCase().slice(-6);
+    document.getElementById('co-ref').textContent = orderRef;
+    document.getElementById('co-ref2').textContent = orderRef;
+    document.getElementById('co-ref3').textContent = orderRef;
+    const priceN = orderPrice();
+    document.getElementById('co-summary').textContent =
+      p.name + (pickedSize ? ' \u00b7 ' + pickedSize : '') + (pickedColor ? ' \u00b7 ' + pickedColor : '') +
+      (priceN ? ' \u00b7 ' + fmtLKR(priceN) : (p.price ? ' \u00b7 ' + p.price : ''));
+
+    const pm = pay();
+    const hasBank = !!(pm.accountNumber && pm.bankName);
+    const hasPaypal = !!pm.paypal;
+    document.getElementById('co-bank').hidden = !hasBank;
+    document.getElementById('co-paypal').hidden = !hasPaypal;
+    document.getElementById('co-nopay').hidden = hasBank || hasPaypal;
+    document.getElementById('co-bank-title').textContent = (hasBank && hasPaypal) ? 'Or pay by bank deposit' : 'Bank deposit';
+
+    if (hasBank) {
+      const rows = document.getElementById('co-bank-rows');
+      rows.innerHTML = '';
+      [['Bank', pm.bankName], ['Branch', pm.branch], ['Account name', pm.accountName], ['Account number', pm.accountNumber]]
+        .filter(r => r[1])
+        .forEach(r => {
+          const d = document.createElement('div');
+          d.style.cssText = 'display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--hairline)';
+          d.innerHTML = '<span style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);width:118px;flex-shrink:0"></span><b style="flex:1;font-weight:400;letter-spacing:.04em;word-break:break-all"></b>';
+          d.querySelector('span').textContent = r[0];
+          d.querySelector('b').textContent = r[1];
+          const cb = document.createElement('button');
+          cb.type = 'button'; cb.textContent = 'Copy';
+          cb.style.cssText = 'font-family:var(--sans);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--hairline);background:transparent;color:var(--ink);padding:5px 10px;cursor:pointer';
+          cb.addEventListener('click', () => copyText(r[1], cb));
+          d.appendChild(cb);
+          rows.appendChild(d);
+        });
+    }
+    if (hasPaypal) document.getElementById('co-paypal-link').href = pm.paypal;
+    document.getElementById('co-note').textContent = pm.note || '';
+    document.getElementById('checkout').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCheckout(){
+    document.getElementById('checkout').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  function confirmOrder(){
+    let msg = "Hello Nodalis! I'd like to order:\n";
+    msg += "Order ref: " + orderRef;
+    msg += "\nPiece: " + p.name;
+    if (pickedSize)  msg += "\nSize: " + pickedSize;
+    if (pickedColor) msg += "\nColour: " + pickedColor;
+    const priceN = orderPrice();
+    if (priceN) msg += "\nPrice: " + fmtLKR(priceN);
+    msg += "\nI will attach my payment receipt here.";
+    msg += "\n" + location.origin + location.pathname + "?id=" + encodeURIComponent(p.id);
+    window.open("https://wa.me/94767003630?text=" + encodeURIComponent(msg), "_blank");
+    closeCheckout();
+  }
+</script>
+</body>
+</html>
