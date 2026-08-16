@@ -12,42 +12,42 @@ const SITE = {
   "theme": {
     "gold": "#b08a2e",
     "apparel": {
-      "bgTop": "#000000",
-      "bgBottom": "#000000",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
+      "bgTop": "#f5eef9",
+      "bgBottom": "#e3d2ed",
+      "ink": "#563467",
+      "inkSoft": "#8e6bb8",
       "nav": "#563467"
     },
     "pet": {
-      "bgTop": "#000000",
-      "bgBottom": "#000000",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
-      "nav": "#000000"
+      "bgTop": "#fbeff0",
+      "bgBottom": "#efc3d3",
+      "ink": "#59283f",
+      "inkSoft": "#9c6580",
+      "nav": "#7a2c54"
     },
     "mens": {
-      "bgTop": "#000000",
-      "bgBottom": "#000000",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
+      "bgTop": "#563467",
+      "bgBottom": "#3a2544",
+      "ink": "#ead9ef",
+      "inkSoft": "#c4a9ce",
       "nav": "#241a29"
     },
     "home": {
-      "g0": "#000000",
-      "g1": "#000000",
-      "g2": "#000000",
-      "g3": "#000000",
+      "g0": "#f3ebfb",
+      "g1": "#dcc4f0",
+      "g2": "#9c7bc6",
+      "g3": "#6b5072",
       "g4": "#25302c",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
+      "ink": "#563467",
+      "inkSoft": "#8e6bb8",
       "nav": "#563467"
     }
   },
   "type": {
-    "serif": "EB Garamond",
+    "serif": "Cormorant Garamond",
     "sans": "EB Garamond",
     "base": 20,
-    "hscale": 85
+    "hscale": 100
   }
 };
 
