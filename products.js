@@ -38,8 +38,8 @@ const SITE = {
       "g2": "#9c71d0",
       "g3": "#5f3493",
       "g4": "#2e134e",
-      "ink": "#000000",
-      "inkSoft": "#ffffff",
+      "ink": "#ffffff",
+      "inkSoft": "#000000",
       "nav": "#5e2e76"
     }
   },
