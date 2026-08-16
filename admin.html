@@ -215,7 +215,17 @@
       </div>
       <div class="row">
         <div>
-          <label>Price (shown as typed)</label>
+          <label>Starting price in LKR <span style="text-transform:none;letter-spacing:0">(numbers only — the price of the first size)</span></label>
+          <input type="text" id="f-baseprice" inputmode="numeric" placeholder="4500">
+        </div>
+        <div>
+          <label>Added per size step in LKR <span style="text-transform:none;letter-spacing:0">(e.g. 500: XS 4500 → S 5000 → M 5500)</span></label>
+          <input type="text" id="f-sizestep" inputmode="numeric" placeholder="500">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Price text <span style="text-transform:none;letter-spacing:0">(optional — shown before a size is picked; empty = automatic "from LKR")</span></label>
           <input type="text" id="f-price" placeholder="from LKR 4,500">
         </div>
         <div>
@@ -247,6 +257,12 @@
         <div class="imgslot"><div class="slotname">Side</div><img id="img-side" alt=""><input type="file" accept="image/*" id="file-side"></div>
         <div class="imgslot"><div class="slotname">Size Guide</div><img id="img-size" alt=""><input type="file" accept="image/*" id="file-size"></div>
       </div>
+    </div>
+
+    <div class="card">
+      <label style="margin-top:0">Colour photos <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+      <p class="muted" style="margin-bottom:14px">One photo per colour — when a customer picks that colour, the product photo changes to it. Colours come from the Colours field above. No photo yet? The main Front photo shows instead, so add these whenever you have them.</p>
+      <div class="row3" id="color-slots"></div>
     </div>
 
     <div class="card">
@@ -389,12 +405,15 @@ function newProduct(){ openEditor(-1); }
 function openEditor(i){
   editingIndex = i;
   pickedFiles = { front:null, side:null, size:null };
+  pickedColorFiles = {};
   ['front','side','size'].forEach(v => { document.getElementById('file-'+v).value = ''; });
   const p = i >= 0 ? PRODUCTS[i] : { name:'', category:'tops', price:'', short:'', description:'', colors:[], sizes:[], sizeChart:[['Size','Measurement (cm)'],['','']] , id:''};
   document.getElementById('ed-title').textContent = i >= 0 ? 'Edit — ' + p.name : 'New product';
   document.getElementById('f-name').value = p.name || '';
   fillCategorySelect(p.category);
   document.getElementById('f-price').value = p.price || '';
+  document.getElementById('f-baseprice').value = p.basePrice != null ? p.basePrice : '';
+  document.getElementById('f-sizestep').value = p.sizeStep != null ? p.sizeStep : '';
   document.getElementById('f-id').value = p.id || '';
   document.getElementById('f-short').value = p.short || '';
   document.getElementById('f-desc').value = p.description || '';
@@ -403,10 +422,22 @@ function openEditor(i){
   renderChart(p.sizeChart && p.sizeChart.length ? p.sizeChart : [['Size','Measurement (cm)'],['','']]);
   ['front','side','size'].forEach(v => {
     const img = document.getElementById('img-'+v);
-    img.src = p.id ? ('images/products/' + p.id + '-' + v + '.jpg?t=' + Date.now()) : '';
-    img.onerror = () => { img.removeAttribute('src'); };
+    const stat = document.querySelector('#file-'+v).closest('.imgslot').querySelector('.slotname');
+    const base = v === 'size' ? 'Size Guide' : v.charAt(0).toUpperCase() + v.slice(1);
+    img.removeAttribute('src');
+    if (p.id) {
+      stat.textContent = base + ' — checking…';
+      previewInto(img, 'images/products/' + p.id + '-' + v + '.jpg').then(ok => {
+        stat.textContent = base + (ok ? ' — ✓ uploaded' : ' — no image yet');
+        stat.style.color = ok ? 'var(--ok)' : '';
+      });
+    } else {
+      stat.textContent = base + ' — no image yet';
+      stat.style.color = '';
+    }
   });
   document.getElementById('del-btn').style.display = i >= 0 ? '' : 'none';
+  renderColorSlots();
   document.getElementById('dash').classList.add('hidden');
   document.getElementById('editor').classList.remove('hidden');
   window.scrollTo(0,0);
@@ -418,6 +449,52 @@ function closeEditor(){
 document.getElementById('f-name').addEventListener('input', function(){
   if (editingIndex < 0) document.getElementById('f-id').value = slugify(this.value);
 });
+let pickedColorFiles = {};   // colour slug -> File
+function colorSlug(s){
+  return String(s).toLowerCase().trim().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+function renderColorSlots(){
+  const mount = document.getElementById('color-slots');
+  mount.innerHTML = '';
+  const id = slugify(document.getElementById('f-id').value.trim());
+  const colors = document.getElementById('f-colors').value.split(',').map(s=>s.trim()).filter(Boolean);
+  colors.forEach(cname => {
+    const cs = colorSlug(cname);
+    const d = document.createElement('div');
+    d.className = 'imgslot';
+    d.innerHTML = '<div class="slotname"></div><img alt=""><input type="file" accept="image/*">';
+    const stat = d.querySelector('.slotname');
+    const img = d.querySelector('img');
+    const inp = d.querySelector('input');
+    if (pickedColorFiles[cs]) {
+      img.src = URL.createObjectURL(pickedColorFiles[cs]);
+      stat.textContent = cname + ' \u2014 ready, uploads on save';
+      stat.style.color = 'var(--yarn)';
+    } else if (id && editingIndex >= 0) {
+      stat.textContent = cname + ' \u2014 checking\u2026';
+      previewInto(img, 'images/products/' + id + '-front-' + cs + '.jpg').then(ok => {
+        stat.textContent = cname + (ok ? ' \u2014 \u2713 uploaded' : ' \u2014 no photo yet');
+        stat.style.color = ok ? 'var(--ok)' : '';
+      });
+    } else {
+      stat.textContent = cname + ' \u2014 no photo yet';
+    }
+    inp.addEventListener('change', function(){
+      const f = this.files[0];
+      if (!f) return;
+      pickedColorFiles[cs] = f;
+      img.src = URL.createObjectURL(f);
+      stat.textContent = cname + ' \u2014 ready, uploads on save';
+      stat.style.color = 'var(--yarn)';
+    });
+    mount.appendChild(d);
+  });
+  if (!colors.length) {
+    mount.innerHTML = '<p class="muted">Add colours in the field above first.</p>';
+  }
+}
+document.getElementById('f-colors').addEventListener('input', renderColorSlots);
+
 ['front','side','size'].forEach(v => {
   document.getElementById('file-'+v).addEventListener('change', function(){
     const f = this.files[0];
@@ -425,6 +502,10 @@ document.getElementById('f-name').addEventListener('input', function(){
     pickedFiles[v] = f;
     const img = document.getElementById('img-'+v);
     img.src = URL.createObjectURL(f);
+    const stat = this.closest('.imgslot').querySelector('.slotname');
+    const base = v === 'size' ? 'Size Guide' : v.charAt(0).toUpperCase() + v.slice(1);
+    stat.textContent = base + ' — ready, uploads on save';
+    stat.style.color = 'var(--yarn)';
   });
 });
 
@@ -500,6 +581,22 @@ async function getSha(path){
   const j = await r.json();
   return j.sha;
 }
+/* Loads a preview straight from GitHub (the source of truth), so it shows the
+   moment something is uploaded — no waiting for the live site to rebuild.
+   Returns true if the file exists. */
+async function previewInto(imgEl, path){
+  try {
+    const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/'+encodeURI(path)+'?ref='+BRANCH);
+    if (r.status === 404) { imgEl.removeAttribute('src'); return false; }
+    const j = await r.json();
+    if (j.content) {
+      imgEl.src = 'data:image/jpeg;base64,' + j.content.replace(/\n/g,'');
+    } else if (j.download_url) {
+      imgEl.src = j.download_url + (j.download_url.includes('?') ? '&' : '?') + 't=' + Date.now();
+    } else { imgEl.removeAttribute('src'); return false; }
+    return true;
+  } catch(e) { imgEl.removeAttribute('src'); return false; }
+}
 function fileToBase64(f){
   return new Promise((res, rej) => {
     const r = new FileReader();
@@ -545,6 +642,8 @@ async function saveProduct(){
     if (clash >= 0) { log('Another product already uses that web address name — change it.', 'err'); return; }
 
     btn.disabled = true;
+    const baseP = parseInt(document.getElementById('f-baseprice').value.replace(/[^0-9]/g,''), 10);
+    const stepP = parseInt(document.getElementById('f-sizestep').value.replace(/[^0-9]/g,''), 10);
     const p = {
       id: id,
       name: name,
@@ -556,6 +655,8 @@ async function saveProduct(){
       sizes:  document.getElementById('f-sizes').value.split(',').map(s=>s.trim()).filter(Boolean),
       sizeChart: readChart()
     };
+    if (!isNaN(baseP)) p.basePrice = baseP;
+    if (!isNaN(stepP)) p.sizeStep = stepP;
     if (editingIndex >= 0) PRODUCTS[editingIndex] = p; else PRODUCTS.push(p);
 
     /* upload any newly picked images first */
@@ -569,10 +670,29 @@ async function saveProduct(){
       }
     }
 
+    /* colour variant photos */
+    for (const cs in pickedColorFiles) {
+      log('Uploading colour photo: ' + cs);
+      const cpath = 'images/products/' + id + '-front-' + cs + '.jpg';
+      const cb64 = await processImage(pickedColorFiles[cs], 1600, 0.85);
+      const csha = await getSha(cpath);
+      await putFile(cpath, cb64, 'Admin: colour photo ' + id + ' ' + cs, csha);
+    }
+    pickedColorFiles = {};
+
     log('Saving product data…');
     productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: save ' + name, productsSha)).content.sha;
 
     log('Saved. The live site updates in about a minute.', 'ok');
+    ['front','side','size'].forEach(v => {
+      if (pickedFiles[v]) {
+        const stat = document.querySelector('#file-'+v).closest('.imgslot').querySelector('.slotname');
+        const base = v === 'size' ? 'Size Guide' : v.charAt(0).toUpperCase() + v.slice(1);
+        stat.textContent = base + ' — ✓ uploaded';
+        stat.style.color = 'var(--ok)';
+        pickedFiles[v] = null;
+      }
+    });
     editingIndex = PRODUCTS.indexOf(p);
     document.getElementById('ed-title').textContent = 'Edit — ' + p.name;
     document.getElementById('del-btn').style.display = '';
@@ -677,8 +797,23 @@ function mediaSlot(it){
   } else {
     prev = document.createElement('img');
   }
-  prev.src = it.path + '?t=' + Date.now();
-  prev.onerror = () => { prev.removeAttribute('src'); };
+  const stat = document.createElement('div');
+  stat.className = 'mpath';
+  if (it.video) {
+    prev.src = it.path + '?t=' + Date.now();
+    prev.onerror = () => { prev.removeAttribute('src'); };
+    stat.textContent = '';
+    getSha(it.path).then(sha => {
+      stat.textContent = sha ? '✓ uploaded' : 'no video yet';
+      stat.style.color = sha ? 'var(--ok)' : '';
+    }).catch(()=>{});
+  } else {
+    stat.textContent = 'checking…';
+    previewInto(prev, it.path).then(ok => {
+      stat.textContent = ok ? '✓ uploaded' : 'no image yet';
+      stat.style.color = ok ? 'var(--ok)' : '';
+    });
+  }
   const inp = document.createElement('input');
   inp.type = 'file';
   inp.accept = it.video ? 'video/mp4' : 'image/*';
@@ -697,6 +832,8 @@ function mediaSlot(it){
       await putFile(it.path, b64, 'Admin: replace ' + it.path, sha);
       prev.src = URL.createObjectURL(f);
       inp.value = '';
+      stat.textContent = '✓ uploaded';
+      stat.style.color = 'var(--ok)';
       log(it.label + ' replaced. Live in about a minute.', 'ok');
     } catch(e) {
       log(e.message, 'err');
@@ -704,7 +841,7 @@ function mediaSlot(it){
       btn.disabled = false;
     }
   };
-  d.append(nm, pt, prev, inp, btn);
+  d.append(nm, pt, prev, stat, inp, btn);
   return d;
 }
 
@@ -801,8 +938,18 @@ function catOpenEditor(k){
   if (c.group === 'pet') where = c.parent ? ('parent:' + c.parent) : 'pet';
   catFillParentSelect(where);
   const img = document.getElementById('c-img');
-  const src = k ? ((c.image || ('images/' + k + '.jpg')) + '?t=' + Date.now()) : '';
-  if (src) { img.src = src; img.onerror = () => img.removeAttribute('src'); } else { img.removeAttribute('src'); }
+  const stat = document.querySelector('#c-file').closest('.imgslot').querySelector('.slotname');
+  img.removeAttribute('src');
+  if (k) {
+    stat.textContent = 'Tile picture — checking…';
+    previewInto(img, c.image || ('images/' + k + '.jpg')).then(ok => {
+      stat.textContent = 'Tile picture' + (ok ? ' — ✓ uploaded' : ' — no image yet');
+      stat.style.color = ok ? 'var(--ok)' : '';
+    });
+  } else {
+    stat.textContent = 'Tile picture — no image yet';
+    stat.style.color = '';
+  }
   document.getElementById('c-file').value = '';
   document.getElementById('c-del').style.display = k ? '' : 'none';
   document.getElementById('cat-editor').classList.remove('hidden');
@@ -817,7 +964,12 @@ document.getElementById('c-title').addEventListener('input', function(){
 });
 document.getElementById('c-file').addEventListener('change', function(){
   const f = this.files[0];
-  if (f) document.getElementById('c-img').src = URL.createObjectURL(f);
+  if (f) {
+    document.getElementById('c-img').src = URL.createObjectURL(f);
+    const stat = this.closest('.imgslot').querySelector('.slotname');
+    stat.textContent = 'Tile picture — ready, uploads on publish';
+    stat.style.color = 'var(--yarn)';
+  }
 });
 function catApply(){
   const title = document.getElementById('c-title').value.trim();

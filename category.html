@@ -134,7 +134,7 @@
       '</figure>';
     a.querySelector('.name').textContent = p.name;
     a.querySelector('.meta').textContent = p.short || 'Handmade \u00b7 Made to order';
-    a.querySelector('.price').textContent = p.price || '';
+    a.querySelector('.price').textContent = p.price || (p.basePrice ? 'from LKR ' + Number(p.basePrice).toLocaleString('en-US') : '');
     grid.appendChild(a);
   }
 </script>

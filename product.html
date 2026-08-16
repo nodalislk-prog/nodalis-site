@@ -78,7 +78,13 @@
 
   document.title = 'NODALIS — ' + p.name;
   document.getElementById('p-name').textContent = p.name;
-  document.getElementById('p-price').textContent = p.price || '';
+  function fmtLKR(n){ return 'LKR ' + Number(n).toLocaleString('en-US'); }
+  function startingPriceText(){
+    if (p.price) return p.price;
+    if (p.basePrice) return 'from ' + fmtLKR(p.basePrice);
+    return '';
+  }
+  document.getElementById('p-price').textContent = startingPriceText();
   document.getElementById('p-desc').textContent = p.description || p.short || '';
   let crumb = '<a href="index.html">Home</a>';
   if (cat.group === 'pet') crumb += ' &nbsp;/&nbsp; <a href="petstore.html">Petstore</a>';
@@ -95,12 +101,28 @@
     { key:'side',  label:'Side' },
     { key:'size',  label:'Size Guide' }
   ];
+  let currentView = 'front';
+  function colorSlug(s){
+    return String(s).toLowerCase().trim().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
+  /* If a colour is picked and a photo exists for it, show it; otherwise keep the default. */
+  function applyColorImage(){
+    if (currentView === 'size') return;
+    const fallback = srcFor(currentView);
+    if (!pickedColor) { mainImg.onerror = null; mainImg.src = fallback; return; }
+    const variant = 'images/products/' + p.id + '-' + currentView + '-' + colorSlug(pickedColor) + '.jpg';
+    const probe = new Image();
+    probe.onload = () => { mainImg.onerror = null; mainImg.src = variant; };
+    probe.onerror = () => { mainImg.onerror = null; mainImg.src = fallback; };
+    probe.src = variant;
+  }
   const mainImg = document.getElementById('main-img');
   const mainPh = document.getElementById('main-ph');
   const thumbs = document.getElementById('thumbs');
 
   function srcFor(v){ return 'images/products/' + p.id + '-' + v + '.jpg'; }
   function show(v, btn){
+    currentView = v.key;
     mainImg.style.display = '';
     mainImg.src = srcFor(v.key);
     mainImg.alt = p.name + ' — ' + v.label;
@@ -115,6 +137,7 @@
     mainPh.dataset.label = p.id + '-' + v.key + '.jpg';
     thumbs.querySelectorAll('button').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
+    applyColorImage();
   }
   views.forEach((v, i) => {
     const b = document.createElement('button');
@@ -143,8 +166,20 @@
       el.appendChild(b);
     });
   }
-  chipGroup(p.colors, 'colors', v => { pickedColor = v; document.getElementById('picked-color').textContent = '— ' + v; });
-  chipGroup(p.sizes,  'sizes',  v => { pickedSize  = v; document.getElementById('picked-size').textContent  = '— ' + v; });
+  chipGroup(p.colors, 'colors', v => {
+    pickedColor = v;
+    document.getElementById('picked-color').textContent = '— ' + v;
+    applyColorImage();
+  });
+  chipGroup(p.sizes,  'sizes',  v => {
+    pickedSize  = v;
+    document.getElementById('picked-size').textContent  = '— ' + v;
+    if (p.basePrice) {
+      const i = (p.sizes || []).indexOf(v);
+      const price = Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0);
+      document.getElementById('p-price').textContent = fmtLKR(price) + ' — size ' + v;
+    }
+  });
   if (!p.colors || !p.colors.length) document.getElementById('color-label').hidden = true;
   if (!p.sizes  || !p.sizes.length)  document.getElementById('size-label').hidden  = true;
 
@@ -173,6 +208,10 @@
     msg += "Piece: " + p.name;
     if (pickedSize)  msg += "\nSize: " + pickedSize;
     if (pickedColor) msg += "\nColour: " + pickedColor;
+    if (pickedSize && p.basePrice) {
+      const i = (p.sizes || []).indexOf(pickedSize);
+      msg += "\nPrice: " + fmtLKR(Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0));
+    }
     msg += "\n" + location.origin + location.pathname + "?id=" + encodeURIComponent(p.id);
     window.open("https://wa.me/94767003630?text=" + encodeURIComponent(msg), "_blank");
   }
