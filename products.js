@@ -16,21 +16,21 @@ const SITE = {
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#000000"
+      "nav": "#81033a"
     },
     "pet": {
       "bgTop": "#000000",
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#000000"
+      "nav": "#a70c8a"
     },
     "mens": {
       "bgTop": "#000000",
       "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#000000"
+      "nav": "#551075"
     },
     "home": {
       "g0": "#000000",
