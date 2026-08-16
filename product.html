@@ -53,30 +53,35 @@
 </main>
 
 <div id="checkout" hidden style="position:fixed;inset:0;z-index:99;background:rgba(30,15,35,.5);display:flex;align-items:center;justify-content:center;padding:18px">
-  <div style="background:var(--bg-top);border:1px solid var(--hairline);outline:1px solid var(--hairline);outline-offset:5px;max-width:540px;width:100%;max-height:88vh;overflow:auto;padding:clamp(22px,4vw,36px)">
+  <div style="background:var(--bg-top);border:1px solid var(--hairline);outline:1px solid var(--hairline);outline-offset:5px;max-width:560px;width:100%;max-height:88vh;overflow:auto;padding:clamp(22px,4vw,36px)">
     <span class="knot" aria-hidden="true"></span>
     <h2 style="font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.06em;text-align:center;margin-bottom:6px">Complete Your Order</h2>
-    <p style="text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--yarn);margin-bottom:20px">Order ref <span id="co-ref"></span></p>
-    <p id="co-summary" style="text-align:center;color:var(--ink-soft);margin-bottom:24px"></p>
+    <p style="text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--yarn);margin-bottom:8px">Order ref <span id="co-ref"></span></p>
+    <p id="co-summary" style="text-align:center;color:var(--ink-soft);margin-bottom:26px"></p>
 
-    <p class="opt-label" style="margin-top:0">How would you like to pay?</p>
-    <div class="chips" id="co-methods"></div>
+    <div id="co-pay-section">
+      <p class="opt-label" style="margin-top:0">Step 1 — Make your payment</p>
 
-    <div id="co-bank" hidden style="margin-top:20px;border:1px solid var(--hairline);padding:18px">
-      <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">Bank transfer details</p>
-      <div id="co-bank-rows"></div>
-      <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Please put your order ref <b id="co-ref2"></b> as the transfer remark.</p>
+      <div id="co-bank" hidden style="border:1px solid var(--hairline);padding:18px;margin-bottom:14px">
+        <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">Bank transfer</p>
+        <div id="co-bank-rows"></div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Please put your order ref <b id="co-ref2"></b> as the transfer remark.</p>
+      </div>
+
+      <div id="co-paypal" hidden style="border:1px solid var(--hairline);padding:18px;margin-bottom:14px;text-align:center">
+        <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">Or pay with PayPal</p>
+        <a id="co-paypal-link" href="#" target="_blank" rel="noopener" class="order-btn" style="margin-top:0">Open PayPal</a>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Add your order ref <b id="co-ref3"></b> in the PayPal note.</p>
+      </div>
+
+      <p id="co-nopay" hidden style="color:var(--ink-soft);font-size:14px;border:1px solid var(--hairline);padding:14px 16px;margin-bottom:14px">We will share the payment details with you personally on WhatsApp.</p>
     </div>
 
-    <div id="co-paypal" hidden style="margin-top:20px;border:1px solid var(--hairline);padding:18px;text-align:center">
-      <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">PayPal</p>
-      <a id="co-paypal-link" href="#" target="_blank" rel="noopener" class="order-btn" style="margin-top:0">Pay with PayPal</a>
-      <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Add your order ref <b id="co-ref3"></b> in the PayPal note.</p>
-    </div>
+    <p class="opt-label">Step 2 — Send us your order &amp; receipt</p>
+    <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:6px">Press the button below — WhatsApp opens with your order already written. Then <b style="font-weight:500;color:var(--ink)">attach your payment receipt</b> (a screenshot or photo) in the chat, and your order is confirmed.</p>
+    <p id="co-note" style="font-size:12.5px;color:var(--ink-soft)"></p>
 
-    <p id="co-note" style="font-size:13px;color:var(--ink-soft);margin-top:20px"></p>
-
-    <button class="order-btn" style="width:100%;margin-top:22px" onclick="confirmOrder()">Send My Order on WhatsApp</button>
+    <button class="order-btn" style="width:100%;margin-top:18px" onclick="confirmOrder()">Open WhatsApp &amp; Send My Order</button>
     <p style="text-align:center;margin-top:14px"><a href="#" onclick="closeCheckout();return false" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;border-bottom:1px solid var(--hairline)">Cancel</a></p>
   </div>
 </div>
@@ -229,7 +234,6 @@
 
   /* ----- order via WhatsApp ----- */
   let orderRef = '';
-  let payMethod = '';
   function orderPrice(){
     if (!(pickedSize && p.basePrice)) return null;
     const i = (p.sizes || []).indexOf(pickedSize);
@@ -248,7 +252,6 @@
     if (need.length) { alert('Please choose ' + need.join(' and ') + ' first.'); return; }
 
     orderRef = 'ND-' + Date.now().toString(36).toUpperCase().slice(-6);
-    payMethod = '';
     document.getElementById('co-ref').textContent = orderRef;
     document.getElementById('co-ref2').textContent = orderRef;
     document.getElementById('co-ref3').textContent = orderRef;
@@ -260,28 +263,9 @@
     const pm = pay();
     const hasBank = !!(pm.accountNumber && pm.bankName);
     const hasPaypal = !!pm.paypal;
-    const methods = document.getElementById('co-methods');
-    methods.innerHTML = '';
-    function addMethod(key, label){
-      const b = document.createElement('button');
-      b.type = 'button'; b.textContent = label;
-      b.addEventListener('click', () => {
-        payMethod = label;
-        methods.querySelectorAll('button').forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        document.getElementById('co-bank').hidden = key !== 'bank';
-        document.getElementById('co-paypal').hidden = key !== 'paypal';
-      });
-      methods.appendChild(b);
-      return b;
-    }
-    let firstBtn = null;
-    if (hasBank) firstBtn = addMethod('bank', 'Bank Transfer');
-    if (hasPaypal) { const b = addMethod('paypal', 'PayPal'); if (!firstBtn) firstBtn = b; }
-    if (!hasBank && !hasPaypal) {
-      const noneBtn = addMethod('none', 'Arrange on WhatsApp');
-      firstBtn = noneBtn;
-    }
+    document.getElementById('co-bank').hidden = !hasBank;
+    document.getElementById('co-paypal').hidden = !hasPaypal;
+    document.getElementById('co-nopay').hidden = hasBank || hasPaypal;
 
     if (hasBank) {
       const rows = document.getElementById('co-bank-rows');
@@ -291,7 +275,7 @@
         .forEach(r => {
           const d = document.createElement('div');
           d.style.cssText = 'display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--hairline)';
-          d.innerHTML = '<span style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);width:120px;flex-shrink:0"></span><b style="flex:1;font-weight:400;letter-spacing:.04em"></b>';
+          d.innerHTML = '<span style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);width:118px;flex-shrink:0"></span><b style="flex:1;font-weight:400;letter-spacing:.04em;word-break:break-all"></b>';
           d.querySelector('span').textContent = r[0];
           d.querySelector('b').textContent = r[1];
           const cb = document.createElement('button');
@@ -304,7 +288,6 @@
     }
     if (hasPaypal) document.getElementById('co-paypal-link').href = pm.paypal;
     document.getElementById('co-note').textContent = pm.note || '';
-    if (firstBtn) firstBtn.click();
     document.getElementById('checkout').hidden = false;
     document.body.style.overflow = 'hidden';
   }
@@ -320,8 +303,7 @@
     if (pickedColor) msg += "\nColour: " + pickedColor;
     const priceN = orderPrice();
     if (priceN) msg += "\nPrice: " + fmtLKR(priceN);
-    if (payMethod) msg += "\nPaying by: " + payMethod;
-    msg += "\nI will send the payment receipt here.";
+    msg += "\nI will attach my payment receipt here.";
     msg += "\n" + location.origin + location.pathname + "?id=" + encodeURIComponent(p.id);
     window.open("https://wa.me/94767003630?text=" + encodeURIComponent(msg), "_blank");
     closeCheckout();
