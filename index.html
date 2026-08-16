@@ -559,32 +559,7 @@
     <p class="eyebrow">Made to Order</p>
     <h2>The Collection</h2>
   </div>
-  <div class="collection-grid">
-    <figure class="piece"><a href="category.html?c=tops">
-      <div class="frame"><div class="ph" data-label="Photograph — Tops"><img src="images/tops.jpg" alt="Nodalis handmade crochet tops" loading="lazy" onerror="this.remove()"></div></div>
-      <figcaption><div class="name">Tops</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </a></figure>
-    <figure class="piece"><a href="category.html?c=skirts">
-      <div class="frame"><div class="ph" data-label="Photograph — Skirts"><img src="images/skirts.jpg" alt="Nodalis handmade crochet skirts" loading="lazy" onerror="this.remove()"></div></div>
-      <figcaption><div class="name">Skirts</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </a></figure>
-    <figure class="piece"><a href="category.html?c=bags">
-      <div class="frame"><div class="ph" data-label="Photograph — Bags"><img src="images/bags.jpg" alt="Nodalis handmade crochet bags" loading="lazy" onerror="this.remove()"></div></div>
-      <figcaption><div class="name">Bags</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </a></figure>
-    <figure class="piece"><a href="category.html?c=hats">
-      <div class="frame"><div class="ph" data-label="Photograph — Hats"><img src="images/hats.jpg" alt="Nodalis handmade crochet hats" loading="lazy" onerror="this.remove()"></div></div>
-      <figcaption><div class="name">Hats</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </a></figure>
-    <figure class="piece"><a href="category.html?c=accessories">
-      <div class="frame"><div class="ph" data-label="Photograph — Accessories"><img src="images/accessories.jpg" alt="Nodalis handmade crochet accessories" loading="lazy" onerror="this.remove()"></div></div>
-      <figcaption><div class="name">Accessories</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </a></figure>
-    <figure class="piece"><a href="category.html?c=shirts">
-      <div class="frame"><div class="ph" data-label="Photograph — images/shirts.jpg"><img src="images/shirts.jpg" alt="Nodalis handmade crochet shirts and t-shirts" loading="lazy" onerror="this.remove()"></div></div>
-      <figcaption><div class="name">Shirts &amp; T-Shirts</div><div class="meta">Handmade · Made to order</div></figcaption>
-    </a></figure>
-  </div>
+  <div class="collection-grid" id="apparel-grid"></div>
 
 </section>
 
@@ -594,20 +569,7 @@
     <p class="eyebrow">New from the Atelier</p>
     <h2>The Nodalis Petstore</h2>
   </div>
-  <div class="collection-grid pet-tiles">
-    <figure class="piece"><a href="category.html?c=cats">
-      <div class="frame"><div class="ph" data-label="Photograph — images/pet-cats.jpg"><img src="images/pet-cats.jpg" alt="Nodalis handmade crochet pieces for cats" loading="lazy" onerror="this.remove()"></div></div>
-      <figcaption><div class="name">Cats</div><div class="meta">Handmade · Made to measure</div></figcaption>
-    </a></figure>
-    <figure class="piece"><a href="category.html?c=dogs">
-      <div class="frame"><div class="ph" data-label="Photograph — images/pet-dogs.jpg"><img src="images/pet-dogs.jpg" alt="Nodalis handmade crochet pieces for dogs" loading="lazy" onerror="this.remove()"></div></div>
-      <figcaption><div class="name">Dogs</div><div class="meta">Handmade · Made to measure</div></figcaption>
-    </a></figure>
-    <figure class="piece"><a href="category.html?c=other">
-      <div class="frame"><div class="ph" data-label="Photograph — images/pet-other.jpg"><img src="images/pet-other.jpg" alt="Nodalis handmade crochet pieces for every companion" loading="lazy" onerror="this.remove()"></div></div>
-      <figcaption><div class="name">Other</div><div class="meta">Blankets · Baskets · Toys</div></figcaption>
-    </a></figure>
-  </div>
+  <div class="collection-grid pet-tiles" id="pet-strip"></div>
   <p class="teaser-line">Sweaters, bandanas, toys, and blankets for the softest members of the family — made to their own measurements.</p>
   <a class="cta" href="petstore.html">Visit the Nodalis Petstore</a>
 </section>
@@ -729,5 +691,50 @@
   }
 </script>
 
+
+<script src="products.js"></script>
+<script>
+(function(){
+  /* theme: gold + main inks (homepage gradient stays as designed) */
+  try{
+    var t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null;
+    if(t){
+      var r = document.documentElement.style;
+      if(t.apparel && t.apparel.ink) r.setProperty('--ink', t.apparel.ink);
+      if(t.apparel && t.apparel.inkSoft) r.setProperty('--ink-soft', t.apparel.inkSoft);
+      if(t.gold){
+        r.setProperty('--yarn', t.gold);
+        var h=t.gold.replace('#',''); var c=[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];
+        r.setProperty('--hairline','rgba('+c[0]+','+c[1]+','+c[2]+',.42)');
+      }
+    }
+  }catch(e){}
+
+  function tile(k){
+    var c = CATEGORIES[k];
+    var img = c.image || ('images/' + k + '.jpg');
+    var fig = document.createElement('figure');
+    fig.className = 'piece';
+    fig.innerHTML = '<a href="category.html?c=' + encodeURIComponent(k) + '">' +
+      '<div class="frame"><div class="ph" data-label="Photograph — ' + k + '">' +
+      '<img src="' + img + '" alt="" loading="lazy" onerror="this.remove()"></div></div>' +
+      '<figcaption><div class="name"></div><div class="meta"></div></figcaption></a>';
+    fig.querySelector('.name').textContent = c.title;
+    fig.querySelector('.meta').textContent = c.meta || 'Handmade · Made to order';
+    fig.querySelector('img').alt = 'Nodalis handmade crochet ' + c.title.toLowerCase();
+    return fig;
+  }
+
+  var ag = document.getElementById('apparel-grid');
+  Object.keys(CATEGORIES).filter(function(k){
+    var c = CATEGORIES[k]; return c.group === 'apparel' && !c.parent;
+  }).forEach(function(k){ ag.appendChild(tile(k)); });
+
+  var pg = document.getElementById('pet-strip');
+  Object.keys(CATEGORIES).filter(function(k){
+    var c = CATEGORIES[k]; return c.group === 'pet' && !c.parent;
+  }).forEach(function(k){ pg.appendChild(tile(k)); });
+})();
+</script>
 </body>
 </html>

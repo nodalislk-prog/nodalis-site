@@ -32,20 +32,85 @@
 
 <script src="products.js"></script>
 <script>
+  /* ---- apply theme from SITE ---- */
+  function hexRgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+  function applyTheme(pal){
+    try{
+      const t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null; if(!t) return;
+      const p = t[pal] || {}; const r = document.documentElement.style;
+      if(p.bgTop) r.setProperty('--bg-top', p.bgTop);
+      if(p.bgBottom) r.setProperty('--bg-bottom', p.bgBottom);
+      if(p.ink) r.setProperty('--ink', p.ink);
+      if(p.inkSoft) r.setProperty('--ink-soft', p.inkSoft);
+      if(p.nav){ const c=hexRgb(p.nav); r.setProperty('--nav-bg','rgba('+c[0]+','+c[1]+','+c[2]+',.94)'); }
+      if(t.gold){ r.setProperty('--yarn', t.gold); const g=hexRgb(t.gold); r.setProperty('--hairline','rgba('+g[0]+','+g[1]+','+g[2]+',.42)'); r.setProperty('--gold-bright', t.gold); }
+    }catch(e){}
+  }
+
   const params = new URLSearchParams(location.search);
   const slug = params.get('c') || 'tops';
   const cat = CATEGORIES[slug] || CATEGORIES.tops;
+  const catId = CATEGORIES[slug] ? slug : 'tops';
 
   if (cat.group === 'pet') document.body.classList.add('pet');
-  document.title = 'NODALIS — ' + cat.title;
+  applyTheme(cat.group === 'pet' ? 'pet' : 'apparel');
+
+  document.title = 'NODALIS \u2014 ' + cat.title;
   document.getElementById('cat-title').textContent = cat.title;
   document.getElementById('cat-line').textContent = cat.line;
-  document.getElementById('crumb').innerHTML =
-    '<a href="index.html">Home</a> &nbsp;/&nbsp; ' +
-    (cat.group === 'pet' ? '<a href="petstore.html">Petstore</a> &nbsp;/&nbsp; ' : '') +
-    cat.title;
 
-  const items = PRODUCTS.filter(p => p.category === slug);
+  /* crumb: Home / Petstore / Parent / This */
+  let crumb = '<a href="index.html">Home</a>';
+  if (cat.group === 'pet') crumb += ' &nbsp;/&nbsp; <a href="petstore.html">Petstore</a>';
+  if (cat.parent && CATEGORIES[cat.parent]) {
+    crumb += ' &nbsp;/&nbsp; <a href="category.html?c=' + encodeURIComponent(cat.parent) + '">' + CATEGORIES[cat.parent].title + '</a>';
+  }
+  crumb += ' &nbsp;/&nbsp; ' + cat.title;
+  document.getElementById('crumb').innerHTML = crumb;
+
+  /* children of this category (sub-sections) */
+  const children = Object.keys(CATEGORIES).filter(k => CATEGORIES[k].parent === catId);
+
+  /* sub-section chips when viewing a parent */
+  if (children.length) {
+    const bar = document.createElement('div');
+    bar.className = 'chips';
+    bar.style.cssText = 'justify-content:center;margin:-20px 0 44px';
+    const mk = (label, href, active) => {
+      const a = document.createElement('a');
+      a.href = href; a.textContent = label;
+      a.style.cssText = 'border:1px solid ' + (active ? 'var(--ink)' : 'var(--hairline)') +
+        ';padding:9px 18px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;' +
+        (active ? 'background:var(--ink);color:var(--bg-top);' : '');
+      return a;
+    };
+    bar.appendChild(mk('All', 'category.html?c=' + catId, true));
+    children.forEach(k => bar.appendChild(mk(CATEGORIES[k].title, 'category.html?c=' + k, false)));
+    document.querySelector('.page-head').after(bar);
+  } else if (cat.parent && CATEGORIES[cat.parent]) {
+    /* viewing a child: chips to siblings */
+    const sibs = Object.keys(CATEGORIES).filter(k => CATEGORIES[k].parent === cat.parent);
+    const bar = document.createElement('div');
+    bar.className = 'chips';
+    bar.style.cssText = 'justify-content:center;margin:-20px 0 44px';
+    const mk = (label, href, active) => {
+      const a = document.createElement('a');
+      a.href = href; a.textContent = label;
+      a.style.cssText = 'border:1px solid ' + (active ? 'var(--ink)' : 'var(--hairline)') +
+        ';padding:9px 18px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;' +
+        (active ? 'background:var(--ink);color:var(--bg-top);' : '');
+      return a;
+    };
+    mkAll = mk('All', 'category.html?c=' + cat.parent, false);
+    bar.appendChild(mkAll);
+    sibs.forEach(k => bar.appendChild(mk(CATEGORIES[k].title, 'category.html?c=' + k, k === catId)));
+    document.querySelector('.page-head').after(bar);
+  }
+
+  /* products: direct matches + (for parents) everything in child sections */
+  const items = PRODUCTS.filter(p =>
+    p.category === catId || (CATEGORIES[p.category] && CATEGORIES[p.category].parent === catId)
+  );
   const grid = document.getElementById('grid');
 
   if (!items.length) {
@@ -68,7 +133,7 @@
         '</figcaption>' +
       '</figure>';
     a.querySelector('.name').textContent = p.name;
-    a.querySelector('.meta').textContent = p.short || 'Handmade · Made to order';
+    a.querySelector('.meta').textContent = p.short || 'Handmade \u00b7 Made to order';
     a.querySelector('.price').textContent = p.price || '';
     grid.appendChild(a);
   }

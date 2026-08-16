@@ -56,20 +56,38 @@
 
 <script src="products.js"></script>
 <script>
+  function hexRgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+  function applyTheme(pal){
+    try{
+      const t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null; if(!t) return;
+      const pp = t[pal] || {}; const r = document.documentElement.style;
+      if(pp.bgTop) r.setProperty('--bg-top', pp.bgTop);
+      if(pp.bgBottom) r.setProperty('--bg-bottom', pp.bgBottom);
+      if(pp.ink) r.setProperty('--ink', pp.ink);
+      if(pp.inkSoft) r.setProperty('--ink-soft', pp.inkSoft);
+      if(pp.nav){ const c=hexRgb(pp.nav); r.setProperty('--nav-bg','rgba('+c[0]+','+c[1]+','+c[2]+',.94)'); }
+      if(t.gold){ r.setProperty('--yarn', t.gold); const g=hexRgb(t.gold); r.setProperty('--hairline','rgba('+g[0]+','+g[1]+','+g[2]+',.42)'); r.setProperty('--gold-bright', t.gold); }
+    }catch(e){}
+  }
   const params = new URLSearchParams(location.search);
   const id = params.get('id');
   const p = PRODUCTS.find(x => x.id === id) || PRODUCTS[0];
   const cat = CATEGORIES[p.category] || {};
   if (cat.group === 'pet') document.body.classList.add('pet');
+  applyTheme(cat.group === 'pet' ? 'pet' : 'apparel');
 
   document.title = 'NODALIS — ' + p.name;
   document.getElementById('p-name').textContent = p.name;
   document.getElementById('p-price').textContent = p.price || '';
   document.getElementById('p-desc').textContent = p.description || p.short || '';
-  document.getElementById('crumb').innerHTML =
-    '<a href="index.html">Home</a> &nbsp;/&nbsp; ' +
-    '<a href="category.html?c=' + encodeURIComponent(p.category) + '">' + (cat.title || 'Collection') + '</a>' +
+  let crumb = '<a href="index.html">Home</a>';
+  if (cat.group === 'pet') crumb += ' &nbsp;/&nbsp; <a href="petstore.html">Petstore</a>';
+  if (cat.parent && CATEGORIES[cat.parent]) {
+    crumb += ' &nbsp;/&nbsp; <a href="category.html?c=' + encodeURIComponent(cat.parent) + '">' + CATEGORIES[cat.parent].title + '</a>';
+  }
+  crumb += ' &nbsp;/&nbsp; <a href="category.html?c=' + encodeURIComponent(p.category) + '">' + (cat.title || 'Collection') + '</a>' +
     ' &nbsp;/&nbsp; ' + p.name;
+  document.getElementById('crumb').innerHTML = crumb;
 
   /* ----- gallery: front / side / size guide ----- */
   const views = [

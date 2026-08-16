@@ -83,6 +83,11 @@
   .mgroup-title{font-family:var(--serif);font-size:18px;letter-spacing:.06em;margin:26px 0 12px}
   .mgroup-title:first-child{margin-top:0}
   .hint a{color:var(--yarn)}
+  .tclr{width:64px;height:36px;padding:2px;border:1px solid var(--hairline);background:#fff}
+  .cat-row{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--hairline)}
+  .cat-row .cname{font-family:var(--serif);font-size:16px;flex:1}
+  .cat-row.child{padding-left:34px}
+  .cat-row .ccount{font-size:11px;letter-spacing:.14em;color:var(--ink-soft)}
 </style>
 </head>
 <body>
@@ -108,6 +113,8 @@
     <div class="topbar">
       <div>
         <button class="small tab active" id="tab-products" onclick="showTab('products')">Products</button>
+        <button class="small tab" id="tab-categories" onclick="showTab('categories')">Sections</button>
+        <button class="small tab" id="tab-theme" onclick="showTab('theme')">Colours</button>
         <button class="small tab" id="tab-media" onclick="showTab('media')">Site Media</button>
       </div>
       <div>
@@ -123,6 +130,68 @@
     <div id="panel-media" class="hidden">
       <p class="muted" style="margin-bottom:16px">Every image and video on the website. Pick a new file and it replaces the old one — the live site updates about a minute later. Images should be JPG; videos MP4.</p>
       <div id="media-groups"></div>
+    </div>
+
+    <div id="panel-categories" class="hidden">
+      <p class="muted" style="margin-bottom:16px">The sections of your shop. Main-page sections hold products directly; petstore sections (For Dogs, For Cats…) hold sub-sections like Sweaters or Bandanas. Rename anything, rearrange with the arrows, add new ones, or remove empty ones. Changes go live when you press <b>Publish section changes</b>.</p>
+      <div class="card"><div id="cat-tree"></div>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="small" onclick="catNew()">+ Add section</button>
+          <button class="primary" id="cat-save" onclick="catPublish()">Publish section changes</button>
+        </div>
+      </div>
+      <div class="card hidden" id="cat-editor">
+        <h1 style="font-size:19px;margin-bottom:4px" id="cat-ed-title">Edit section</h1>
+        <div class="row">
+          <div><label>Name (shown on the site)</label><input type="text" id="c-title" placeholder="Sweaters"></div>
+          <div><label>Where it lives</label><select id="c-parent"></select></div>
+        </div>
+        <div class="row">
+          <div><label>Small line under the tile</label><input type="text" id="c-meta" placeholder="Handmade · Made to measure"></div>
+          <div><label>Page subtitle</label><input type="text" id="c-line" placeholder="Handmade crochet dog sweaters, made to measure"></div>
+        </div>
+        <label>Web address name <span style="text-transform:none;letter-spacing:0">(auto — cannot change after creation)</span></label>
+        <input type="text" id="c-id" placeholder="dog-sweaters">
+        <div class="row" style="margin-top:16px;align-items:end">
+          <div class="imgslot"><div class="slotname">Tile picture</div><img id="c-img" alt=""><input type="file" accept="image/jpeg,image/jpg,image/png" id="c-file"></div>
+          <div>
+            <button class="primary" onclick="catApply()">Done</button>
+            <button class="small" onclick="catCloseEditor()" style="margin-left:8px">Cancel</button>
+            <button class="danger small" id="c-del" onclick="catDelete()" style="margin-left:8px">Remove section</button>
+            <p class="hint">"Done" keeps the change in the list — press <b>Publish section changes</b> to make it live.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-theme" class="hidden">
+      <p class="muted" style="margin-bottom:16px">The site's colours. Pick, then press <b>Publish colours</b> — the whole site updates in about a minute. The homepage's signature gradient stays as designed; these control text, accents, and the shop pages.</p>
+      <div class="card">
+        <label style="margin-top:0">Gold accent (thread, frames, prices)</label>
+        <input type="color" id="t-gold" style="width:64px;height:40px;padding:2px;border:1px solid var(--hairline);background:#fff">
+        <div class="row" style="margin-top:20px">
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Main shop pages</h1>
+            <label>Background — top</label><input type="color" id="t-a-bgTop" class="tclr">
+            <label>Background — bottom</label><input type="color" id="t-a-bgBottom" class="tclr">
+            <label>Text</label><input type="color" id="t-a-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-a-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-a-nav" class="tclr">
+          </div>
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Petstore pages</h1>
+            <label>Background — top</label><input type="color" id="t-p-bgTop" class="tclr">
+            <label>Background — bottom</label><input type="color" id="t-p-bgBottom" class="tclr">
+            <label>Text</label><input type="color" id="t-p-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-p-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-p-nav" class="tclr">
+          </div>
+        </div>
+        <div style="margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="primary" onclick="themePublish()">Publish colours</button>
+          <button class="small" onclick="themeReset()">Back to original colours</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -210,6 +279,12 @@ const API = 'https://api.github.com';
 
 let token = null;
 let CATEGORIES = {}, PRODUCTS = [];
+let SITE = null;
+const DEFAULT_THEME = {
+  gold: "#B08A2E",
+  apparel: { bgTop:"#EFE8F8", bgBottom:"#D3C2EA", ink:"#3B2D59", inkSoft:"#6E5E96", nav:"#4A3078" },
+  pet:     { bgTop:"#FBEFF0", bgBottom:"#EFC3D3", ink:"#59283F", inkSoft:"#9C6580", nav:"#7A2C54" }
+};
 let productsSha = null;   // sha of products.js for updates
 let editingIndex = -1;    // -1 = new product
 let pickedFiles = { front:null, side:null, size:null };
@@ -265,9 +340,11 @@ async function boot(){
     const j = await r.json();
     productsSha = j.sha;
     const src = decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))));
-    const fn = new Function(src + '; return {CATEGORIES, PRODUCTS};');
+    const fn = new Function(src + '; return {SITE: (typeof SITE!=="undefined"?SITE:null), CATEGORIES, PRODUCTS};');
     const data = fn();
     CATEGORIES = data.CATEGORIES; PRODUCTS = data.PRODUCTS;
+    SITE = data.SITE || { theme: JSON.parse(JSON.stringify(DEFAULT_THEME)) };
+    if (!SITE.theme) SITE.theme = JSON.parse(JSON.stringify(DEFAULT_THEME));
     document.getElementById('login-card').classList.add('hidden');
     document.getElementById('dash').classList.remove('hidden');
     renderList();
@@ -300,8 +377,10 @@ function fillCategorySelect(sel){
   const s = document.getElementById('f-category');
   s.innerHTML = '';
   for (const k in CATEGORIES) {
+    const c = CATEGORIES[k];
     const o = document.createElement('option');
-    o.value = k; o.textContent = CATEGORIES[k].title + '  (' + k + ')';
+    const prefix = c.parent && CATEGORIES[c.parent] ? CATEGORIES[c.parent].title + ' — ' : (c.group === 'pet' ? 'Petstore — ' : '');
+    o.value = k; o.textContent = prefix + c.title;
     s.appendChild(o);
   }
   if (sel) s.value = sel;
@@ -400,8 +479,9 @@ function readChart(){
 
 /* ================= save / delete ================= */
 function serializeProducts(){
-  const header = '/* Nodalis product data — edited via admin.html on ' + new Date().toISOString().slice(0,10) + ' */\n\n';
+  const header = '/* Nodalis site data — edited via admin.html on ' + new Date().toISOString().slice(0,10) + ' */\n\n';
   return header +
+    'const SITE = ' + JSON.stringify(SITE, null, 2) + ';\n\n' +
     'const CATEGORIES = ' + JSON.stringify(CATEGORIES, null, 2) + ';\n\n' +
     'const PRODUCTS = ' + JSON.stringify(PRODUCTS, null, 2) + ';\n';
 }
@@ -537,12 +617,14 @@ const SITE_MEDIA = [
 ];
 
 function showTab(t){
-  document.getElementById('tab-products').classList.toggle('active', t==='products');
-  document.getElementById('tab-media').classList.toggle('active', t==='media');
-  document.getElementById('panel-products').classList.toggle('hidden', t!=='products');
-  document.getElementById('panel-media').classList.toggle('hidden', t!=='media');
+  ['products','categories','theme','media'].forEach(x => {
+    document.getElementById('tab-'+x).classList.toggle('active', t===x);
+    document.getElementById('panel-'+x).classList.toggle('hidden', t!==x);
+  });
   document.getElementById('addbtn').style.display = t==='products' ? '' : 'none';
-  if (t==='media' && !document.getElementById('media-groups').childElementCount) renderMedia();
+  if (t==='media') renderMedia();
+  if (t==='categories') catRender();
+  if (t==='theme') themeFill();
 }
 function renderMedia(){
   const root = document.getElementById('media-groups');
@@ -598,6 +680,210 @@ function mediaSlot(it){
   };
   d.append(nm, pt, prev, inp, btn);
   return d;
+}
+
+/* ================= sections (categories) ================= */
+let catDirty = false;
+let catEditingId = null;      // null = new
+let pickedCatFiles = {};      // id -> File (tile pictures pending upload)
+
+function catProductCount(k){
+  return PRODUCTS.filter(p => p.category === k).length;
+}
+function catChildren(k){
+  return Object.keys(CATEGORIES).filter(x => CATEGORIES[x].parent === k);
+}
+function catKeysOrdered(){ return Object.keys(CATEGORIES); }
+function catRebuild(orderedKeys){
+  const next = {};
+  orderedKeys.forEach(k => { next[k] = CATEGORIES[k]; });
+  CATEGORIES = next;
+}
+function catSiblings(k){
+  const c = CATEGORIES[k];
+  return catKeysOrdered().filter(x => {
+    const o = CATEGORIES[x];
+    return (o.parent || null) === (c.parent || null) && (o.group === c.group);
+  });
+}
+function catMove(k, dir){
+  const keys = catKeysOrdered();
+  const sibs = catSiblings(k);
+  const si = sibs.indexOf(k);
+  const ti = si + dir;
+  if (ti < 0 || ti >= sibs.length) return;
+  const a = keys.indexOf(k), b = keys.indexOf(sibs[ti]);
+  keys[a] = sibs[ti]; keys[b] = k;
+  catRebuild(keys);
+  catDirty = true;
+  catRender();
+}
+function catRowHtml(k, isChild){
+  const c = CATEGORIES[k];
+  const n = catProductCount(k);
+  const kidn = catChildren(k).length;
+  const bits = [];
+  if (kidn) bits.push(kidn + ' sub-section' + (kidn>1?'s':''));
+  bits.push(n + ' piece' + (n===1?'':'s'));
+  return '<div class="cat-row' + (isChild ? ' child' : '') + '">' +
+    '<span class="cname">' + escHtml(c.title) + '</span>' +
+    '<span class="ccount">' + bits.join(' · ') + '</span>' +
+    '<button class="small" onclick="catMove(\'' + k + '\',-1)" title="Move up">\u2191</button>' +
+    '<button class="small" onclick="catMove(\'' + k + '\',1)" title="Move down">\u2193</button>' +
+    '<button class="small" onclick="catEdit(\'' + k + '\')">Edit</button>' +
+    '</div>';
+}
+function escHtml(s){ const d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
+function catRender(){
+  const mount = document.getElementById('cat-tree');
+  let out = '';
+  out += '<p class="muted" style="margin:4px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Main shop</p>';
+  catKeysOrdered().filter(k => CATEGORIES[k].group === 'apparel' && !CATEGORIES[k].parent)
+    .forEach(k => { out += catRowHtml(k, false); });
+  out += '<p class="muted" style="margin:20px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Petstore</p>';
+  catKeysOrdered().filter(k => CATEGORIES[k].group === 'pet' && !CATEGORIES[k].parent)
+    .forEach(pk => {
+      out += catRowHtml(pk, false);
+      catChildren(pk).forEach(ck => { out += catRowHtml(ck, true); });
+    });
+  mount.innerHTML = out;
+  document.getElementById('cat-save').textContent = catDirty ? 'Publish section changes \u25cf' : 'Publish section changes';
+}
+function catFillParentSelect(current){
+  const s = document.getElementById('c-parent');
+  s.innerHTML = '';
+  const add = (v, label) => { const o = document.createElement('option'); o.value=v; o.textContent=label; s.appendChild(o); };
+  add('apparel', 'Main shop \u2014 top level');
+  add('pet', 'Petstore \u2014 top level');
+  catKeysOrdered().filter(k => CATEGORIES[k].group === 'pet' && !CATEGORIES[k].parent)
+    .forEach(k => add('parent:' + k, 'Petstore \u2014 inside ' + CATEGORIES[k].title));
+  s.value = current || 'apparel';
+}
+function catNew(){ catOpenEditor(null); }
+function catEdit(k){ catOpenEditor(k); }
+function catOpenEditor(k){
+  catEditingId = k;
+  const c = k ? CATEGORIES[k] : { title:'', line:'', meta:'', group:'pet' };
+  document.getElementById('cat-ed-title').textContent = k ? ('Edit \u2014 ' + c.title) : 'New section';
+  document.getElementById('c-title').value = c.title || '';
+  document.getElementById('c-line').value = c.line || '';
+  document.getElementById('c-meta').value = c.meta || '';
+  const idEl = document.getElementById('c-id');
+  idEl.value = k || '';
+  idEl.disabled = !!k;
+  let where = 'apparel';
+  if (c.group === 'pet') where = c.parent ? ('parent:' + c.parent) : 'pet';
+  catFillParentSelect(where);
+  const img = document.getElementById('c-img');
+  const src = k ? ((c.image || ('images/' + k + '.jpg')) + '?t=' + Date.now()) : '';
+  if (src) { img.src = src; img.onerror = () => img.removeAttribute('src'); } else { img.removeAttribute('src'); }
+  document.getElementById('c-file').value = '';
+  document.getElementById('c-del').style.display = k ? '' : 'none';
+  document.getElementById('cat-editor').classList.remove('hidden');
+  document.getElementById('cat-editor').scrollIntoView({behavior:'smooth'});
+}
+function catCloseEditor(){
+  document.getElementById('cat-editor').classList.add('hidden');
+  catEditingId = null;
+}
+document.getElementById('c-title').addEventListener('input', function(){
+  if (!catEditingId) document.getElementById('c-id').value = slugify(this.value);
+});
+document.getElementById('c-file').addEventListener('change', function(){
+  const f = this.files[0];
+  if (f) document.getElementById('c-img').src = URL.createObjectURL(f);
+});
+function catApply(){
+  const title = document.getElementById('c-title').value.trim();
+  if (!title) { log('The section needs a name.', 'err'); return; }
+  let id = catEditingId || slugify(document.getElementById('c-id').value.trim() || title);
+  if (!id) { log('The section needs a web address name.', 'err'); return; }
+  if (!catEditingId && CATEGORIES[id]) { log('A section with that web address name already exists.', 'err'); return; }
+  const where = document.getElementById('c-parent').value;
+  const entry = catEditingId ? CATEGORIES[id] : {};
+  entry.title = title;
+  entry.line = document.getElementById('c-line').value.trim() || title;
+  entry.meta = document.getElementById('c-meta').value.trim() || 'Handmade \u00b7 Made to order';
+  if (where === 'apparel') { entry.group = 'apparel'; delete entry.parent; }
+  else if (where === 'pet') { entry.group = 'pet'; delete entry.parent; }
+  else { entry.group = 'pet'; entry.parent = where.slice(7); }
+  if (entry.parent === id) { log('A section cannot live inside itself.', 'err'); return; }
+  if (!catEditingId) CATEGORIES[id] = entry;
+  const f = document.getElementById('c-file').files[0];
+  if (f) pickedCatFiles[id] = f;
+  catDirty = true;
+  catCloseEditor();
+  catRender();
+  log('Kept. Press \u201cPublish section changes\u201d to make it live.', 'ok');
+}
+async function catDelete(){
+  const k = catEditingId;
+  if (!k) return;
+  if (catProductCount(k) > 0) { log('Move or delete its pieces first \u2014 this section still has products.', 'err'); return; }
+  if (catChildren(k).length > 0) { log('Remove or move its sub-sections first.', 'err'); return; }
+  if (!confirm('Remove the section \u201c' + CATEGORIES[k].title + '\u201d from the website?')) return;
+  delete CATEGORIES[k];
+  delete pickedCatFiles[k];
+  catDirty = true;
+  catCloseEditor();
+  catRender();
+  log('Removed from the list. Press \u201cPublish section changes\u201d to make it live.', 'ok');
+}
+async function catPublish(){
+  const btn = document.getElementById('cat-save');
+  try {
+    btn.disabled = true;
+    for (const id in pickedCatFiles) {
+      log('Uploading tile picture for ' + id + '\u2026');
+      const path = (CATEGORIES[id] && CATEGORIES[id].image) ? CATEGORIES[id].image : ('images/' + id + '.jpg');
+      const b64 = await fileToBase64(pickedCatFiles[id]);
+      const sha = await getSha(path);
+      await putFile(path, b64, 'Admin: section tile ' + id, sha);
+    }
+    pickedCatFiles = {};
+    log('Saving sections\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: sections', productsSha)).content.sha;
+    catDirty = false;
+    catRender();
+    log('Published. The live site updates in about a minute.', 'ok');
+  } catch(e) {
+    log(e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ================= colours (theme) ================= */
+function themeFill(){
+  const t = (SITE && SITE.theme) ? SITE.theme : DEFAULT_THEME;
+  document.getElementById('t-gold').value = t.gold || DEFAULT_THEME.gold;
+  ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
+    document.getElementById('t-a-'+k).value = (t.apparel && t.apparel[k]) || DEFAULT_THEME.apparel[k];
+    document.getElementById('t-p-'+k).value = (t.pet && t.pet[k]) || DEFAULT_THEME.pet[k];
+  });
+}
+function themeReset(){
+  SITE.theme = JSON.parse(JSON.stringify(DEFAULT_THEME));
+  themeFill();
+  log('Colours set back to the originals \u2014 press \u201cPublish colours\u201d to make it live.', 'ok');
+}
+async function themePublish(){
+  try {
+    SITE = SITE || {};
+    SITE.theme = {
+      gold: document.getElementById('t-gold').value,
+      apparel: {}, pet: {}
+    };
+    ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
+      SITE.theme.apparel[k] = document.getElementById('t-a-'+k).value;
+      SITE.theme.pet[k] = document.getElementById('t-p-'+k).value;
+    });
+    log('Saving colours\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: colours', productsSha)).content.sha;
+    log('Published. The live site updates in about a minute.', 'ok');
+  } catch(e) {
+    log(e.message, 'err');
+  }
 }
 
 /* ================= start ================= */
