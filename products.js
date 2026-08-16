@@ -42,6 +42,12 @@ const SITE = {
       "inkSoft": "#8e6bb8",
       "nav": "#563467"
     }
+  },
+  "type": {
+    "serif": "Italiana",
+    "sans": "Nunito Sans",
+    "base": 17,
+    "hscale": 100
   }
 };
 
