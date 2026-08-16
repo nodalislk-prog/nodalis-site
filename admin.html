@@ -171,7 +171,7 @@
       <div class="card">
         <label style="margin-top:0">Gold accent (thread, frames, prices)</label>
         <input type="color" id="t-gold" style="width:64px;height:40px;padding:2px;border:1px solid var(--hairline);background:#fff">
-        <div class="row" style="margin-top:20px">
+        <div class="row3" style="margin-top:20px">
           <div>
             <h1 style="font-size:17px;margin-bottom:6px">Main shop pages</h1>
             <label>Background — top</label><input type="color" id="t-a-bgTop" class="tclr">
@@ -187,6 +187,14 @@
             <label>Text</label><input type="color" id="t-p-ink" class="tclr">
             <label>Soft text</label><input type="color" id="t-p-inkSoft" class="tclr">
             <label>Top bar</label><input type="color" id="t-p-nav" class="tclr">
+          </div>
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Men's pages</h1>
+            <label>Background</label><input type="color" id="t-m-bgTop" class="tclr">
+            <label>Background lower</label><input type="color" id="t-m-bgBottom" class="tclr">
+            <label>Text</label><input type="color" id="t-m-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-m-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-m-nav" class="tclr">
           </div>
         </div>
         <div style="margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
@@ -373,7 +381,8 @@ let SITE = null;
 const DEFAULT_THEME = {
   gold: "#B08A2E",
   apparel: { bgTop:"#EFE8F8", bgBottom:"#D3C2EA", ink:"#3B2D59", inkSoft:"#6E5E96", nav:"#4A3078" },
-  pet:     { bgTop:"#FBEFF0", bgBottom:"#EFC3D3", ink:"#59283F", inkSoft:"#9C6580", nav:"#7A2C54" }
+  pet:     { bgTop:"#FBEFF0", bgBottom:"#EFC3D3", ink:"#59283F", inkSoft:"#9C6580", nav:"#7A2C54" },
+  mens:    { bgTop:"#FFFFFF", bgBottom:"#EDEFF1", ink:"#16181C", inkSoft:"#6E7480", nav:"#101114" }
 };
 let productsSha = null;   // sha of products.js for updates
 let editingIndex = -1;    // -1 = new product
@@ -470,7 +479,7 @@ function fillCategorySelect(sel){
   for (const k in CATEGORIES) {
     const c = CATEGORIES[k];
     const o = document.createElement('option');
-    const prefix = c.parent && CATEGORIES[c.parent] ? CATEGORIES[c.parent].title + ' — ' : (c.group === 'pet' ? 'Petstore — ' : '');
+    const prefix = c.parent && CATEGORIES[c.parent] ? CATEGORIES[c.parent].title + ' — ' : (c.group === 'pet' ? 'Petstore — ' : (c.group === 'mens' ? "Men's — " : ''));
     o.value = k; o.textContent = prefix + c.title;
     s.appendChild(o);
   }
@@ -986,6 +995,14 @@ function catRender(){
       out += catRowHtml(pk, false);
       catChildren(pk).forEach(ck => { out += catRowHtml(ck, true); });
     });
+  const mensTop = catKeysOrdered().filter(k => CATEGORIES[k].group === 'mens' && !CATEGORIES[k].parent);
+  if (mensTop.length) {
+    out += '<p class="muted" style="margin:20px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Men&#8217;s</p>';
+    mensTop.forEach(pk => {
+      out += catRowHtml(pk, false);
+      catChildren(pk).forEach(ck => { out += catRowHtml(ck, true); });
+    });
+  }
   mount.innerHTML = out;
   document.getElementById('cat-save').textContent = catDirty ? 'Publish section changes \u25cf' : 'Publish section changes';
 }
@@ -995,8 +1012,9 @@ function catFillParentSelect(current){
   const add = (v, label) => { const o = document.createElement('option'); o.value=v; o.textContent=label; s.appendChild(o); };
   add('apparel', 'Main shop \u2014 top level');
   add('pet', 'Petstore \u2014 top level');
-  catKeysOrdered().filter(k => CATEGORIES[k].group === 'pet' && !CATEGORIES[k].parent)
-    .forEach(k => add('parent:' + k, 'Petstore \u2014 inside ' + CATEGORIES[k].title));
+  add('mens', "Men's \u2014 top level");
+  catKeysOrdered().filter(k => !CATEGORIES[k].parent && (CATEGORIES[k].group === 'pet' || CATEGORIES[k].group === 'mens'))
+    .forEach(k => add('parent:' + k, (CATEGORIES[k].group === 'mens' ? "Men's" : 'Petstore') + ' \u2014 inside ' + CATEGORIES[k].title));
   s.value = current || 'apparel';
 }
 function catNew(){ catOpenEditor(null); }
@@ -1012,7 +1030,9 @@ function catOpenEditor(k){
   idEl.value = k || '';
   idEl.disabled = !!k;
   let where = 'apparel';
-  if (c.group === 'pet') where = c.parent ? ('parent:' + c.parent) : 'pet';
+  if (c.parent) where = 'parent:' + c.parent;
+  else if (c.group === 'pet') where = 'pet';
+  else if (c.group === 'mens') where = 'mens';
   catFillParentSelect(where);
   const img = document.getElementById('c-img');
   const stat = document.querySelector('#c-file').closest('.imgslot').querySelector('.slotname');
@@ -1061,7 +1081,12 @@ function catApply(){
   entry.meta = document.getElementById('c-meta').value.trim() || 'Handmade \u00b7 Made to order';
   if (where === 'apparel') { entry.group = 'apparel'; delete entry.parent; }
   else if (where === 'pet') { entry.group = 'pet'; delete entry.parent; }
-  else { entry.group = 'pet'; entry.parent = where.slice(7); }
+  else if (where === 'mens') { entry.group = 'mens'; delete entry.parent; }
+  else {
+    const pk = where.slice(7);
+    entry.group = (CATEGORIES[pk] && CATEGORIES[pk].group) || 'pet';
+    entry.parent = pk;
+  }
   if (entry.parent === id) { log('A section cannot live inside itself.', 'err'); return; }
   if (!catEditingId) CATEGORIES[id] = entry;
   const f = document.getElementById('c-file').files[0];
@@ -1115,6 +1140,7 @@ function themeFill(){
   ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
     document.getElementById('t-a-'+k).value = (t.apparel && t.apparel[k]) || DEFAULT_THEME.apparel[k];
     document.getElementById('t-p-'+k).value = (t.pet && t.pet[k]) || DEFAULT_THEME.pet[k];
+    document.getElementById('t-m-'+k).value = (t.mens && t.mens[k]) || DEFAULT_THEME.mens[k];
   });
 }
 function themeReset(){
@@ -1127,11 +1153,12 @@ async function themePublish(){
     SITE = SITE || {};
     SITE.theme = {
       gold: document.getElementById('t-gold').value,
-      apparel: {}, pet: {}
+      apparel: {}, pet: {}, mens: {}
     };
     ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
       SITE.theme.apparel[k] = document.getElementById('t-a-'+k).value;
       SITE.theme.pet[k] = document.getElementById('t-p-'+k).value;
+      SITE.theme.mens[k] = document.getElementById('t-m-'+k).value;
     });
     log('Saving colours\u2026');
     productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: colours', productsSha)).content.sha;

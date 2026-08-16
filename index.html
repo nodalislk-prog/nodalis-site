@@ -727,7 +727,7 @@
 
   var ag = document.getElementById('apparel-grid');
   Object.keys(CATEGORIES).filter(function(k){
-    var c = CATEGORIES[k]; return c.group === 'apparel' && !c.parent;
+    var c = CATEGORIES[k]; return (c.group === 'apparel' || c.group === 'mens') && !c.parent;
   }).forEach(function(k){ ag.appendChild(tile(k)); });
 
   var pg = document.getElementById('pet-strip');

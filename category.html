@@ -53,7 +53,8 @@
   const catId = CATEGORIES[slug] ? slug : 'tops';
 
   if (cat.group === 'pet') document.body.classList.add('pet');
-  applyTheme(cat.group === 'pet' ? 'pet' : 'apparel');
+  if (cat.group === 'mens') document.body.classList.add('mens');
+  applyTheme(cat.group === 'pet' ? 'pet' : (cat.group === 'mens' ? 'mens' : 'apparel'));
 
   document.title = 'NODALIS \u2014 ' + cat.title;
   document.getElementById('cat-title').textContent = cat.title;

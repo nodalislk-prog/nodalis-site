@@ -108,7 +108,8 @@
   const p = PRODUCTS.find(x => x.id === id) || PRODUCTS[0];
   const cat = CATEGORIES[p.category] || {};
   if (cat.group === 'pet') document.body.classList.add('pet');
-  applyTheme(cat.group === 'pet' ? 'pet' : 'apparel');
+  if (cat.group === 'mens') document.body.classList.add('mens');
+  applyTheme(cat.group === 'pet' ? 'pet' : (cat.group === 'mens' ? 'mens' : 'apparel'));
 
   document.title = 'NODALIS — ' + p.name;
   document.getElementById('p-name').textContent = p.name;

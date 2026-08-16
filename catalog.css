@@ -15,6 +15,18 @@ body.pet{
   --ink:#59283F; --ink-soft:#9C6580;
   --nav-bg:rgba(122,44,84,.94);
 }
+body.mens{
+  /* menswear palette — minimal monochrome */
+  --bg-top:#FFFFFF; --bg-bottom:#EDEFF1;
+  --ink:#16181C; --ink-soft:#6E7480;
+  --nav-bg:rgba(16,17,20,.94);
+}
+body.mens .ph{
+  background:
+    repeating-linear-gradient(45deg,rgba(110,116,128,.10) 0 2px,transparent 2px 9px),
+    repeating-linear-gradient(-45deg,rgba(22,24,28,.05) 0 2px,transparent 2px 9px),
+    linear-gradient(160deg,#FFFFFF,#F2F3F5 60%,#E7E9EC);
+}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
