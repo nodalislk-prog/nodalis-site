@@ -12,11 +12,11 @@ const SITE = {
   "theme": {
     "gold": "#b08a2e",
     "apparel": {
-      "bgTop": "#efe8f8",
-      "bgBottom": "#d3c2ea",
-      "ink": "#3b2d59",
-      "inkSoft": "#6e5e96",
-      "nav": "#4a3078"
+      "bgTop": "#563467",
+      "bgBottom": "#3a2544",
+      "ink": "#efd9ef",
+      "inkSoft": "#b29dc3",
+      "nav": "#7849d0"
     },
     "pet": {
       "bgTop": "#fbeff0",
@@ -24,6 +24,22 @@ const SITE = {
       "ink": "#59283f",
       "inkSoft": "#9c6580",
       "nav": "#7a2c54"
+    },
+    "mens": {
+      "bgTop": "#30544d",
+      "bgBottom": "#0b1313",
+      "ink": "#c9e2e8",
+      "inkSoft": "#adcfd2",
+      "nav": "#141a19"
+    },
+    "home": {
+      "g0": "#f3ebfb",
+      "g1": "#dcc4f0",
+      "g2": "#9c7bc6",
+      "g3": "#6b5072",
+      "g4": "#25302c",
+      "ink": "#563467",
+      "inkSoft": "#8e6bb8"
     }
   }
 };
