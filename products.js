@@ -12,18 +12,18 @@ const SITE = {
   "theme": {
     "gold": "#b08a2e",
     "apparel": {
-      "bgTop": "#000000",
+      "bgTop": "#0008ff",
       "bgBottom": "#d3c2ea",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#000000"
+      "nav": "#ff0000"
     },
     "pet": {
-      "bgTop": "#000000",
+      "bgTop": "#ff0000",
       "bgBottom": "#efc3d3",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#000000"
+      "nav": "#ff0000"
     }
   }
 };
