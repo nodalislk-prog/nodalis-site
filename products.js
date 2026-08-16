@@ -44,8 +44,8 @@ const SITE = {
     }
   },
   "type": {
-    "serif": "Bodoni Moda",
-    "sans": "Lora",
+    "serif": "EB Garamond",
+    "sans": "EB Garamond",
     "base": 20,
     "hscale": 85
   }
