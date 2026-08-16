@@ -237,14 +237,10 @@ const PRODUCTS = [
     "name": "The Daisy Sundress & Sun Hat",
     "category": "dog-dresses",
     "price": "from LKR 6,500",
-    "basePrice": 6500,
-    "sizeStep": 500,
     "short": "Sunny yellow dress with matching brimmed hat",
     "description": "A two-piece set: a sunny yellow sundress with a frilled white hem and daisy appliqués, and a matching brimmed sun hat that ties gently under the chin. Both pieces crocheted by hand to your dog's own measurements.",
     "colors": [
-      "Sunshine Yellow",
-      "Butter & White",
-      "Custom colour"
+      "Sunshine Yellow"
     ],
     "sizes": [
       "XS",
@@ -304,7 +300,9 @@ const PRODUCTS = [
         "80–95",
         "60–75"
       ]
-    ]
+    ],
+    "basePrice": 6500,
+    "sizeStep": 500
   },
   {
     "id": "lavender-ruffle-dress",
