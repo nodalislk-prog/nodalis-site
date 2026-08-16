@@ -16,14 +16,14 @@ const SITE = {
       "bgBottom": "#d3c2ea",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#ff0000"
+      "nav": "#0400ff"
     },
     "pet": {
-      "bgTop": "#ff0000",
+      "bgTop": "#000000",
       "bgBottom": "#efc3d3",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
-      "nav": "#ff0000"
+      "nav": "#000000"
     }
   }
 };
