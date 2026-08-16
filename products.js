@@ -26,7 +26,7 @@ const SITE = {
       "nav": "#7a2c54"
     },
     "mens": {
-      "bgTop": "#563467",
+      "bgTop": "#f3e7f9",
       "bgBottom": "#3a2544",
       "ink": "#ead9ef",
       "inkSoft": "#c4a9ce",
