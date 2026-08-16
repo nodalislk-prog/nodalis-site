@@ -2,10 +2,10 @@
 
 const SITE = {
   "payment": {
-    "bankName": "",
-    "branch": "",
-    "accountName": "",
-    "accountNumber": "",
+    "bankName": "commercial bank",
+    "branch": "bhbhjbm",
+    "accountName": "k.vadivel",
+    "accountNumber": "hfguhhjkjkhjkh",
     "paypal": "",
     "note": "After paying, please send us the receipt on WhatsApp with your order reference."
   },
