@@ -128,7 +128,7 @@
     </div>
 
     <div id="panel-media" class="hidden">
-      <p class="muted" style="margin-bottom:16px">Every image and video on the website. Pick a new file and it replaces the old one — the live site updates about a minute later. Images should be JPG; videos MP4.</p>
+      <p class="muted" style="margin-bottom:16px">Every image and video on the website. Pick a new file and it replaces the old one — the live site updates about a minute later. Any image type works \u2014 it is automatically resized and converted for the web before upload. Videos should be MP4.</p>
       <div id="media-groups"></div>
     </div>
 
@@ -153,7 +153,7 @@
         <label>Web address name <span style="text-transform:none;letter-spacing:0">(auto — cannot change after creation)</span></label>
         <input type="text" id="c-id" placeholder="dog-sweaters">
         <div class="row" style="margin-top:16px;align-items:end">
-          <div class="imgslot"><div class="slotname">Tile picture</div><img id="c-img" alt=""><input type="file" accept="image/jpeg,image/jpg,image/png" id="c-file"></div>
+          <div class="imgslot"><div class="slotname">Tile picture</div><img id="c-img" alt=""><input type="file" accept="image/*" id="c-file"></div>
           <div>
             <button class="primary" onclick="catApply()">Done</button>
             <button class="small" onclick="catCloseEditor()" style="margin-left:8px">Cancel</button>
@@ -243,9 +243,9 @@
       <label style="margin-top:0">Images — front, side, size guide</label>
       <p class="muted" style="margin-bottom:14px">JPG images. New picks replace the current ones when you save.</p>
       <div class="row3">
-        <div class="imgslot"><div class="slotname">Front</div><img id="img-front" alt=""><input type="file" accept="image/jpeg,image/jpg,image/png" id="file-front"></div>
-        <div class="imgslot"><div class="slotname">Side</div><img id="img-side" alt=""><input type="file" accept="image/jpeg,image/jpg,image/png" id="file-side"></div>
-        <div class="imgslot"><div class="slotname">Size Guide</div><img id="img-size" alt=""><input type="file" accept="image/jpeg,image/jpg,image/png" id="file-size"></div>
+        <div class="imgslot"><div class="slotname">Front</div><img id="img-front" alt=""><input type="file" accept="image/*" id="file-front"></div>
+        <div class="imgslot"><div class="slotname">Side</div><img id="img-side" alt=""><input type="file" accept="image/*" id="file-side"></div>
+        <div class="imgslot"><div class="slotname">Size Guide</div><img id="img-size" alt=""><input type="file" accept="image/*" id="file-size"></div>
       </div>
     </div>
 
@@ -508,6 +508,32 @@ function fileToBase64(f){
     r.readAsDataURL(f);
   });
 }
+/* Shrinks any picked image to web size before upload:
+   max side maxDim px, saved as compressed JPG (transparency flattened to white). */
+function processImage(f, maxDim, quality){
+  maxDim = maxDim || 1600; quality = quality || 0.85;
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        let w = img.naturalWidth, h = img.naturalHeight;
+        const scale = Math.min(1, maxDim / Math.max(w, h));
+        w = Math.max(1, Math.round(w * scale));
+        h = Math.max(1, Math.round(h * scale));
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(img.src);
+        res(c.toDataURL('image/jpeg', quality).split(',')[1]);
+      } catch(e) { rej(new Error('Could not process ' + f.name)); }
+    };
+    img.onerror = () => rej(new Error('Could not read ' + f.name + ' \u2014 is it an image?'));
+    img.src = URL.createObjectURL(f);
+  });
+}
 async function saveProduct(){
   const btn = document.getElementById('save-btn');
   try {
@@ -537,7 +563,7 @@ async function saveProduct(){
       if (pickedFiles[v]) {
         log('Uploading ' + v + ' image…');
         const path = 'images/products/' + id + '-' + v + '.jpg';
-        const b64 = await fileToBase64(pickedFiles[v]);
+        const b64 = await processImage(pickedFiles[v], 1600, 0.85);
         const sha = await getSha(path);
         await putFile(path, b64, 'Admin: image ' + id + '-' + v, sha);
       }
@@ -655,7 +681,7 @@ function mediaSlot(it){
   prev.onerror = () => { prev.removeAttribute('src'); };
   const inp = document.createElement('input');
   inp.type = 'file';
-  inp.accept = it.video ? 'video/mp4' : 'image/jpeg,image/jpg,image/png';
+  inp.accept = it.video ? 'video/mp4' : 'image/*';
   const btn = document.createElement('button');
   btn.className = 'small'; btn.textContent = 'Replace';
   btn.onclick = async () => {
@@ -666,7 +692,7 @@ function mediaSlot(it){
     try {
       btn.disabled = true;
       log('Uploading ' + it.label + '…');
-      const b64 = await fileToBase64(f);
+      const b64 = it.video ? await fileToBase64(f) : await processImage(f, 2000, 0.85);
       const sha = await getSha(it.path);
       await putFile(it.path, b64, 'Admin: replace ' + it.path, sha);
       prev.src = URL.createObjectURL(f);
@@ -836,7 +862,7 @@ async function catPublish(){
     for (const id in pickedCatFiles) {
       log('Uploading tile picture for ' + id + '\u2026');
       const path = (CATEGORIES[id] && CATEGORIES[id].image) ? CATEGORIES[id].image : ('images/' + id + '.jpg');
-      const b64 = await fileToBase64(pickedCatFiles[id]);
+      const b64 = await processImage(pickedCatFiles[id], 1000, 0.85);
       const sha = await getSha(path);
       await putFile(path, b64, 'Admin: section tile ' + id, sha);
     }

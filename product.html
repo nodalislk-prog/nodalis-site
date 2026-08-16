@@ -104,6 +104,14 @@
     mainImg.style.display = '';
     mainImg.src = srcFor(v.key);
     mainImg.alt = p.name + ' — ' + v.label;
+    /* size guides are often wide — show them whole, never cropped */
+    if (v.key === 'size') {
+      mainImg.style.objectFit = 'contain';
+      mainImg.style.background = '#FFFFFF';
+    } else {
+      mainImg.style.objectFit = '';
+      mainImg.style.background = '';
+    }
     mainPh.dataset.label = p.id + '-' + v.key + '.jpg';
     thumbs.querySelectorAll('button').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
@@ -111,7 +119,8 @@
   views.forEach((v, i) => {
     const b = document.createElement('button');
     b.type = 'button';
-    b.innerHTML = '<span class="ph" data-label=""><img src="' + srcFor(v.key) + '" alt="" loading="lazy" onerror="this.remove()"></span>' +
+    b.innerHTML = '<span class="ph" data-label=""><img src="' + srcFor(v.key) + '" alt="" loading="lazy" onerror="this.remove()"' +
+                  (v.key === 'size' ? ' style="object-fit:contain;background:#FFFFFF"' : '') + '></span>' +
                   '<span class="tlabel">' + v.label + '</span>';
     b.addEventListener('click', () => show(v, b));
     thumbs.appendChild(b);
