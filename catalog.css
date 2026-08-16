@@ -3,11 +3,11 @@
   --serif:'Bodoni Moda','Didot',Georgia,serif;
   --sans:'Jost','Futura',Helvetica,sans-serif;
   /* apparel (default) palette */
-  --bg-top:#EFE8F8; --bg-bottom:#D3C2EA;
-  --ink:#3B2D59; --ink-soft:#6E5E96;
+  --bg-top:#F5EEF9; --bg-bottom:#E3D2ED;
+  --ink:#563467; --ink-soft:#8E6BB8;
   --yarn:#B08A2E; --gold-bright:#EBC96A;
   --hairline:rgba(176,138,46,.42);
-  --nav-bg:rgba(74,48,120,.94);
+  --nav-bg:rgba(86,52,103,.94);
 }
 body.pet{
   /* petstore palette */
@@ -16,16 +16,16 @@ body.pet{
   --nav-bg:rgba(122,44,84,.94);
 }
 body.mens{
-  /* menswear palette — minimal monochrome */
-  --bg-top:#FFFFFF; --bg-bottom:#EDEFF1;
-  --ink:#16181C; --ink-soft:#6E7480;
-  --nav-bg:rgba(16,17,20,.94);
+  /* menswear palette — deep forest */
+  --bg-top:#563467; --bg-bottom:#3A2544;
+  --ink:#EAD9EF; --ink-soft:#C4A9CE;
+  --nav-bg:rgba(36,26,41,.94);
 }
 body.mens .ph{
   background:
-    repeating-linear-gradient(45deg,rgba(110,116,128,.10) 0 2px,transparent 2px 9px),
-    repeating-linear-gradient(-45deg,rgba(22,24,28,.05) 0 2px,transparent 2px 9px),
-    linear-gradient(160deg,#FFFFFF,#F2F3F5 60%,#E7E9EC);
+    repeating-linear-gradient(45deg,rgba(190,167,191,.12) 0 2px,transparent 2px 9px),
+    repeating-linear-gradient(-45deg,rgba(190,167,191,.05) 0 2px,transparent 2px 9px),
+    linear-gradient(160deg,#6C5176,#61486B 60%,#55405F);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}

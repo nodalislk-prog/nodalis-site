@@ -167,7 +167,7 @@
     </div>
 
     <div id="panel-theme" class="hidden">
-      <p class="muted" style="margin-bottom:16px">The site's colours. Pick, then press <b>Publish colours</b> — the whole site updates in about a minute. The homepage's signature gradient stays as designed; these control text, accents, and the shop pages.</p>
+      <p class="muted" style="margin-bottom:16px">The site's colours. Pick, then press <b>Publish colours</b> — the whole site updates in about a minute. The Landing page column paints the homepage's story gradient from sky to night; the other columns paint each world's pages.</p>
       <div class="card">
         <label style="margin-top:0">Gold accent (thread, frames, prices)</label>
         <input type="color" id="t-gold" style="width:64px;height:40px;padding:2px;border:1px solid var(--hairline);background:#fff">
@@ -195,6 +195,16 @@
             <label>Text</label><input type="color" id="t-m-ink" class="tclr">
             <label>Soft text</label><input type="color" id="t-m-inkSoft" class="tclr">
             <label>Top bar</label><input type="color" id="t-m-nav" class="tclr">
+          </div>
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Landing page</h1>
+            <label>Sky (top)</label><input type="color" id="t-h-g0" class="tclr">
+            <label>Morning</label><input type="color" id="t-h-g1" class="tclr">
+            <label>Dusk</label><input type="color" id="t-h-g2" class="tclr">
+            <label>Evening</label><input type="color" id="t-h-g3" class="tclr">
+            <label>Night (bottom)</label><input type="color" id="t-h-g4" class="tclr">
+            <label>Text</label><input type="color" id="t-h-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-h-inkSoft" class="tclr">
           </div>
         </div>
         <div style="margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
@@ -380,9 +390,10 @@ let CATEGORIES = {}, PRODUCTS = [];
 let SITE = null;
 const DEFAULT_THEME = {
   gold: "#B08A2E",
-  apparel: { bgTop:"#EFE8F8", bgBottom:"#D3C2EA", ink:"#3B2D59", inkSoft:"#6E5E96", nav:"#4A3078" },
+  apparel: { bgTop:"#F5EEF9", bgBottom:"#E3D2ED", ink:"#563467", inkSoft:"#8E6BB8", nav:"#563467" },
   pet:     { bgTop:"#FBEFF0", bgBottom:"#EFC3D3", ink:"#59283F", inkSoft:"#9C6580", nav:"#7A2C54" },
-  mens:    { bgTop:"#FFFFFF", bgBottom:"#EDEFF1", ink:"#16181C", inkSoft:"#6E7480", nav:"#101114" }
+  mens:    { bgTop:"#563467", bgBottom:"#3A2544", ink:"#EAD9EF", inkSoft:"#C4A9CE", nav:"#241A29" },
+  home:    { g0:"#F3EBFB", g1:"#DCC4F0", g2:"#9C7BC6", g3:"#6B5072", g4:"#25302C", ink:"#563467", inkSoft:"#8E6BB8" }
 };
 let productsSha = null;   // sha of products.js for updates
 let editingIndex = -1;    // -1 = new product
@@ -809,6 +820,10 @@ async function deleteProduct(){
 /* ================= site media ================= */
 const SITE_MEDIA = [
   { group: 'Homepage — Hero Videos', items: [
+    { path:'images/creator.jpg', label:'Homepage — The Creator (your portrait)' },
+    { path:'images/story-her.jpg', label:'Homepage — Chapter I portrait (her)' },
+    { path:'images/story-him.jpg', label:'Homepage — Chapter II portrait (him)' },
+    { path:'images/story-pets.jpg', label:'Homepage — Chapter III portrait (pets)' },
     { path:'images/women-hero1.jpg', label:'Women page — hero 1' },
     { path:'images/women-hero2.jpg', label:'Women page — hero 2' },
     { path:'images/women-hero3.jpg', label:'Women page — hero 3' },
@@ -1148,6 +1163,9 @@ function themeFill(){
     document.getElementById('t-p-'+k).value = (t.pet && t.pet[k]) || DEFAULT_THEME.pet[k];
     document.getElementById('t-m-'+k).value = (t.mens && t.mens[k]) || DEFAULT_THEME.mens[k];
   });
+  ['g0','g1','g2','g3','g4','ink','inkSoft'].forEach(k => {
+    document.getElementById('t-h-'+k).value = (t.home && t.home[k]) || DEFAULT_THEME.home[k];
+  });
 }
 function themeReset(){
   SITE.theme = JSON.parse(JSON.stringify(DEFAULT_THEME));
@@ -1159,12 +1177,15 @@ async function themePublish(){
     SITE = SITE || {};
     SITE.theme = {
       gold: document.getElementById('t-gold').value,
-      apparel: {}, pet: {}, mens: {}
+      apparel: {}, pet: {}, mens: {}, home: {}
     };
     ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
       SITE.theme.apparel[k] = document.getElementById('t-a-'+k).value;
       SITE.theme.pet[k] = document.getElementById('t-p-'+k).value;
       SITE.theme.mens[k] = document.getElementById('t-m-'+k).value;
+    });
+    ['g0','g1','g2','g3','g4','ink','inkSoft'].forEach(k => {
+      SITE.theme.home[k] = document.getElementById('t-h-'+k).value;
     });
     log('Saving colours\u2026');
     productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: colours', productsSha)).content.sha;

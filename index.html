@@ -12,8 +12,8 @@
   :root{
     --bone:#F6F3FB;
     --bone-deep:#EBE5F7;
-    --ink:#3B2D59;
-    --ink-soft:#7E71A2;
+    --ink:#563467;
+    --ink-soft:#8E6BB8;
     --yarn:#B08A2E;      /* antique gold accent: thread, knots, links */
     --hairline:rgba(176,138,46,.42);
     --serif:'Bodoni Moda', 'Didot', Georgia, serif;
@@ -27,8 +27,8 @@
       #F3EBFB 0%,
       #DCC4F0 30%,
       #9C7BC6 62%,
-      #4A3574 82%,
-      #241740 100%);
+      #6B5072 82%,
+      #25302C 100%);
     color:var(--ink);
     font-family:var(--sans);
     font-weight:300;
@@ -74,8 +74,8 @@
     backdrop-filter:blur(8px);
     border-bottom:1px solid transparent;
     transition:border-color .4s;
-    --ink:#F4EFFB;
-    --ink-soft:#D9CDF2;
+    --ink:#F4EBF9;
+    --ink-soft:#D9C6EC;
   }
   nav.scrolled{border-bottom-color:rgba(217,185,92,.5)}
   .nav-links{display:flex;gap:clamp(16px,3vw,36px)}
@@ -301,8 +301,8 @@
     .piece .frame{aspect-ratio:4/5}
   }
   /* mid-gradient contrast: darker soft text in the collection zone */
-  #collection{--ink-soft:#4A3B70}
-  #mens-collection{--ink-soft:#4A3B70}
+  #collection{--ink-soft:#8E6BB8}
+  #mens-collection{--ink-soft:#8E6BB8}
   .collection-note{
     text-align:center;
     margin:clamp(40px,7vh,64px) auto 0;
@@ -332,7 +332,7 @@
   }
 
   /* ---------- atelier ---------- */
-  #atelier{background:transparent}
+  #creator{background:transparent}
   .atelier-inner{
     max-width:1180px;margin:0 auto;
     display:grid;
@@ -444,7 +444,7 @@
 
   /* ---- gradient descent: lower sections switch to light-on-dark ---- */
   #atelier, #enquire, footer{
-    --ink:#F4EFFB;
+    --ink:#F4EBF9;
     --ink-soft:#CBBEE4;
     --yarn:#D9B95C;
     --hairline:rgba(217,185,92,.45);
@@ -456,8 +456,8 @@
     text-align:center;
     padding-top:clamp(28px,4vh,48px);
     padding-bottom:clamp(36px,5vh,60px);
-    --ink:#3B2D59;
-    --ink-soft:#4A3B70;
+    --ink:#563467;
+    --ink-soft:#8E6BB8;
   }
   #petstore-teaser .pet-tiles{
     max-width:720px;
@@ -491,7 +491,7 @@
     background:#EBC96A;
     color:#3B2D59;
   }
-  #atelier .ph::after{color:rgba(244,239,251,.5)}
+  #creator .ph::after{color:rgba(244,239,251,.5)}
   footer{border-top-color:var(--hairline)}
   /* ---------- footer ---------- */
   footer{
@@ -508,6 +508,59 @@
     color:var(--ink-soft);
   }
   footer .fine a:hover{color:var(--yarn)}
+
+  /* ---------- story: ticker ---------- */
+  .ticker{
+    overflow:hidden;white-space:nowrap;
+    border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);
+    padding:13px 0;
+  }
+  .ticker-track{display:inline-block;animation:tick 28s linear infinite}
+  .ticker span{
+    font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--yarn);padding:0 26px;
+  }
+  @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- story: chapters ---------- */
+  .chapter{position:relative;max-width:1060px;margin:0 auto}
+  .chapter-num{
+    position:absolute;top:-24px;left:-8px;z-index:0;
+    font-family:var(--serif);font-size:clamp(110px,18vw,220px);line-height:1;
+    color:var(--ink);opacity:.07;font-style:italic;pointer-events:none;user-select:none;
+  }
+  .chapter-grid{
+    position:relative;z-index:1;
+    display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,5vw,70px);align-items:center;
+  }
+  .chapter.flip .chapter-grid > .chapter-media{order:2}
+  .chapter-media .frame{aspect-ratio:3/4;max-width:430px;margin:0 auto}
+  .chapter-copy .chap-eyebrow{
+    font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--yarn);margin-bottom:12px;
+  }
+  .chapter-copy h2{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(30px,4.6vw,54px);letter-spacing:.03em;line-height:1.08;margin-bottom:18px;
+  }
+  .chapter-copy .chap-line{
+    font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.7vw,19px);
+    color:var(--ink-soft);line-height:1.65;max-width:38ch;margin-bottom:26px;
+  }
+  .chapter-copy .cta{margin-top:0}
+  .chapter-thread{width:1px;height:clamp(40px,7vh,72px);background:var(--yarn);margin:0 auto;opacity:.7}
+  @media (max-width:820px){
+    .chapter-grid{grid-template-columns:1fr}
+    .chapter.flip .chapter-grid > .chapter-media{order:0}
+    .chapter-media .frame{max-width:340px}
+    .chapter-num{font-size:120px;top:-14px}
+  }
+
+  /* ---------- story: scroll reveal ---------- */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.6,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none}}
+
+  #chapter-him,#chapter-pets{--ink:#F4EBF9;--ink-soft:#D9C6EC}
 </style>
 </head>
 <body>
@@ -515,7 +568,7 @@
 <div class="thread" aria-hidden="true"></div>
 
 <nav id="nav" aria-label="Main">
-  <div class="nav-links"><a href="#collection">Collection</a><a href="#atelier">Atelier</a></div>
+  <div class="nav-links"><a href="#chapter-her">Her</a><a href="#chapter-him">Him</a><a href="petstore.html">Pets</a></div>
   <a class="logotype" href="#top">Nodalis</a>
   <div class="nav-links right"><a href="#enquire">Enquire</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a></div>
 </nav>
@@ -548,56 +601,84 @@
     </div>
   </div>
   <div class="hero-caption">
-    <p class="eyebrow">Handmade Crochet · Sri Lanka</p>
-    <h1>The First Collection</h1>
-    <a class="discover" href="#collection">Discover the Pieces</a>
+    <p class="eyebrow">Prologue · Handmade Crochet · Sri Lanka</p>
+    <h1>Every piece begins as a single, unbroken thread.</h1>
+    <a class="discover" href="#chapter-her">Follow the Thread</a>
   </div>
 </header>
 
-<section id="collection">
-  <div class="section-head">
-    <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">Made to Order</p>
-    <h2>For Women</h2>
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Handmade in Sri Lanka</span><span>·</span><span>Made to Order</span><span>·</span><span>One Thread, Three Stories</span><span>·</span><span>Western Vintage, Modern Hands</span><span>·</span><span>Colombo</span><span>·</span><span>Handmade in Sri Lanka</span><span>·</span><span>Made to Order</span><span>·</span><span>One Thread, Three Stories</span><span>·</span><span>Western Vintage, Modern Hands</span><span>·</span><span>Colombo</span><span>·</span>
   </div>
-  <div class="collection-grid" id="apparel-grid"></div>
-  <p style="text-align:center;margin-top:clamp(24px,4vh,40px)"><a class="cta" href="women.html">Visit the Women's Collection</a></p>
+</div>
 
+<section id="chapter-her">
+  <div class="chapter rv">
+    <div class="chapter-num" aria-hidden="true">01</div>
+    <div class="chapter-grid">
+      <div class="chapter-media">
+        <div class="frame"><div class="ph" data-label="Photograph — her portrait"><img src="images/story-her.jpg" alt="The Nodalis Woman wearing a handmade crochet piece" loading="lazy" onerror="this.remove()"></div></div>
+      </div>
+      <div class="chapter-copy">
+        <p class="chap-eyebrow">Chapter I</p>
+        <h2>The Nodalis Woman</h2>
+        <p class="chap-line">The thread took its time with her. Three evenings, a hundred small knots — and then it was hers, and no one else's, forever.</p>
+        <a class="cta" href="women.html">Read Her Story</a>
+      </div>
+    </div>
+  </div>
+  <div class="chapter-thread" aria-hidden="true" style="margin-top:clamp(40px,7vh,72px)"></div>
 </section>
 
-<section id="mens-collection" style="display:none">
-  <div class="section-head">
-    <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">Made to Order</p>
-    <h2>For Men</h2>
+<section id="chapter-him">
+  <div class="chapter flip rv">
+    <div class="chapter-num" aria-hidden="true" style="left:auto;right:-8px">02</div>
+    <div class="chapter-grid">
+      <div class="chapter-media">
+        <div class="frame"><div class="ph" data-label="Photograph — his portrait"><img src="images/story-him.jpg" alt="The Nodalis Man wearing a handmade crochet piece" loading="lazy" onerror="this.remove()"></div></div>
+      </div>
+      <div class="chapter-copy">
+        <p class="chap-eyebrow">Chapter II</p>
+        <h2>The Nodalis Man</h2>
+        <p class="chap-line">There is a man these stitches were counted for. When he wears it, he knows exactly how slowly it was made.</p>
+        <a class="cta" href="mens.html">Read His Story</a>
+      </div>
+    </div>
   </div>
-  <div class="collection-grid" id="mens-grid"></div>
-  <p style="text-align:center;margin-top:clamp(24px,4vh,40px)"><a class="cta" href="mens.html">Visit the Men's Collection</a></p>
-
+  <div class="chapter-thread" aria-hidden="true" style="margin-top:clamp(40px,7vh,72px)"></div>
 </section>
 
-<section id="petstore-teaser">
-  <div class="section-head">
-    <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">New from the Atelier</p>
-    <h2>The Nodalis Petstore</h2>
+<section id="chapter-pets">
+  <div class="chapter rv">
+    <div class="chapter-num" aria-hidden="true">03</div>
+    <div class="chapter-grid">
+      <div class="chapter-media">
+        <div class="frame"><div class="ph" data-label="Photograph — the companions"><img src="images/story-pets.jpg" alt="A companion in a handmade Nodalis crochet piece" loading="lazy" onerror="this.remove()"></div></div>
+      </div>
+      <div class="chapter-copy">
+        <p class="chap-eyebrow">Chapter III</p>
+        <h2>The Companions</h2>
+        <p class="chap-line">And then the smallest ones of the house came asking — so the hands measured a neck, a chest, a wagging back, and began again.</p>
+        <a class="cta" href="petstore.html">Visit the Petstore</a>
+      </div>
+    </div>
   </div>
-  <div class="collection-grid pet-tiles" id="pet-strip"></div>
-  <p class="teaser-line">Sweaters, bandanas, toys, and blankets for the softest members of the family — made to their own measurements.</p>
-  <a class="cta" href="petstore.html">Visit the Nodalis Petstore</a>
+  <div class="chapter-thread" aria-hidden="true" style="margin-top:clamp(40px,7vh,72px)"></div>
 </section>
 
-<section id="atelier">
+<section id="creator">
   <div class="section-head">
     <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">The Atelier</p>
+    <p class="eyebrow">Chapter IV · The Creator</p>
   </div>
   <div class="atelier-inner">
-    <div class="frame"><div class="ph" data-label="Photograph — hands at work / yarn detail"><img src="images/atelier.jpg" alt="Crocheting by hand in the Nodalis atelier" loading="lazy" onerror="this.remove()"></div></div>
+    <div class="frame"><div class="ph" data-label="Photograph — the creator"><img src="images/creator.jpg" alt="The creator of Nodalis" loading="lazy" onerror="this.remove()"></div></div>
     <div class="atelier-copy">
-      <h2>Every piece begins as a single, unbroken thread.</h2>
-      <p>Nodalis pieces are crocheted entirely by hand in Sri Lanka — no two are exactly alike. Each garment is made to order, stitch by stitch, and finished with the care that only handwork allows.</p>
-      <p>From the first loop to the last, one pair of hands carries the piece through.</p>
+      <h2>The hands behind the thread.</h2>
+      <p>Nodalis began with one pair of hands and a single skein of yarn in Colombo — evenings spent learning what thread could become when no one hurried it.</p>
+      <p>Every piece in this story is still made by those same hands: measured, stitched, unpicked, and stitched again until it is exactly what it was meant to be. Not a factory. Not a batch. One maker, one piece, one person it belongs to.</p>
+      <p style="font-style:italic">— the maker of Nodalis</p>
     </div>
   </div>
 </section>
@@ -606,8 +687,8 @@
 <section id="enquire">
   <div class="section-head">
     <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">Orders &amp; Enquiries</p>
-    <h2>Commission a Piece</h2>
+    <p class="eyebrow">Epilogue · Orders &amp; Enquiries</p>
+    <h2>Begin Your Own Chapter</h2>
   </div>
   <p>Every Nodalis piece is made to order, by hand. Tell us what you have in mind — we will reply personally on WhatsApp to discuss sizing, yarn, colours, and timing.</p>
 
@@ -713,8 +794,18 @@
     var t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null;
     if(t){
       var r = document.documentElement.style;
-      if(t.apparel && t.apparel.ink) r.setProperty('--ink', t.apparel.ink);
-      if(t.apparel && t.apparel.inkSoft) r.setProperty('--ink-soft', t.apparel.inkSoft);
+      var hm = t.home;
+      if (hm) {
+        if (hm.ink) r.setProperty('--ink', hm.ink);
+        if (hm.inkSoft) r.setProperty('--ink-soft', hm.inkSoft);
+        if (hm.g0 && hm.g1 && hm.g2 && hm.g3 && hm.g4) {
+          document.body.style.background = 'linear-gradient(180deg,' +
+            hm.g0 + ' 0%,' + hm.g1 + ' 30%,' + hm.g2 + ' 62%,' + hm.g3 + ' 82%,' + hm.g4 + ' 100%)';
+        }
+      } else {
+        if(t.apparel && t.apparel.ink) r.setProperty('--ink', t.apparel.ink);
+        if(t.apparel && t.apparel.inkSoft) r.setProperty('--ink-soft', t.apparel.inkSoft);
+      }
       if(t.gold){
         r.setProperty('--yarn', t.gold);
         var h=t.gold.replace('#',''); var c=[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];
@@ -723,47 +814,13 @@
     }
   }catch(e){}
 
-  function tile(k){
-    var c = CATEGORIES[k];
-    var img = c.image || ('images/' + k + '.jpg');
-    var fig = document.createElement('figure');
-    fig.className = 'piece';
-    fig.innerHTML = '<a href="category.html?c=' + encodeURIComponent(k) + '">' +
-      '<div class="frame"><div class="ph" data-label="Photograph — ' + k + '">' +
-      '<img src="' + img + '" alt="" loading="lazy" onerror="this.remove()"></div></div>' +
-      '<figcaption><div class="name"></div><div class="meta"></div></figcaption></a>';
-    fig.querySelector('.name').textContent = c.title;
-    fig.querySelector('.meta').textContent = c.meta || 'Handmade · Made to order';
-    fig.querySelector('img').alt = 'Nodalis handmade crochet ' + c.title.toLowerCase();
-    return fig;
-  }
-
-  var ag = document.getElementById('apparel-grid');
-  Object.keys(CATEGORIES).filter(function(k){
-    var c = CATEGORIES[k]; return c.group === 'apparel' && !c.parent;
-  }).forEach(function(k){ ag.appendChild(tile(k)); });
-
-  var mensKeys = Object.keys(CATEGORIES).filter(function(k){
-    var c = CATEGORIES[k]; return c.group === 'mens' && !c.parent;
+  /* scroll-reveal for chapters */
+  var obs = ('IntersectionObserver' in window) ? new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, {threshold: .18}) : null;
+  document.querySelectorAll('.rv').forEach(function(el){
+    if (obs) obs.observe(el); else el.classList.add('in');
   });
-  if (mensKeys.length) {
-    var mg = document.getElementById('mens-grid');
-    mensKeys.forEach(function(k){ mg.appendChild(tile(k)); });
-    document.getElementById('mens-collection').style.display = '';
-    /* add a Men link to the nav next to Collection */
-    var navLeft = document.querySelector('.nav-links');
-    if (navLeft) {
-      var a = document.createElement('a');
-      a.href = 'mens.html';
-      a.textContent = 'Men';
-      navLeft.appendChild(a);
-    }
-  }
-
-  var pg = document.getElementById('pet-strip');
-  Object.keys(CATEGORIES).filter(function(k){
-    var c = CATEGORIES[k]; return c.group === 'pet' && !c.parent;
-  }).forEach(function(k){ pg.appendChild(tile(k)); });
 })();
 </script>
 </body>
