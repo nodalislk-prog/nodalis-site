@@ -46,7 +46,7 @@ const SITE = {
   "type": {
     "serif": "Italiana",
     "sans": "Nunito Sans",
-    "base": 16,
+    "base": 18,
     "hscale": 90
   }
 };
