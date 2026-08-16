@@ -29,7 +29,7 @@ const SITE = {
       "bgTop": "#f8e2ef",
       "bgBottom": "#e6a3ba",
       "ink": "#1f191d",
-      "inkSoft": "#966e83",
+      "inkSoft": "#000000",
       "nav": "#982a65"
     },
     "home": {
