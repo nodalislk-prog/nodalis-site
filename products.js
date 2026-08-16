@@ -13,30 +13,30 @@ const SITE = {
     "gold": "#b08a2e",
     "apparel": {
       "bgTop": "#000000",
-      "bgBottom": "#762aa2",
+      "bgBottom": "#000000",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
       "nav": "#563467"
     },
     "pet": {
-      "bgTop": "#fbeff0",
-      "bgBottom": "#efc3d3",
-      "ink": "#59283f",
-      "inkSoft": "#9c6580",
-      "nav": "#7a2c54"
+      "bgTop": "#000000",
+      "bgBottom": "#000000",
+      "ink": "#ffffff",
+      "inkSoft": "#ffffff",
+      "nav": "#000000"
     },
     "mens": {
-      "bgTop": "#563467",
-      "bgBottom": "#3a2544",
+      "bgTop": "#000000",
+      "bgBottom": "#000000",
       "ink": "#ffffff",
-      "inkSoft": "#796e7c",
+      "inkSoft": "#ffffff",
       "nav": "#241a29"
     },
     "home": {
-      "g0": "#7c5db6",
-      "g1": "#59404c",
-      "g2": "#9c7bc6",
-      "g3": "#6b5072",
+      "g0": "#000000",
+      "g1": "#000000",
+      "g2": "#000000",
+      "g3": "#000000",
       "g4": "#25302c",
       "ink": "#ffffff",
       "inkSoft": "#ffffff",
@@ -44,7 +44,7 @@ const SITE = {
     }
   },
   "type": {
-    "serif": "Italiana",
+    "serif": "Bodoni Moda",
     "sans": "Lora",
     "base": 20,
     "hscale": 85
