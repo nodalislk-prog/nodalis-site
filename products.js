@@ -30,14 +30,14 @@ const SITE = {
       "bgBottom": "#0b1313",
       "ink": "#c9e2e8",
       "inkSoft": "#adcfd2",
-      "nav": "#141a19"
+      "nav": "#375841"
     },
     "home": {
       "g0": "#f3ebfb",
       "g1": "#dcc4f0",
       "g2": "#9c7bc6",
       "g3": "#6b5072",
-      "g4": "#25302c",
+      "g4": "#672d4f",
       "ink": "#563467",
       "inkSoft": "#8e6bb8",
       "nav": "#563467"
