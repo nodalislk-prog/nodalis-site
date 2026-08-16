@@ -302,6 +302,7 @@
   }
   /* mid-gradient contrast: darker soft text in the collection zone */
   #collection{--ink-soft:#4A3B70}
+  #mens-collection{--ink-soft:#4A3B70}
   .collection-note{
     text-align:center;
     margin:clamp(40px,7vh,64px) auto 0;
@@ -557,9 +558,21 @@
   <div class="section-head">
     <span class="knot" aria-hidden="true"></span>
     <p class="eyebrow">Made to Order</p>
-    <h2>The Collection</h2>
+    <h2>For Women</h2>
   </div>
   <div class="collection-grid" id="apparel-grid"></div>
+  <p style="text-align:center;margin-top:clamp(24px,4vh,40px)"><a class="cta" href="women.html">Visit the Women's Collection</a></p>
+
+</section>
+
+<section id="mens-collection" style="display:none">
+  <div class="section-head">
+    <span class="knot" aria-hidden="true"></span>
+    <p class="eyebrow">Made to Order</p>
+    <h2>For Men</h2>
+  </div>
+  <div class="collection-grid" id="mens-grid"></div>
+  <p style="text-align:center;margin-top:clamp(24px,4vh,40px)"><a class="cta" href="mens.html">Visit the Men's Collection</a></p>
 
 </section>
 
@@ -727,8 +740,25 @@
 
   var ag = document.getElementById('apparel-grid');
   Object.keys(CATEGORIES).filter(function(k){
-    var c = CATEGORIES[k]; return (c.group === 'apparel' || c.group === 'mens') && !c.parent;
+    var c = CATEGORIES[k]; return c.group === 'apparel' && !c.parent;
   }).forEach(function(k){ ag.appendChild(tile(k)); });
+
+  var mensKeys = Object.keys(CATEGORIES).filter(function(k){
+    var c = CATEGORIES[k]; return c.group === 'mens' && !c.parent;
+  });
+  if (mensKeys.length) {
+    var mg = document.getElementById('mens-grid');
+    mensKeys.forEach(function(k){ mg.appendChild(tile(k)); });
+    document.getElementById('mens-collection').style.display = '';
+    /* add a Men link to the nav next to Collection */
+    var navLeft = document.querySelector('.nav-links');
+    if (navLeft) {
+      var a = document.createElement('a');
+      a.href = 'mens.html';
+      a.textContent = 'Men';
+      navLeft.appendChild(a);
+    }
+  }
 
   var pg = document.getElementById('pet-strip');
   Object.keys(CATEGORIES).filter(function(k){
