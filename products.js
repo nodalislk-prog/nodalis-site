@@ -45,10 +45,10 @@ const SITE = {
     }
   },
   "type": {
-    "serif": "Cormorant Garamond",
-    "sans": "Inter",
-    "base": 16.5,
-    "hscale": 100
+    "serif": "Prata",
+    "sans": "Karla",
+    "base": 16,
+    "hscale": 90
   }
 };
 
