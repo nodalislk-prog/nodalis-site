@@ -562,6 +562,10 @@
 <script src="products.js"></script>
 <script>
 (function(){
+  function isGeneric(s){
+    return !s || /^\s*handmade\s*[\u00b7\u2022|-]?\s*(made\s+to\s+(order|measure))?\s*$/i.test(String(s).trim());
+  }
+  
   /* theme (pet palette: gold + inks only, page keeps its own gradient art) */
   try{
     var t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null;
@@ -620,7 +624,8 @@
         '<img src="' + img + '" alt="" loading="lazy" onerror="this.remove()"></div></div>' +
         '<figcaption><div class="name"></div><div class="meta"></div></figcaption></a>';
       fig.querySelector('.name').textContent = c.title;
-      fig.querySelector('.meta').textContent = c.meta || 'Handmade · Made to order';
+      var mEl = fig.querySelector('.meta');
+      if (c.meta && !isGeneric(c.meta)) { mEl.textContent = c.meta; } else { mEl.remove(); }
       fig.querySelector('img').alt = 'Nodalis handmade crochet — ' + c.title;
       lg.appendChild(fig);
     });
@@ -651,7 +656,8 @@
         '<img src="' + img + '" alt="" loading="lazy" onerror="this.remove()"></div></div>' +
         '<figcaption><div class="name"></div><div class="meta"></div></figcaption></a>';
       fig.querySelector('.name').textContent = c.title;
-      fig.querySelector('.meta').textContent = c.meta || 'Handmade · Made to order';
+      var mEl = fig.querySelector('.meta');
+      if (c.meta && !isGeneric(c.meta)) { mEl.textContent = c.meta; } else { mEl.remove(); }
       fig.querySelector('img').alt = 'Nodalis handmade crochet — ' + c.title;
       grid.appendChild(fig);
     });

@@ -153,7 +153,8 @@
         '</figcaption>' +
       '</figure>';
     a.querySelector('.name').textContent = p.name;
-    a.querySelector('.meta').textContent = p.short || 'Handmade \u00b7 Made to order';
+    var mEl = a.querySelector('.meta');
+    if (p.short && !isGeneric(p.short)) { mEl.textContent = p.short; } else { mEl.remove(); }
     a.querySelector('.price').textContent = p.price || (p.basePrice ? 'from LKR ' + Number(p.basePrice).toLocaleString('en-US') : '');
     grid.appendChild(a);
   }
