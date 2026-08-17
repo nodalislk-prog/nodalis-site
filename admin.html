@@ -235,15 +235,50 @@
             <div>
               <label>Headings font</label>
               <select id="t-f-serif">
-                <option>Cormorant Garamond</option><option>Playfair Display</option><option>EB Garamond</option>
-                <option>Libre Caslon Text</option><option>Italiana</option><option>Marcellus</option>
-                <option>Cinzel</option><option>Bodoni Moda</option>
+                <optgroup label="Poetic &amp; literary">
+                  <option>Cormorant Garamond</option>
+                  <option>EB Garamond</option>
+                  <option>Crimson Pro</option>
+                  <option>Gentium Book Plus</option>
+                  <option>Spectral</option>
+                </optgroup>
+                <optgroup label="Fashion editorial">
+                  <option>Playfair Display</option>
+                  <option>Bodoni Moda</option>
+                  <option>Prata</option>
+                  <option>DM Serif Display</option>
+                </optgroup>
+                <optgroup label="Classical &amp; carved">
+                  <option>Cinzel</option>
+                  <option>Marcellus</option>
+                  <option>Italiana</option>
+                  <option>Cormorant Infant</option>
+                </optgroup>
+                <optgroup label="Warm &amp; readable">
+                  <option>Lora</option>
+                  <option>Libre Caslon Text</option>
+                  <option>Source Serif 4</option>
+                  <option>Newsreader</option>
+                </optgroup>
               </select>
               <label>Body text font</label>
               <select id="t-f-sans">
-                <option>Inter</option><option>Plus Jakarta Sans</option><option>EB Garamond</option><option>Lora</option><option>Cormorant Garamond</option>
-                <option>Crimson Pro</option><option>Source Serif 4</option><option>Karla</option>
-                <option>Nunito Sans</option><option>Jost</option>
+                <optgroup label="Clear &amp; modern (best for prices, buttons, sizes)">
+                  <option>Inter</option>
+                  <option>Plus Jakarta Sans</option>
+                  <option>Karla</option>
+                  <option>Work Sans</option>
+                  <option>Nunito Sans</option>
+                  <option>Outfit</option>
+                  <option>Jost</option>
+                </optgroup>
+                <optgroup label="Book serif (softer, slower to read)">
+                  <option>EB Garamond</option>
+                  <option>Lora</option>
+                  <option>Crimson Pro</option>
+                  <option>Spectral</option>
+                  <option>Source Serif 4</option>
+                </optgroup>
               </select>
             </div>
             <div>
@@ -254,7 +289,16 @@
               <p class="muted" style="margin-top:10px">Smaller % = quieter, more book-like headlines.</p>
             </div>
           </div>
-          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <label style="margin-top:20px">Ready-made pairings</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+            <button class="small" onclick="typePair('Cormorant Garamond','Inter',16.5,100)">Poetic · Cormorant + Inter</button>
+            <button class="small" onclick="typePair('Playfair Display','Plus Jakarta Sans',16,95)">Editorial · Playfair + Jakarta</button>
+            <button class="small" onclick="typePair('Prata','Karla',16,90)">Fashion · Prata + Karla</button>
+            <button class="small" onclick="typePair('Marcellus','Work Sans',16.5,100)">Atelier · Marcellus + Work Sans</button>
+            <button class="small" onclick="typePair('Spectral','Inter',16.5,95)">Novel · Spectral + Inter</button>
+            <button class="small" onclick="typePair('Cinzel','Outfit',15.5,90)">Heritage · Cinzel + Outfit</button>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
             <button class="small" onclick="typeReset()">Restore default fonts</button>
           </div>
         </div>
@@ -1215,6 +1259,15 @@ function typeFill(){
   const b = ty.base || DEFAULT_TYPE.base, s = ty.hscale || DEFAULT_TYPE.hscale;
   document.getElementById('t-f-base').value = b; document.getElementById('t-f-base-out').textContent = b;
   document.getElementById('t-f-hscale').value = s; document.getElementById('t-f-hscale-out').textContent = s;
+}
+function typePair(serif, sans, base, hscale){
+  document.getElementById('t-f-serif').value = serif;
+  document.getElementById('t-f-sans').value = sans;
+  document.getElementById('t-f-base').value = base;
+  document.getElementById('t-f-base-out').textContent = base;
+  document.getElementById('t-f-hscale').value = hscale;
+  document.getElementById('t-f-hscale-out').textContent = hscale;
+  log('Pairing chosen \u2014 press \u201cSave & publish design\u201d to make it live.');
 }
 function typeReset(){
   delete SITE.type; typeFill();
