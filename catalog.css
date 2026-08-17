@@ -223,3 +223,8 @@ input,select,textarea,.crumbs,.filters{font-family:var(--sans)}
 .chip.on,.size-chip.on{border-color:#7A4B81;color:#7A4B81}
 .crumbs a:hover,.filters a:hover{color:#7A4B81}
 
+
+
+/* ---------- script wordmark ---------- */
+.logotype .wordmark{font-family:'Yellowtail',cursive;letter-spacing:0 !important;text-indent:0 !important;
+  text-transform:none !important;font-size:1.42em;line-height:1;padding-bottom:.08em}
