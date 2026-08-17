@@ -164,8 +164,9 @@
   .reel-toggle:hover{opacity:1;background:rgba(25,18,39,.7)}
   .reel-toggle svg{width:13px;height:13px;fill:currentColor}
   @media (max-width:640px){
-    .hero-reels{grid-template-columns:1fr;max-width:min(310px,80vw)}
-    .reel:nth-child(n+2){display:none}  /* phones: one reel, clean */
+    .hero-reels{grid-template-columns:repeat(3,1fr);gap:8px;max-width:100%}
+    .reel{outline-offset:3px}
+    .reel-toggle{width:26px;height:26px;bottom:7px;right:7px}
   }
   /* ---------- mobile navigation & spacing ---------- */
   @media (max-width:760px){
@@ -187,7 +188,7 @@
     .nav-links a{font-size:11.5px;letter-spacing:.18em}
     header{
       min-height:auto;
-      padding:168px clamp(16px,4vw,24px) 56px;
+      padding:132px clamp(14px,4vw,22px) 34px;
     }
     .hero-caption{margin-top:22px}
     section{padding:26px clamp(16px,4vw,24px)}
@@ -212,7 +213,7 @@
   .hero-caption h1{
     font-family:var(--serif);
     font-weight:400;
-    font-size:calc(var(--hscale)*clamp(26px,3.6vw,42px));
+    font-size:calc(var(--hscale)*clamp(23px,4.4vw,42px));
     letter-spacing:.06em;
     line-height:1.15;
     margin-bottom:22px;
@@ -264,7 +265,7 @@
   .section-head h2{
     font-family:var(--serif);
     font-weight:400;
-    font-size:calc(var(--hscale)*clamp(22px,2.8vw,34px));
+    font-size:calc(var(--hscale)*clamp(19px,3vw,34px));
     letter-spacing:.08em;
   }
   .section-head .eyebrow{margin-bottom:10px}
@@ -348,7 +349,7 @@
     font-family:var(--serif);
     font-weight:400;
     font-style:italic;
-    font-size:calc(var(--hscale)*clamp(22px,2.8vw,34px));
+    font-size:calc(var(--hscale)*clamp(19px,3vw,34px));
     line-height:1.25;
     letter-spacing:.03em;
     margin-bottom:22px;
@@ -527,7 +528,7 @@
   .chapter{position:relative;max-width:1060px;margin:0 auto}
   .chapter-num{
     position:absolute;top:-24px;left:-8px;z-index:0;
-    font-family:var(--serif);font-size:clamp(80px,13vw,150px);line-height:1;
+    font-family:var(--serif);font-size:clamp(70px,11vw,150px);line-height:1;
     color:var(--ink);opacity:.06;font-style:italic;pointer-events:none;user-select:none;
   }
   .chapter-grid{
@@ -541,19 +542,24 @@
   }
   .chapter-copy h2{
     font-family:var(--serif);font-weight:400;
-    font-size:calc(var(--hscale)*clamp(24px,3.2vw,38px));letter-spacing:.04em;line-height:1.15;margin-bottom:18px;
+    font-size:calc(var(--hscale)*clamp(20px,3.4vw,38px));letter-spacing:.04em;line-height:1.15;margin-bottom:18px;
   }
   .chapter-copy .chap-line{
-    font-family:var(--serif);font-style:italic;font-size:clamp(15px,1.5vw,17.5px);
+    font-family:var(--serif);font-style:italic;font-size:clamp(14px,1.6vw,17.5px);
     color:var(--ink-soft);line-height:1.65;max-width:38ch;margin-bottom:26px;
   }
   .chapter-copy .cta{margin-top:0}
   .chapter-thread{width:1px;height:clamp(22px,3.4vh,34px);background:var(--yarn);margin:0 auto;opacity:.7}
-  @media (max-width:820px){
-    .chapter-grid{grid-template-columns:1fr}
+  @media (max-width:900px){
+    .chapter-grid{gap:clamp(18px,3.2vw,34px)}
+    .chapter-media .frame{max-width:none}
+  }
+  @media (max-width:560px){
+    /* same composition as desktop, simply scaled down */
+    .chapter-grid{grid-template-columns:1fr;gap:16px}
     .chapter.flip .chapter-grid > .chapter-media{order:0}
-    .chapter-media .frame{max-width:340px}
-    .chapter-num{font-size:120px;top:-14px}
+    .chapter-media .frame{max-width:250px;margin:0 auto}
+    .chapter-num{font-size:74px;top:-8px}
   }
 
   /* ---------- story: scroll reveal ---------- */
@@ -609,10 +615,11 @@
   .creator-plate:hover .cp-btn{background:#2E1B33;border-color:#2E1B33}
   .creator-plate:focus-visible .cp-panel{outline:2px solid #7A4B81;outline-offset:3px}
   @media(max-width:640px){
-    .cp-panel{padding:20px 22px}
-    .cp-copy{flex-direction:column;align-items:flex-start;gap:14px}
-    .cp-name{font-size:26px;letter-spacing:.05em}
-    .cp-btn{width:100%;text-align:center}
+    .cp-panel{padding:14px 16px}
+    .cp-copy{gap:10px}
+    .cp-kicker{font-size:9px;letter-spacing:.28em}
+    .cp-name{font-size:19px;letter-spacing:.05em}
+    .cp-btn{font-size:9.5px;letter-spacing:.16em;padding:9px 14px}
   }
   @media (prefers-reduced-motion: reduce){
     .cp-panel,.cp-thread,.cp-loop{transition:none}

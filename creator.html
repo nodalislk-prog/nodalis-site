@@ -83,7 +83,7 @@
     margin-bottom:18px;
   }
   h1,h2,h3{font-family:var(--serif);font-weight:300;line-height:1.05}
-  p{font-family:var(--story);font-size:clamp(16px,1.55vw,18.5px);line-height:1.8;max-width:58ch}
+  p{font-family:var(--story);font-size:clamp(15px,1.6vw,18.5px);line-height:1.8;max-width:58ch}
   p + p{margin-top:17px}
   .soft{color:var(--ink-soft)}
   .rule{width:1px;height:clamp(20px,3vh,34px);background:linear-gradient(180deg,transparent,var(--gold),transparent);margin:0 auto}
@@ -206,16 +206,30 @@
   .rv.in{opacity:1;transform:none}
   @media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none}}
   
-  @media(max-width:720px){
-    section{padding:clamp(22px,3.4vh,40px) 0}
-    .chapter-title{padding:88px 0 8px}
-    .chapter-title .num{font-size:34vw;transform:translate(-50%,-48%)}
-    .chapter-title h1{font-size:calc(var(--hscale)*clamp(38px,12vw,56px));letter-spacing:.1em;text-indent:.1em}
-    .rule{height:26px}
-    .sec-head{margin-bottom:22px}
-    .beginning .lead::first-letter{font-size:4.2em}
-    .profile{gap:20px}
-    .finale .lines{font-size:calc(var(--hscale)*clamp(23px,7vw,34px))}
+  @media(max-width:820px){
+    .profile{grid-template-columns:.95fr 1.05fr;gap:22px}
+    .profile.flip .portrait{order:2}
+    .portrait{max-width:none}
+  }
+  @media(max-width:560px){
+    section{padding:clamp(20px,3vh,34px) 0}
+    .chapter-title{padding:104px 0 6px}
+    .chapter-title .num{font-size:26vw;transform:translate(-50%,-50%)}
+    .chapter-title h1{font-size:calc(var(--hscale)*clamp(28px,8.5vw,44px));letter-spacing:.08em;text-indent:.08em}
+    .chapter-title .tagline{font-size:13px;margin-top:12px}
+    .rule{height:22px}
+    .sec-head{margin-bottom:18px}
+    .sec-head h2{font-size:calc(var(--hscale)*clamp(22px,6.4vw,34px))}
+    .beginning .lead::first-letter{font-size:3.4em;padding:4px 10px 0 0}
+    p{font-size:15px;line-height:1.72}
+    /* same side-by-side portraits as desktop, just smaller */
+    .profile{grid-template-columns:1fr;gap:16px}
+    .profile.flip .portrait{order:0}
+    .portrait{max-width:230px;margin:0 auto}
+    .profile .name{font-size:calc(var(--hscale)*clamp(23px,7vw,34px))}
+    .profile .role{font-size:9.5px;letter-spacing:.28em;margin-bottom:16px}
+    .finale .lines{font-size:calc(var(--hscale)*clamp(20px,6vw,30px))}
+    .cta{font-size:10px;padding:12px 22px;margin-top:24px}
   }
 </style>
 </head>
