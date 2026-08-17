@@ -340,12 +340,14 @@
         <div id="dl-charges">
           <div class="row">
             <div>
-              <label>Delivery within Colombo (LKR)</label>
-              <input type="text" id="dl-colombo" inputmode="numeric" placeholder="350">
+              <label>Delivery charge — island-wide (LKR)</label>
+              <input type="text" id="dl-flat" inputmode="numeric" placeholder="500">
             </div>
             <div>
-              <label>Other districts (LKR)</label>
-              <input type="text" id="dl-other" inputmode="numeric" placeholder="500">
+              <label>Free delivery over (LKR) — optional</label>
+              <input type="text" id="dl-freeover2" inputmode="numeric" placeholder="10000" style="display:none">
+              <input type="text" id="dl-other" inputmode="numeric" placeholder="" style="display:none">
+              <p class="hint" style="margin-top:8px">Customers see this added to the piece price, so they deposit the correct total.</p>
             </div>
           </div>
           <div class="row">
@@ -1548,12 +1550,13 @@ function payFill(){
     document.getElementById('pay-'+k).value = pm[k] || '';
   });
 }
-const DEFAULT_DELIVERY = { free:false, colombo:'350', other:'500', freeOver:'', days:'2\u20134 working days after dispatch', note:'Island-wide delivery by courier.' };
+const DEFAULT_DELIVERY = { free:false, flat:'500', freeOver:'', days:'2\u20134 working days after dispatch', note:'Island-wide delivery by courier.' };
 function deliveryFill(){
   const d = (SITE && SITE.delivery) || {};
   document.getElementById('dl-free').checked = !!d.free;
-  document.getElementById('dl-colombo').value = d.colombo != null ? d.colombo : DEFAULT_DELIVERY.colombo;
-  document.getElementById('dl-other').value = d.other != null ? d.other : DEFAULT_DELIVERY.other;
+  const flat = (d.flat != null && d.flat !== '') ? d.flat : (d.colombo != null && d.colombo !== '' ? d.colombo : DEFAULT_DELIVERY.flat);
+  document.getElementById('dl-flat').value = flat;
+  document.getElementById('dl-other').value = '';
   document.getElementById('dl-freeover').value = d.freeOver || '';
   document.getElementById('dl-days').value = d.days || DEFAULT_DELIVERY.days;
   document.getElementById('dl-note').value = d.note != null ? d.note : DEFAULT_DELIVERY.note;
@@ -1567,30 +1570,28 @@ function deliveryToggle(){
 }
 function deliveryPreview(){
   const free = document.getElementById('dl-free').checked;
-  const c = document.getElementById('dl-colombo').value.trim();
-  const o = document.getElementById('dl-other').value.trim();
+  const flat = document.getElementById('dl-flat').value.trim();
   const fo = document.getElementById('dl-freeover').value.trim();
   const days = document.getElementById('dl-days').value.trim();
   const note = document.getElementById('dl-note').value.trim();
   let t;
   if (free) t = 'Free delivery on every order.';
   else {
-    t = 'Delivery: LKR ' + (c || '\u2014') + ' within Colombo, LKR ' + (o || '\u2014') + ' to other districts.';
+    t = 'Delivery: LKR ' + (flat || '\u2014') + ' island-wide.';
     if (fo) t += ' Free over LKR ' + fo + '.';
   }
   if (days) t += ' ' + days + '.';
   if (note) t += ' ' + note;
   document.getElementById('dl-preview').textContent = t;
 }
-['dl-colombo','dl-other','dl-freeover','dl-days','dl-note'].forEach(function(id){
+['dl-flat','dl-freeover','dl-days','dl-note'].forEach(function(id){
   document.addEventListener('input', function(e){ if (e.target && e.target.id === id) deliveryPreview(); });
 });
 async function deliverySave(){
   try{
     SITE.delivery = {
       free: document.getElementById('dl-free').checked,
-      colombo: document.getElementById('dl-colombo').value.trim(),
-      other: document.getElementById('dl-other').value.trim(),
+      flat: document.getElementById('dl-flat').value.trim(),
       freeOver: document.getElementById('dl-freeover').value.trim(),
       days: document.getElementById('dl-days').value.trim(),
       note: document.getElementById('dl-note').value.trim()

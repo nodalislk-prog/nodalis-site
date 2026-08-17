@@ -75,25 +75,7 @@
     <p style="text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--yarn);margin-bottom:8px">Order ref <span id="co-ref"></span></p>
     <p id="co-summary" style="text-align:center;color:var(--ink-soft);margin-bottom:26px"></p>
 
-    <div id="co-pay-section">
-      <p class="opt-label" style="margin-top:0">Step 1 — Make your payment</p>
-
-      <div id="co-paypal" hidden style="border:1px solid var(--hairline);padding:18px;margin-bottom:14px;text-align:center">
-        <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">PayPal</p>
-        <a id="co-paypal-link" href="#" target="_blank" rel="noopener" class="order-btn" style="margin-top:0">Pay with PayPal</a>
-        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Add your order ref <b id="co-ref3"></b> in the PayPal note.</p>
-      </div>
-
-      <div id="co-bank" hidden style="border:1px solid var(--hairline);padding:18px;margin-bottom:14px">
-        <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px" id="co-bank-title">Bank deposit</p>
-        <div id="co-bank-rows"></div>
-        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Please put your order ref <b id="co-ref2"></b> as the deposit remark.</p>
-      </div>
-
-      <p id="co-nopay" hidden style="color:var(--ink-soft);font-size:14px;border:1px solid var(--hairline);padding:14px 16px;margin-bottom:14px">We will share the payment details with you personally on WhatsApp.</p>
-    </div>
-
-    <p class="opt-label">Step 2 — Delivery details</p>
+    <p class="opt-label">Step 1 — Delivery details</p>
     <div class="co-fields">
       <label class="co-l" for="d-name">Full name *</label>
       <input class="co-i" id="d-name" type="text" autocomplete="name" placeholder="Name for the delivery label">
@@ -133,6 +115,30 @@
       <p id="d-delivery" class="co-delivery"></p>
       <p id="d-error" class="co-err" hidden></p>
       <p class="co-privacy">Your details go straight into your WhatsApp message to us — they are never stored on this website.</p>
+    </div>
+
+    <div id="co-totals" class="co-summary">
+      <div class="co-line"><span id="co-piece-label">Piece</span><span id="co-piece-amt">—</span></div>
+      <div class="co-line"><span>Delivery</span><span id="co-delivery-amt">—</span></div>
+      <div class="co-line co-total"><span>Total to pay</span><span id="co-total-amt">—</span></div>
+    </div>
+
+    <div id="co-pay-section">
+      <p class="opt-label" style="margin-top:0">Step 2 — Make your payment</p>
+
+      <div id="co-paypal" hidden style="border:1px solid var(--hairline);padding:18px;margin-bottom:14px;text-align:center">
+        <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">PayPal</p>
+        <a id="co-paypal-link" href="#" target="_blank" rel="noopener" class="order-btn" style="margin-top:0">Pay with PayPal</a>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Add your order ref <b id="co-ref3"></b> in the PayPal note.</p>
+      </div>
+
+      <div id="co-bank" hidden style="border:1px solid var(--hairline);padding:18px;margin-bottom:14px">
+        <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px" id="co-bank-title">Bank deposit</p>
+        <div id="co-bank-rows"></div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Please put your order ref <b id="co-ref2"></b> as the deposit remark.</p>
+      </div>
+
+      <p id="co-nopay" hidden style="color:var(--ink-soft);font-size:14px;border:1px solid var(--hairline);padding:14px 16px;margin-bottom:14px">We will share the payment details with you personally on WhatsApp.</p>
     </div>
 
     <p class="opt-label">Step 3 — Send us your order &amp; receipt</p>
@@ -378,6 +384,7 @@ window.addEventListener('DOMContentLoaded', function(){
     }
     if (hasPaypal) document.getElementById('co-paypal-link').href = pm.paypal;
     document.getElementById('co-note').textContent = pm.note || '';
+    refreshSummary();
     document.getElementById('checkout').style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
@@ -385,13 +392,34 @@ window.addEventListener('DOMContentLoaded', function(){
     document.getElementById('checkout').style.display = 'none';
     document.body.style.overflow = '';
   }
+  function deliveryFee(){
+    var d = (typeof SITE !== 'undefined' && SITE.delivery) ? SITE.delivery : null;
+    if (!d || d.free) return 0;
+    var raw = (d.flat != null && d.flat !== '') ? d.flat : (d.colombo || 0);
+    var flat = parseFloat(String(raw).replace(/[^\d.]/g, '')) || 0;
+    var over = parseFloat(String(d.freeOver || '').replace(/[^\d.]/g, '')) || 0;
+    var goods = orderPrice() || 0;
+    if (over && goods >= over) return 0;
+    return flat;
+  }
+  function refreshSummary(){
+    var pieceEl = document.getElementById('co-piece-amt');
+    if (!pieceEl) return;
+    var goods = orderPrice() || 0;
+    var fee = deliveryFee();
+    pieceEl.textContent = goods ? fmtLKR(goods) : '\u2014';
+    document.getElementById('co-delivery-amt').textContent = fee ? fmtLKR(fee) : 'Free';
+    document.getElementById('co-total-amt').textContent = (goods || fee) ? fmtLKR(goods + fee) : '\u2014';
+    var lbl = document.getElementById('co-piece-label');
+    if (lbl) lbl.textContent = pickedSize ? ('Piece (' + pickedSize + ')') : 'Piece';
+  }
   function deliveryText(){
     var d = (typeof SITE !== 'undefined' && SITE.delivery) ? SITE.delivery : null;
     if (!d) return '';
     var t;
     if (d.free) t = 'Free delivery on every order.';
     else {
-      t = 'Delivery: LKR ' + (d.colombo || '\u2014') + ' within Colombo, LKR ' + (d.other || '\u2014') + ' to other districts.';
+      t = 'Delivery: LKR ' + ((d.flat != null && d.flat !== '') ? d.flat : (d.colombo || '\u2014')) + ' island-wide.';
       if (d.freeOver) t += ' Free over LKR ' + d.freeOver + '.';
     }
     if (d.days) t += ' ' + d.days + '.';
@@ -440,6 +468,14 @@ window.addEventListener('DOMContentLoaded', function(){
     msg += "\nDistrict: " + dv('d-district');
     if (dv('d-country')) msg += "\nCountry: " + dv('d-country');
     if (dv('d-notes')) msg += "\nNotes: " + dv('d-notes');
+    var fee = deliveryFee();
+    var goods = orderPrice() || 0;
+    if (goods || fee) {
+      msg += "\n\n— Total —";
+      if (goods) msg += "\nPiece: " + fmtLKR(goods);
+      msg += "\nDelivery: " + (fee ? fmtLKR(fee) : "Free");
+      msg += "\nTotal to pay: " + fmtLKR(goods + fee);
+    }
     var dtext = deliveryText();
     if (dtext) msg += "\n" + dtext;
     msg += "\n\nI will attach my payment receipt here.";
