@@ -335,7 +335,7 @@
   }
 
   /* ---------- atelier ---------- */
-  #creator{background:transparent}
+  #chapter-creator{background:transparent}
   .atelier-inner{
     max-width:1180px;margin:0 auto;
     display:grid;
@@ -494,7 +494,7 @@
     background:#EBC96A;
     color:#3B2D59;
   }
-  #creator .ph::after{color:rgba(244,239,251,.5)}
+  #chapter-creator .ph::after{color:rgba(244,239,251,.5)}
   footer{border-top-color:var(--hairline)}
   /* ---------- footer ---------- */
   footer{
@@ -566,7 +566,7 @@
   #chapter-him,#chapter-pets{--ink:#FBF6FA;--ink-soft:#E0CCE2}
 
   /* narrative text keeps the book serif; UI stays crisp sans */
-  .chap-line, .hero-caption h1, #creator .atelier-copy p, #creator-story p, #creator-sign,
+  .chap-line, .hero-caption h1,
   blockquote, .lede{font-family:var(--story)}
 
   /* violet is the heart: chapter marks, thread, ghost numerals */
@@ -679,23 +679,22 @@
   <div class="chapter-thread" aria-hidden="true" style="margin-top:clamp(40px,7vh,72px)"></div>
 </section>
 
-<section id="creator">
-  <div class="section-head">
-    <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">Chapter IV · The Creator</p>
-  </div>
-  <div class="atelier-inner">
-    <div class="frame"><div class="ph" data-label="Photograph — the creator"><img src="images/creator.jpg" alt="The creator of Nodalis" loading="lazy" onerror="this.remove()"></div></div>
-    <div class="atelier-copy">
-      <h2 id="creator-title">The hands behind the thread.</h2>
-      <div id="creator-story">
-        <p>Nodalis began with one pair of hands and a single skein of yarn in Colombo — evenings spent learning what thread could become when no one hurried it.</p>
-        <p>Every piece in this story is still made by those same hands: measured, stitched, unpicked, and stitched again until it is exactly what it was meant to be. Not a factory. Not a batch. One maker, one piece, one person it belongs to.</p>
+<section id="chapter-creator">
+  <div class="chapter flip rv">
+    <div class="chapter-num" aria-hidden="true" style="left:auto;right:-8px">04</div>
+    <div class="chapter-grid">
+      <div class="chapter-media">
+        <div class="frame"><div class="ph" data-label="Photograph — the creator"><img src="images/creator.jpg" alt="The creator of Nodalis" loading="lazy" onerror="this.remove()"></div></div>
       </div>
-      <p id="creator-sign" style="font-style:italic">— the maker of Nodalis</p>
-      <p style="margin-top:22px"><a class="cta" href="creator.html">Read Chapter 04 — The Creator</a></p>
+      <div class="chapter-copy">
+        <p class="chap-eyebrow">Chapter IV</p>
+        <h2>The Creator</h2>
+        <p class="chap-line">Before it was a thread, it was a thought. The story of how Nodalis began — and the hands it began in.</p>
+        <a class="cta" href="creator.html">Read the Chapter</a>
+      </div>
     </div>
   </div>
+  <div class="chapter-thread" aria-hidden="true" style="margin-top:clamp(40px,7vh,72px)"></div>
 </section>
 
 
@@ -849,25 +848,6 @@
           document.head.appendChild(fl);
         }
       }
-  }catch(e){}
-
-  /* creator section from admin */
-  try{
-    var cr = (typeof SITE!=='undefined' && SITE.creator) ? SITE.creator : null;
-    if (cr) {
-      if (cr.title) document.getElementById('creator-title').textContent = cr.title;
-      if (cr.story) {
-        var box = document.getElementById('creator-story');
-        box.innerHTML = '';
-        String(cr.story).split(/\n\s*\n/).forEach(function(par){
-          if (!par.trim()) return;
-          var p = document.createElement('p');
-          p.textContent = par.trim();
-          box.appendChild(p);
-        });
-      }
-      if (cr.sign) document.getElementById('creator-sign').textContent = cr.sign;
-    }
   }catch(e){}
 
   /* scroll-reveal for chapters */
