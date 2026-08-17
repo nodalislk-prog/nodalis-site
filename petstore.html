@@ -617,11 +617,19 @@
   <p class="collection-note">See our latest pet pieces on Instagram — <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a></p>
 </section>
 
+<script src="products.js"></script>
 <script>
-/* always fetch the freshest data — admin changes appear without a hard refresh */
-document.write('<scr' + 'ipt src="products.js?t=' + Math.floor(Date.now() / 60000) + '"><\/scr' + 'ipt>');
+/* safety net: if the data file fails to load, say so instead of showing a blank page */
+window.addEventListener('DOMContentLoaded', function(){
+  if (typeof PRODUCTS === 'undefined' || typeof CATEGORIES === 'undefined') {
+    var b = document.createElement('div');
+    b.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:999;background:#3E2247;color:#F6F1EA;'
+      + 'font:14px/1.5 system-ui,sans-serif;padding:14px 18px;text-align:center';
+    b.textContent = 'Could not load the catalogue just now. Please refresh the page.';
+    document.body.appendChild(b);
+  }
+});
 </script>
-<noscript><script src="products.js"></script></noscript>
 <script>
 (function(){
   function isGeneric(s){
