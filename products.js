@@ -191,14 +191,13 @@ const CATEGORIES = {
 const PRODUCTS = [
   {
     "id": "daisy-dog-sweater",
-    "name": "The Daisy Dog Sweater",
+    "name": "Pink Daisy Puff Sweater",
     "category": "dog-sweaters",
     "price": "from LKR 4,500",
     "short": "Ribbed rose pink, scattered with hand-crocheted daisies",
     "description": "A chunky ribbed sweater in rose pink, finished with hand-crocheted daisy appliqués front and back. Crocheted entirely by hand to your dog's own neck, chest and back measurements. Soft, fur-friendly yarn; gentle cold hand-wash.",
     "colors": [
-      "Rose Pink",
-      "Yellow"
+      "Rose Pink"
     ],
     "sizes": [
       "XS",
