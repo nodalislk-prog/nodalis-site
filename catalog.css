@@ -267,3 +267,6 @@ nav .wordmark-svg{height:2.5em;filter:drop-shadow(0 0 6px rgba(240,214,158,.35))
 footer .logotype{color:#E3C68C}
 @media(max-width:760px){nav .logotype{padding:8px 18px 9px}nav .wordmark-svg{height:2.2em}}
 @media (prefers-reduced-motion: reduce){nav .logotype::after{animation:none;opacity:0}}
+
+.co-delivery{font-size:13px;color:var(--ink);background:rgba(122,86,32,.07);
+  border-left:2px solid var(--yarn);padding:10px 12px;margin-top:16px;line-height:1.55}

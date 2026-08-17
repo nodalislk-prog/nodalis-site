@@ -328,6 +328,52 @@
         <div style="margin-top:16px"><button class="primary" onclick="payPublish()">Publish payment details</button></div>
       </div>
 
+      <div class="card">
+        <h1 style="font-size:17px;margin-bottom:4px">Delivery</h1>
+        <p class="muted" style="margin-bottom:14px">What customers see at checkout. Waive it and every order shows free delivery.</p>
+
+        <label style="display:flex;align-items:center;gap:10px;margin:0 0 6px;text-transform:none;letter-spacing:0;font-size:15px;color:var(--ink)">
+          <input type="checkbox" id="dl-free" style="width:auto;margin:0" onchange="deliveryToggle()">
+          Waive delivery — free for everyone
+        </label>
+
+        <div id="dl-charges">
+          <div class="row">
+            <div>
+              <label>Delivery within Colombo (LKR)</label>
+              <input type="text" id="dl-colombo" inputmode="numeric" placeholder="350">
+            </div>
+            <div>
+              <label>Other districts (LKR)</label>
+              <input type="text" id="dl-other" inputmode="numeric" placeholder="500">
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Free delivery over (LKR) — leave empty for none</label>
+              <input type="text" id="dl-freeover" inputmode="numeric" placeholder="10000">
+            </div>
+            <div>
+              <label>Delivery time</label>
+              <input type="text" id="dl-days" placeholder="2–4 working days after dispatch">
+            </div>
+          </div>
+        </div>
+
+        <label>Note shown at checkout (optional)</label>
+        <input type="text" id="dl-note" placeholder="Island-wide delivery by courier.">
+
+        <div class="card" style="margin-top:16px;background:#FBF9FE;box-shadow:none">
+          <p class="muted" style="margin-bottom:6px">Customers will see:</p>
+          <p id="dl-preview" style="font-size:15px;color:var(--ink)"></p>
+        </div>
+
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="primary" onclick="deliverySave()">Save &amp; publish delivery</button>
+          <button class="small" onclick="deliveryReset()">Restore defaults</button>
+        </div>
+      </div>
+
       <div class="topbar" style="margin-top:26px">
         <h1 style="font-size:20px">Orders</h1>
         <button class="small" onclick="orderNew()">+ Add order</button>
@@ -971,7 +1017,7 @@ function showTab(t){
   document.getElementById('addbtn').style.display = t==='products' ? '' : 'none';
   if (t==='media') renderMedia();
   if (t==='categories') catRender();
-  if (t==='theme') themeFill(); creatorFill();
+  if (t==='theme') themeFill(); creatorFill(); deliveryFill();
   if (t==='orders') { payFill(); orderRenderList(); }
   if (t==='dashboard') dashRender();
 }
@@ -1501,6 +1547,62 @@ function payFill(){
   ['bankName','branch','accountName','accountNumber','paypal','note'].forEach(k => {
     document.getElementById('pay-'+k).value = pm[k] || '';
   });
+}
+const DEFAULT_DELIVERY = { free:false, colombo:'350', other:'500', freeOver:'', days:'2\u20134 working days after dispatch', note:'Island-wide delivery by courier.' };
+function deliveryFill(){
+  const d = (SITE && SITE.delivery) || {};
+  document.getElementById('dl-free').checked = !!d.free;
+  document.getElementById('dl-colombo').value = d.colombo != null ? d.colombo : DEFAULT_DELIVERY.colombo;
+  document.getElementById('dl-other').value = d.other != null ? d.other : DEFAULT_DELIVERY.other;
+  document.getElementById('dl-freeover').value = d.freeOver || '';
+  document.getElementById('dl-days').value = d.days || DEFAULT_DELIVERY.days;
+  document.getElementById('dl-note').value = d.note != null ? d.note : DEFAULT_DELIVERY.note;
+  deliveryToggle();
+}
+function deliveryToggle(){
+  const free = document.getElementById('dl-free').checked;
+  document.getElementById('dl-charges').style.opacity = free ? '.4' : '1';
+  document.getElementById('dl-charges').style.pointerEvents = free ? 'none' : 'auto';
+  deliveryPreview();
+}
+function deliveryPreview(){
+  const free = document.getElementById('dl-free').checked;
+  const c = document.getElementById('dl-colombo').value.trim();
+  const o = document.getElementById('dl-other').value.trim();
+  const fo = document.getElementById('dl-freeover').value.trim();
+  const days = document.getElementById('dl-days').value.trim();
+  const note = document.getElementById('dl-note').value.trim();
+  let t;
+  if (free) t = 'Free delivery on every order.';
+  else {
+    t = 'Delivery: LKR ' + (c || '\u2014') + ' within Colombo, LKR ' + (o || '\u2014') + ' to other districts.';
+    if (fo) t += ' Free over LKR ' + fo + '.';
+  }
+  if (days) t += ' ' + days + '.';
+  if (note) t += ' ' + note;
+  document.getElementById('dl-preview').textContent = t;
+}
+['dl-colombo','dl-other','dl-freeover','dl-days','dl-note'].forEach(function(id){
+  document.addEventListener('input', function(e){ if (e.target && e.target.id === id) deliveryPreview(); });
+});
+async function deliverySave(){
+  try{
+    SITE.delivery = {
+      free: document.getElementById('dl-free').checked,
+      colombo: document.getElementById('dl-colombo').value.trim(),
+      other: document.getElementById('dl-other').value.trim(),
+      freeOver: document.getElementById('dl-freeover').value.trim(),
+      days: document.getElementById('dl-days').value.trim(),
+      note: document.getElementById('dl-note').value.trim()
+    };
+    log('Saving delivery\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: delivery', productsSha)).content.sha;
+    log('Published \u2014 live in about a minute.', true);
+  }catch(e){ log('Could not save: ' + e.message); }
+}
+function deliveryReset(){
+  delete SITE.delivery; deliveryFill();
+  log('Delivery reset \u2014 press \u201cSave & publish delivery\u201d to make it live.');
 }
 async function payPublish(){
   SITE = SITE || {};

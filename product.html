@@ -128,6 +128,7 @@
       <label class="co-l" for="d-notes">Anything we should know</label>
       <textarea class="co-i" id="d-notes" rows="2" placeholder="Delivery instructions, gift note, preferred date…"></textarea>
 
+      <p id="d-delivery" class="co-delivery"></p>
       <p id="d-error" class="co-err" hidden></p>
       <p class="co-privacy">Your details go straight into your WhatsApp message to us — they are never stored on this website.</p>
     </div>
@@ -370,6 +371,24 @@
     document.getElementById('checkout').style.display = 'none';
     document.body.style.overflow = '';
   }
+  function deliveryText(){
+    var d = (typeof SITE !== 'undefined' && SITE.delivery) ? SITE.delivery : null;
+    if (!d) return '';
+    var t;
+    if (d.free) t = 'Free delivery on every order.';
+    else {
+      t = 'Delivery: LKR ' + (d.colombo || '\u2014') + ' within Colombo, LKR ' + (d.other || '\u2014') + ' to other districts.';
+      if (d.freeOver) t += ' Free over LKR ' + d.freeOver + '.';
+    }
+    if (d.days) t += ' ' + d.days + '.';
+    if (d.note) t += ' ' + d.note;
+    return t;
+  }
+  (function(){
+    var el = document.getElementById('d-delivery');
+    if (el) { var t = deliveryText(); if (t) el.textContent = t; else el.remove(); }
+  })();
+
   function confirmOrder(){
     let msg = "Hello Nodalis! I'd like to order:\n";
     const dv = id => (document.getElementById(id).value || '').trim();
@@ -407,6 +426,8 @@
     msg += "\nDistrict: " + dv('d-district');
     if (dv('d-country')) msg += "\nCountry: " + dv('d-country');
     if (dv('d-notes')) msg += "\nNotes: " + dv('d-notes');
+    var dtext = deliveryText();
+    if (dtext) msg += "\n" + dtext;
     msg += "\n\nI will attach my payment receipt here.";
     msg += "\n" + location.origin + location.pathname + "?id=" + encodeURIComponent(p.id);
     window.open("https://wa.me/94767003630?text=" + encodeURIComponent(msg), "_blank");
