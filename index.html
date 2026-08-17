@@ -796,6 +796,7 @@
   /* theme: gold + main inks (homepage gradient stays as designed) */
   try{
     var t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null;
+    if (t && t.v !== 3) t = null;   /* older saved colours ignored */
     if(t){
       var r = document.documentElement.style;
       var hm = t.home;

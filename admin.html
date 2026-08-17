@@ -439,10 +439,10 @@ let CATEGORIES = {}, PRODUCTS = [];
 let SITE = null;
 const DEFAULT_THEME = {
   gold: "#B08A2E",
-  apparel: { bgTop:"#F5EEF9", bgBottom:"#E3D2ED", ink:"#563467", inkSoft:"#8E6BB8", nav:"#563467" },
-  pet:     { bgTop:"#FBEFF0", bgBottom:"#EFC3D3", ink:"#59283F", inkSoft:"#9C6580", nav:"#7A2C54" },
-  mens:    { bgTop:"#563467", bgBottom:"#3A2544", ink:"#EAD9EF", inkSoft:"#C4A9CE", nav:"#241A29" },
-  home:    { g0:"#F3EBFB", g1:"#DCC4F0", g2:"#9C7BC6", g3:"#6B5072", g4:"#25302C", ink:"#563467", inkSoft:"#8E6BB8", nav:"#563467" }
+  apparel: { bgTop:"#DFBDE2", bgBottom:"#CA93CC", ink:"#3A1F42", inkSoft:"#7A4B81", nav:"#3A1F42" },
+  pet:     { bgTop:"#EBCBF0", bgBottom:"#DD92EF", ink:"#0A3E7A", inkSoft:"#4A6BB0", nav:"#0455A7" },
+  mens:    { bgTop:"#E5CCF4", bgBottom:"#A080E1", ink:"#382D72", inkSoft:"#5C509C", nav:"#382D72" },
+  home:    { g0:"#EFD9F1", g1:"#DFBDE2", g2:"#AC6DB3", g3:"#613E74", g4:"#2A1930", ink:"#3A1F42", inkSoft:"#7A4B81", nav:"#3A1F42" }
 };
 let productsSha = null;   // sha of products.js for updates
 let editingIndex = -1;    // -1 = new product
@@ -1260,14 +1260,15 @@ function themeFill(){
   });
 }
 function themeReset(){
-  SITE.theme = JSON.parse(JSON.stringify(DEFAULT_THEME));
+  delete SITE.theme;
   themeFill();
-  log('Colours set back to the originals \u2014 press \u201cPublish colours\u201d to make it live.', 'ok');
+  log('Colours reset to the built-in palettes \u2014 press \u201cSave & publish design\u201d to make it live.');
 }
 async function themePublish(){
   try {
     SITE = SITE || {};
     SITE.theme = {
+      v: 3,
       gold: document.getElementById('t-gold').value,
       apparel: {}, pet: {}, mens: {}, home: {}
     };

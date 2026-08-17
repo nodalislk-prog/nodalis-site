@@ -564,6 +564,7 @@
   /* theme (pet palette: gold + inks only, page keeps its own gradient art) */
   try{
     var t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null;
+    if (t && t.v !== 3) t = null;   /* older saved colours ignored */
     if(t){
       var r = document.documentElement.style;
       var p = t.pet || {};

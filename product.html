@@ -93,7 +93,8 @@
   function hexRgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
   function applyTheme(pal){
     try{
-      const t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null; if(!t) return;
+      const t0 = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null;
+      const t = (t0 && t0.v === 3) ? t0 : null; if(!t) return;
       const pp = t[pal] || {}; const r = document.documentElement.style;
       if(pp.bgTop) r.setProperty('--bg-top', pp.bgTop);
       if(pp.bgBottom) r.setProperty('--bg-bottom', pp.bgBottom);
