@@ -78,7 +78,48 @@
       <p id="co-nopay" hidden style="color:var(--ink-soft);font-size:14px;border:1px solid var(--hairline);padding:14px 16px;margin-bottom:14px">We will share the payment details with you personally on WhatsApp.</p>
     </div>
 
-    <p class="opt-label">Step 2 — Send us your order &amp; receipt</p>
+    <p class="opt-label">Step 2 — Delivery details</p>
+    <div class="co-fields">
+      <label class="co-l" for="d-name">Full name *</label>
+      <input class="co-i" id="d-name" type="text" autocomplete="name" placeholder="Name for the delivery label">
+
+      <label class="co-l" for="d-phone">Contact number *</label>
+      <input class="co-i" id="d-phone" type="tel" autocomplete="tel" placeholder="07X XXX XXXX">
+
+      <label class="co-l" for="d-addr">Delivery address *</label>
+      <input class="co-i" id="d-addr" type="text" autocomplete="address-line1" placeholder="House number / street">
+      <input class="co-i" id="d-addr2" type="text" autocomplete="address-line2" placeholder="Area, landmark (optional)" style="margin-top:8px">
+
+      <div class="co-row">
+        <div>
+          <label class="co-l" for="d-city">City / Town *</label>
+          <input class="co-i" id="d-city" type="text" autocomplete="address-level2" placeholder="Colombo">
+        </div>
+        <div>
+          <label class="co-l" for="d-zip">Postal code</label>
+          <input class="co-i" id="d-zip" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="00300">
+        </div>
+      </div>
+
+      <div class="co-row">
+        <div>
+          <label class="co-l" for="d-district">District *</label>
+          <input class="co-i" id="d-district" type="text" placeholder="Colombo">
+        </div>
+        <div>
+          <label class="co-l" for="d-country">Country</label>
+          <input class="co-i" id="d-country" type="text" autocomplete="country-name" value="Sri Lanka">
+        </div>
+      </div>
+
+      <label class="co-l" for="d-notes">Anything we should know</label>
+      <textarea class="co-i" id="d-notes" rows="2" placeholder="Delivery instructions, gift note, preferred date…"></textarea>
+
+      <p id="d-error" class="co-err" hidden></p>
+      <p class="co-privacy">Your details go straight into your WhatsApp message to us — they are never stored on this website.</p>
+    </div>
+
+    <p class="opt-label">Step 3 — Send us your order &amp; receipt</p>
     <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:6px">Press the button below — WhatsApp opens with your order already written. Then <b style="font-weight:500;color:var(--ink)">attach your payment receipt</b> (a screenshot or photo) in the chat, and your order is confirmed.</p>
     <p id="co-note" style="font-size:12.5px;color:var(--ink-soft)"></p>
 
@@ -318,13 +359,42 @@
   }
   function confirmOrder(){
     let msg = "Hello Nodalis! I'd like to order:\n";
+    const dv = id => (document.getElementById(id).value || '').trim();
+    const required = [['d-name','your name'], ['d-phone','a contact number'],
+                      ['d-addr','a delivery address'], ['d-city','your city'], ['d-district','your district']];
+    let missing = [];
+    required.forEach(function(r){
+      const el = document.getElementById(r[0]);
+      if (!dv(r[0])) { el.classList.add('bad'); missing.push(r[1]); }
+      else el.classList.remove('bad');
+    });
+    const errEl = document.getElementById('d-error');
+    if (missing.length) {
+      errEl.textContent = 'Please add ' + missing.join(', ') + ' so we can deliver your piece.';
+      errEl.hidden = false;
+      const first = required.find(function(r){ return !dv(r[0]); });
+      document.getElementById(first[0]).focus();
+      return;
+    }
+    errEl.hidden = true;
+
     msg += "Order ref: " + orderRef;
     msg += "\nPiece: " + p.name;
     if (pickedSize)  msg += "\nSize: " + pickedSize;
     if (pickedColor) msg += "\nColour: " + pickedColor;
     const priceN = orderPrice();
     if (priceN) msg += "\nPrice: " + fmtLKR(priceN);
-    msg += "\nI will attach my payment receipt here.";
+    msg += "\n\n— Delivery —";
+    msg += "\nName: " + dv('d-name');
+    msg += "\nPhone: " + dv('d-phone');
+    msg += "\nAddress: " + dv('d-addr');
+    if (dv('d-addr2')) msg += ", " + dv('d-addr2');
+    msg += "\nCity: " + dv('d-city');
+    if (dv('d-zip')) msg += "  Postal code: " + dv('d-zip');
+    msg += "\nDistrict: " + dv('d-district');
+    if (dv('d-country')) msg += "\nCountry: " + dv('d-country');
+    if (dv('d-notes')) msg += "\nNotes: " + dv('d-notes');
+    msg += "\n\nI will attach my payment receipt here.";
     msg += "\n" + location.origin + location.pathname + "?id=" + encodeURIComponent(p.id);
     window.open("https://wa.me/94767003630?text=" + encodeURIComponent(msg), "_blank");
     closeCheckout();

@@ -228,3 +228,18 @@ input,select,textarea,.crumbs,.filters{font-family:var(--sans)}
 /* ---------- script wordmark ---------- */
 .logotype .wordmark{font-family:'Yellowtail',cursive;letter-spacing:0 !important;text-indent:0 !important;
   text-transform:none !important;font-size:1.42em;line-height:1;padding-bottom:.08em}
+
+
+/* ---------- checkout: delivery details ---------- */
+.co-fields{margin:4px 0 18px}
+.co-l{display:block;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:14px 0 5px}
+.co-i{width:100%;font-family:var(--sans);font-size:15px;color:var(--ink);
+  background:rgba(255,255,255,.55);border:1px solid var(--hairline);border-radius:4px;
+  padding:11px 12px;outline:none;transition:border-color .2s, box-shadow .2s}
+.co-i:focus{border-color:var(--yarn);box-shadow:0 0 0 3px rgba(122,86,32,.14)}
+.co-i.bad{border-color:#A33B3B;background:rgba(163,59,59,.06)}
+textarea.co-i{resize:vertical;min-height:56px}
+.co-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.co-row{grid-template-columns:1fr}}
+.co-err{color:#A33B3B;font-size:13px;margin-top:12px}
+.co-privacy{font-size:12px;color:var(--ink-soft);margin-top:14px;line-height:1.5}
