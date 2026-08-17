@@ -232,35 +232,6 @@
     .cta{font-size:10px;padding:12px 22px;margin-top:24px}
   }
 
-  /* ---------- the thread that runs through the site ---------- */
-  .nodalis-thread{
-    position:absolute;top:0;left:0;right:0;
-    z-index:0;pointer-events:none;overflow:hidden;
-  }
-  .nodalis-thread svg{display:block;width:100%}
-  .nt-line{
-    fill:none;
-    stroke:var(--yarn,#7A5620);
-    stroke-width:1.6;
-    stroke-linecap:round;
-    opacity:.34;
-    vector-effect:non-scaling-stroke;
-    transition:stroke-dashoffset .18s linear;
-  }
-  .nt-ball ellipse,.nt-ball path{
-    fill:none;
-    stroke:var(--yarn,#7A5620);
-    stroke-width:1.5;
-    opacity:.4;
-    vector-effect:non-scaling-stroke;
-  }
-  @media(max-width:640px){
-    .nt-line{stroke-width:1.2;opacity:.26}
-    .nt-ball ellipse,.nt-ball path{stroke-width:1.2;opacity:.3}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .nt-line{transition:none}
-  }
 </style>
 </head>
 <body id="top">
@@ -402,6 +373,5 @@
 })();
 </script>
 <script src="autoink.js"></script>
-<script src="thread.js"></script>
 </body>
 </html>

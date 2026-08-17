@@ -223,15 +223,3 @@ input,select,textarea,.crumbs,.filters{font-family:var(--sans)}
 .chip.on,.size-chip.on{border-color:#7A4B81;color:#7A4B81}
 .crumbs a:hover,.filters a:hover{color:#7A4B81}
 
-
-/* ---------- the thread that runs through the site ---------- */
-.nodalis-thread{position:absolute;top:0;left:0;right:0;z-index:0;pointer-events:none;overflow:hidden}
-.nodalis-thread svg{display:block;width:100%}
-.nt-line{fill:none;stroke:var(--yarn,#7A5620);stroke-width:1.6;stroke-linecap:round;opacity:.3;
-  vector-effect:non-scaling-stroke;transition:stroke-dashoffset .18s linear}
-.nt-ball ellipse,.nt-ball path{fill:none;stroke:var(--yarn,#7A5620);stroke-width:1.5;opacity:.38;vector-effect:non-scaling-stroke}
-nav,header,section,footer,main,.wrap{position:relative;z-index:1}
-@media(max-width:640px){
-  .nt-line{stroke-width:1.2;opacity:.24}
-}
-@media (prefers-reduced-motion: reduce){.nt-line{transition:none}}
