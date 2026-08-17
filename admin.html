@@ -133,6 +133,21 @@
     </div>
 
     <div id="panel-media" class="hidden">
+        <div class="card">
+          <h1 style="font-size:17px;margin-bottom:4px">The Creator — your story</h1>
+          <p class="muted" style="margin-bottom:6px">Chapter IV on the homepage. Your portrait uploads in the “The Creator” slot below.</p>
+          <label>Heading</label>
+          <input type="text" id="cr-title" placeholder="The hands behind the thread.">
+          <label>Your story — leave a blank line between paragraphs</label>
+          <textarea id="cr-story" rows="8" placeholder="Nodalis began with one pair of hands..."></textarea>
+          <label>Signature line</label>
+          <input type="text" id="cr-sign" placeholder="— the maker of Nodalis">
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="primary" onclick="creatorSave()">Save &amp; publish story</button>
+            <button class="small" onclick="creatorReset()">Restore default story</button>
+          </div>
+        </div>
+
       <p class="muted" style="margin-bottom:16px">Every image and video on the website. Pick a new file and it replaces the old one — the live site updates about a minute later. Any image type works \u2014 it is automatically resized and converted for the web before upload. Videos should be MP4.</p>
       <div id="media-groups"></div>
     </div>
@@ -176,7 +191,7 @@
         <input type="color" id="t-gold" style="width:64px;height:40px;padding:2px;border:1px solid var(--hairline);background:#fff">
         <div class="row3" style="margin-top:20px">
           <div>
-            <h1 style="font-size:17px;margin-bottom:6px">Main shop pages</h1>
+            <h1 style="font-size:17px;margin-bottom:6px">Women’s pages</h1>
             <label>Background — top</label><input type="color" id="t-a-bgTop" class="tclr">
             <label>Background — bottom</label><input type="color" id="t-a-bgBottom" class="tclr">
             <label>Text</label><input type="color" id="t-a-ink" class="tclr">
@@ -909,7 +924,7 @@ function showTab(t){
   document.getElementById('addbtn').style.display = t==='products' ? '' : 'none';
   if (t==='media') renderMedia();
   if (t==='categories') catRender();
-  if (t==='theme') themeFill();
+  if (t==='theme') themeFill(); creatorFill();
   if (t==='orders') { payFill(); orderRenderList(); }
   if (t==='dashboard') dashRender();
 }
@@ -1041,7 +1056,7 @@ function escHtml(s){ const d=document.createElement('div'); d.textContent=s==nul
 function catRender(){
   const mount = document.getElementById('cat-tree');
   let out = '';
-  out += '<p class="muted" style="margin:4px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Main shop</p>';
+  out += '<p class="muted" style="margin:4px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Women’s</p>';
   catKeysOrdered().filter(k => CATEGORIES[k].group === 'apparel' && !CATEGORIES[k].parent)
     .forEach(k => { out += catRowHtml(k, false); });
   out += '<p class="muted" style="margin:20px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Petstore</p>';
@@ -1065,7 +1080,7 @@ function catFillParentSelect(current){
   const s = document.getElementById('c-parent');
   s.innerHTML = '';
   const add = (v, label) => { const o = document.createElement('option'); o.value=v; o.textContent=label; s.appendChild(o); };
-  add('apparel', 'Main shop \u2014 top level');
+  add('apparel', 'Women\u2019s \u2014 top level');
   add('pet', 'Petstore \u2014 top level');
   add('mens', "Men's \u2014 top level");
   catKeysOrdered().filter(k => !CATEGORIES[k].parent && (CATEGORIES[k].group === 'pet' || CATEGORIES[k].group === 'mens'))
@@ -1201,6 +1216,35 @@ function typeFill(){
 function typeReset(){
   delete SITE.type; typeFill();
   log('Fonts reset — press “Save & publish design” to make it live.');
+}
+const DEFAULT_CREATOR = {
+  title: 'The hands behind the thread.',
+  story: 'Nodalis began with one pair of hands and a single skein of yarn in Colombo \u2014 evenings spent learning what thread could become when no one hurried it.\n\nEvery piece in this story is still made by those same hands: measured, stitched, unpicked, and stitched again until it is exactly what it was meant to be. Not a factory. Not a batch. One maker, one piece, one person it belongs to.',
+  sign: '\u2014 the maker of Nodalis'
+};
+function creatorFill(){
+  const c = (SITE && SITE.creator) || {};
+  document.getElementById('cr-title').value = c.title || DEFAULT_CREATOR.title;
+  document.getElementById('cr-story').value = c.story || DEFAULT_CREATOR.story;
+  document.getElementById('cr-sign').value = c.sign || DEFAULT_CREATOR.sign;
+}
+async function creatorSave(){
+  try{
+    SITE.creator = {
+      title: document.getElementById('cr-title').value.trim(),
+      story: document.getElementById('cr-story').value.trim(),
+      sign: document.getElementById('cr-sign').value.trim()
+    };
+    log('Saving your story\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: creator story', productsSha)).content.sha;
+    log('Published \u2014 live in about a minute.', true);
+  }catch(e){ log('Could not save: ' + e.message); }
+}
+function creatorReset(){
+  document.getElementById('cr-title').value = DEFAULT_CREATOR.title;
+  document.getElementById('cr-story').value = DEFAULT_CREATOR.story;
+  document.getElementById('cr-sign').value = DEFAULT_CREATOR.sign;
+  log('Story reset \u2014 press \u201cSave & publish story\u201d to make it live.');
 }
 function themeFill(){
   typeFill();
