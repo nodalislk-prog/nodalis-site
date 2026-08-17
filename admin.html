@@ -142,6 +142,8 @@
           <textarea id="cr-story" rows="8" placeholder="Nodalis began with one pair of hands..."></textarea>
           <label>Signature line</label>
           <input type="text" id="cr-sign" placeholder="— the maker of Nodalis">
+          <label>Full story — for the Creator page (creator.html, Section 01)</label>
+          <textarea id="cr-page" rows="9" placeholder="Leave empty to keep the written story on the Creator page."></textarea>
           <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
             <button class="primary" onclick="creatorSave()">Save &amp; publish story</button>
             <button class="small" onclick="creatorReset()">Restore default story</button>
@@ -869,7 +871,8 @@ async function deleteProduct(){
 /* ================= site media ================= */
 const SITE_MEDIA = [
   { group: 'Homepage — Hero Videos', items: [
-    { path:'images/creator.jpg', label:'Homepage — The Creator (your portrait)' },
+    { path:'images/creator.jpg', label:'The Creator — Krishanthani (portrait)' },
+    { path:'images/storyteller.jpg', label:'The Storyteller — Ajenth (portrait)' },
     { path:'images/story-her.jpg', label:'Homepage — Chapter I portrait (her)' },
     { path:'images/story-him.jpg', label:'Homepage — Chapter II portrait (him)' },
     { path:'images/story-pets.jpg', label:'Homepage — Chapter III portrait (pets)' },
@@ -1227,13 +1230,15 @@ function creatorFill(){
   document.getElementById('cr-title').value = c.title || DEFAULT_CREATOR.title;
   document.getElementById('cr-story').value = c.story || DEFAULT_CREATOR.story;
   document.getElementById('cr-sign').value = c.sign || DEFAULT_CREATOR.sign;
+  document.getElementById('cr-page').value = c.pageStory || '';
 }
 async function creatorSave(){
   try{
     SITE.creator = {
       title: document.getElementById('cr-title').value.trim(),
       story: document.getElementById('cr-story').value.trim(),
-      sign: document.getElementById('cr-sign').value.trim()
+      sign: document.getElementById('cr-sign').value.trim(),
+      pageStory: document.getElementById('cr-page').value.trim()
     };
     log('Saving your story\u2026');
     productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: creator story', productsSha)).content.sha;
@@ -1244,6 +1249,7 @@ function creatorReset(){
   document.getElementById('cr-title').value = DEFAULT_CREATOR.title;
   document.getElementById('cr-story').value = DEFAULT_CREATOR.story;
   document.getElementById('cr-sign').value = DEFAULT_CREATOR.sign;
+  document.getElementById('cr-page').value = '';
   log('Story reset \u2014 press \u201cSave & publish story\u201d to make it live.');
 }
 function themeFill(){
