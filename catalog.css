@@ -243,3 +243,27 @@ textarea.co-i{resize:vertical;min-height:56px}
 @media(max-width:520px){.co-row{grid-template-columns:1fr}}
 .co-err{color:#A33B3B;font-size:13px;margin-top:12px}
 .co-privacy{font-size:12px;color:var(--ink-soft);margin-top:14px;line-height:1.5}
+
+
+/* ---------- the logo, lit ---------- */
+.logotype{color:#E3C68C}
+.wordmark-svg{filter:drop-shadow(0 0 7px rgba(233,201,140,.34)) drop-shadow(0 1px 1px rgba(0,0,0,.18))}
+
+footer .wordmark-svg{filter:drop-shadow(0 0 5px rgba(233,201,140,.22))}
+@media (prefers-reduced-motion: reduce){ nav .wordmark-svg path{fill:#E8CE92} }
+
+
+/* ---------- the logo: framed, lit, glimmering ---------- */
+nav .logotype{position:relative;display:inline-flex;align-items:center;justify-content:center;
+  padding:10px 24px 11px;border:1px solid rgba(238,210,152,.85) !important;color:#EBD3A0;overflow:hidden;
+  background:linear-gradient(180deg, rgba(238,210,152,.09), rgba(238,210,152,.02));
+  box-shadow:0 0 16px rgba(233,201,140,.22), inset 0 0 14px rgba(233,201,140,.07)}
+nav .logotype::before{content:"";position:absolute;inset:4px;border:.5px solid rgba(238,210,152,.42);pointer-events:none}
+nav .logotype::after{content:"";position:absolute;top:-60%;left:-70%;width:42%;height:220%;
+  background:linear-gradient(100deg, transparent, rgba(255,248,226,.5) 45%, rgba(255,255,255,.72) 50%, rgba(255,248,226,.5) 55%, transparent);
+  transform:skewX(-18deg);animation:logoGlimmer 5.5s ease-in-out infinite;pointer-events:none}
+@keyframes logoGlimmer{0%{left:-70%}52%{left:135%}100%{left:135%}}
+nav .wordmark-svg{height:2.5em;filter:drop-shadow(0 0 6px rgba(240,214,158,.35))}
+footer .logotype{color:#E3C68C}
+@media(max-width:760px){nav .logotype{padding:8px 18px 9px}nav .wordmark-svg{height:2.2em}}
+@media (prefers-reduced-motion: reduce){nav .logotype::after{animation:none;opacity:0}}
