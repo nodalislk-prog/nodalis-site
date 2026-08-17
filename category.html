@@ -6,7 +6,7 @@
 <title>NODALIS — Collection</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="catalog.css">
 </head>
 <body>
@@ -37,7 +37,7 @@
   function applyTheme(pal){
     try{
       const t0 = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null;
-      const t = (t0 && t0.v === 3) ? t0 : null; if(!t) return;
+      const t = (t0 && t0.v === 5) ? t0 : null; if(!t) return;
       const p = t[pal] || {}; const r = document.documentElement.style;
       if(p.bgTop) r.setProperty('--bg-top', p.bgTop);
       if(p.bgBottom) r.setProperty('--bg-bottom', p.bgBottom);
@@ -143,7 +143,8 @@
     a.innerHTML =
       '<figure>' +
         '<div class="frame"><div class="ph" data-label="' + p.id + '-front.jpg">' +
-          '<img src="images/products/' + p.id + '-front.jpg" alt="" loading="lazy" onerror="this.remove()">' +
+          '<img class="shot-a" src="images/products/' + p.id + '-front.jpg" alt="" loading="lazy" onerror="this.remove()">' +
+          '<img class="shot-b" src="images/products/' + p.id + '-side.jpg" alt="" loading="lazy" onerror="this.remove()">' +
         '</div></div>' +
         '<figcaption>' +
           '<div class="name"></div>' +

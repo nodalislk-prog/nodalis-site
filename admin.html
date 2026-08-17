@@ -239,7 +239,7 @@
               </select>
               <label>Body text font</label>
               <select id="t-f-sans">
-                <option>EB Garamond</option><option>Lora</option><option>Cormorant Garamond</option>
+                <option>Inter</option><option>Plus Jakarta Sans</option><option>EB Garamond</option><option>Lora</option><option>Cormorant Garamond</option>
                 <option>Crimson Pro</option><option>Source Serif 4</option><option>Karla</option>
                 <option>Nunito Sans</option><option>Jost</option>
               </select>
@@ -438,11 +438,11 @@ let token = null;
 let CATEGORIES = {}, PRODUCTS = [];
 let SITE = null;
 const DEFAULT_THEME = {
-  gold: "#B08A2E",
-  apparel: { bgTop:"#DFBDE2", bgBottom:"#CA93CC", ink:"#3A1F42", inkSoft:"#7A4B81", nav:"#3A1F42" },
-  pet:     { bgTop:"#EBCBF0", bgBottom:"#DD92EF", ink:"#0A3E7A", inkSoft:"#4A6BB0", nav:"#0455A7" },
-  mens:    { bgTop:"#E5CCF4", bgBottom:"#A080E1", ink:"#382D72", inkSoft:"#5C509C", nav:"#382D72" },
-  home:    { g0:"#EFD9F1", g1:"#DFBDE2", g2:"#AC6DB3", g3:"#613E74", g4:"#2A1930", ink:"#3A1F42", inkSoft:"#7A4B81", nav:"#3A1F42" }
+  gold: "#B98A4B",
+  apparel: { bgTop:"#FDFBF7", bgBottom:"#F5ECF3", ink:"#2D2D2D", inkSoft:"#7A6473", nav:"#3A1F42" },
+  pet:     { bgTop:"#FDFBF7", bgBottom:"#F7EEDC", ink:"#2D2D2D", inkSoft:"#7A6A62", nav:"#3A2A3E" },
+  mens:    { bgTop:"#FBF9F4", bgBottom:"#EEEAF1", ink:"#2D2D2D", inkSoft:"#645C74", nav:"#241C33" },
+  home:    { g0:"#FDFBF7", g1:"#F4EDE4", g2:"#D8C3D8", g3:"#7A4B81", g4:"#2E1B33", ink:"#2D2D2D", inkSoft:"#6B6459", nav:"#2E1B33" }
 };
 let productsSha = null;   // sha of products.js for updates
 let editingIndex = -1;    // -1 = new product
@@ -1204,7 +1204,7 @@ async function catPublish(){
 }
 
 /* ================= colours (theme) ================= */
-const DEFAULT_TYPE = { serif:'Cormorant Garamond', sans:'EB Garamond', base:17, hscale:100 };
+const DEFAULT_TYPE = { serif:'Cormorant Garamond', sans:'Inter', base:16.5, hscale:100 };
 function typeFill(){
   const ty = (SITE && SITE.type) || {};
   document.getElementById('t-f-serif').value = ty.serif || DEFAULT_TYPE.serif;
@@ -1268,7 +1268,7 @@ async function themePublish(){
   try {
     SITE = SITE || {};
     SITE.theme = {
-      v: 3,
+      v: 5,
       gold: document.getElementById('t-gold').value,
       apparel: {}, pet: {}, mens: {}, home: {}
     };

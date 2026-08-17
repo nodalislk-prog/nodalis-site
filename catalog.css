@@ -3,31 +3,32 @@
   --serif:'Cormorant Garamond',Georgia,serif;
   --hscale:1;
   --fs-base:17px;
-  --sans:'EB Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --story:'EB Garamond',Georgia,serif;
   /* apparel (default) palette */
-  --bg-top:#DFBDE2; --bg-bottom:#CA93CC;
-  --ink:#3A1F42; --ink-soft:#7A4B81;
-  --yarn:#B08A2E; --gold-bright:#EBC96A;
+  --bg-top:#FDFBF7; --bg-bottom:#F5F2EB;
+  --ink:#2D2D2D; --ink-soft:#7A6473;
+  --yarn:#B98A4B; --gold-bright:#EBC96A;
   --hairline:rgba(176,138,46,.42);
   --nav-bg:rgba(58,31,66,.94);
 }
 body.pet{
   /* petstore palette */
-  --bg-top:#EBCBF0; --bg-bottom:#DD92EF;
-  --ink:#0A3E7A; --ink-soft:#4A6BB0;
-  --nav-bg:rgba(4,85,167,.94);
+  --bg-top:#FDFBF7; --bg-bottom:#F7EEDC;
+  --ink:#2D2D2D; --ink-soft:#7A6647;
+  --nav-bg:rgba(58,42,62,.94);
 }
 body.mens{
   /* menswear palette — deep forest */
-  --bg-top:#E5CCF4; --bg-bottom:#A080E1;
-  --ink:#382D72; --ink-soft:#5C509C;
-  --nav-bg:rgba(56,45,114,.94);
+  --bg-top:#FBF9F4; --bg-bottom:#EEEAF1;
+  --ink:#2D2D2D; --ink-soft:#645C74;
+  --nav-bg:rgba(36,28,51,.94);
 }
 body.mens .ph{
   background:
     repeating-linear-gradient(45deg,rgba(190,167,191,.12) 0 2px,transparent 2px 9px),
     repeating-linear-gradient(-45deg,rgba(190,167,191,.05) 0 2px,transparent 2px 9px),
-    linear-gradient(160deg,#E5CCF4,#CBB4EC 60%,#B7A2E4);
+    linear-gradient(160deg,#FBF9F4,#EFEAF2 60%,#E2DCEA);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -200,3 +201,24 @@ footer a:hover{color:var(--yarn)}
   .nav-links{gap:20px}
   main{padding-top:170px}
 }
+
+
+/* ---------- hover: second photograph ---------- */
+.piece .ph{position:relative}
+.piece .ph img{display:block;width:100%;height:100%;object-fit:cover}
+.piece .ph .shot-b{
+  position:absolute;inset:0;opacity:0;transition:opacity .7s ease;
+}
+.piece:hover .ph .shot-b{opacity:1}
+@media (hover:none){.piece .ph .shot-b{display:none}}
+
+/* ---------- functional UI stays crisp ---------- */
+.piece .price,.chip,button,.btn,.size-chip,.chart-rows,.pinfo .price,
+input,select,textarea,.crumbs,.filters{font-family:var(--sans)}
+.piece .name,.pinfo h1,.page-head h1{font-family:var(--serif)}
+.piece .price{font-weight:500;letter-spacing:.06em;font-size:13.5px}
+
+
+/* violet accents on warm paper */
+.chip.on,.size-chip.on{border-color:#7A4B81;color:#7A4B81}
+.crumbs a:hover,.filters a:hover{color:#7A4B81}

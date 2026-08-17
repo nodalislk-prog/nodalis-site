@@ -7,30 +7,31 @@
 <meta name="description" content="Nodalis. Handmade crochet pieces, made to order in Sri Lanka.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bone:#F6F3FB;
     --bone-deep:#EBE5F7;
-    --ink:#3A1F42;
-    --ink-soft:#7A4B81;
-    --yarn:#B08A2E;      /* antique gold accent: thread, knots, links */
+    --ink:#2D2D2D;
+    --ink-soft:#6B6459;
+    --yarn:#B98A4B;      /* antique gold accent: thread, knots, links */
     --hairline:rgba(176,138,46,.42);
     --serif:'Cormorant Garamond', Georgia, serif;
     --hscale:1;
     --fs-base:17px;
-    --sans:'EB Garamond', Georgia, serif;
+    --sans:'Inter', system-ui, sans-serif;
+    --story:'EB Garamond', Georgia, serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important;animation:none!important} }
   body{
     background:linear-gradient(180deg,
-      #EFD9F1 0%,
-      #DFBDE2 30%,
-      #AC6DB3 62%,
-      #613E74 82%,
-      #2A1930 100%);
+      #FDFBF7 0%,
+      #F4EDE4 30%,
+      #D8C3D8 62%,
+      #7A4B81 82%,
+      #2E1B33 100%);
     color:var(--ink);
     font-family:var(--sans);
     font-weight:300;
@@ -72,7 +73,7 @@
     grid-template-columns:1fr auto 1fr;
     align-items:center;
     padding:22px clamp(20px,4vw,56px);
-    background:rgba(58,31,66,.92);   /* dark lavender crown */
+    background:rgba(46,27,51,.92);   /* dark lavender crown */
     backdrop-filter:blur(8px);
     border-bottom:1px solid transparent;
     transition:border-color .4s;
@@ -446,8 +447,8 @@
 
   /* ---- gradient descent: lower sections switch to light-on-dark ---- */
   #atelier, #enquire, footer{
-    --ink:#F4EBF9;
-    --ink-soft:#CBBEE4;
+    --ink:#FBF6FA;
+    --ink-soft:#DCC7DF;
     --yarn:#D9B95C;
     --hairline:rgba(217,185,92,.45);
     color:var(--ink);
@@ -562,7 +563,16 @@
   .rv.in{opacity:1;transform:none}
   @media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none}}
 
-  #chapter-him,#chapter-pets{--ink:#F7EDF8;--ink-soft:#DFBDE2}
+  #chapter-him,#chapter-pets{--ink:#FBF6FA;--ink-soft:#E0CCE2}
+
+  /* narrative text keeps the book serif; UI stays crisp sans */
+  .chap-line, .hero-caption h1, #creator .atelier-copy p, #creator-story p, #creator-sign,
+  blockquote, .lede{font-family:var(--story)}
+
+  /* violet is the heart: chapter marks, thread, ghost numerals */
+  .chap-eyebrow{color:#7A4B81}
+  .chapter-num{color:#7A4B81;opacity:.10}
+  .chapter-thread{background:linear-gradient(180deg,#B98A4B,#7A4B81)}
 </style>
 </head>
 <body>
@@ -796,7 +806,7 @@
   /* theme: gold + main inks (homepage gradient stays as designed) */
   try{
     var t = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null;
-    if (t && t.v !== 3) t = null;   /* older saved colours ignored */
+    if (t && t.v !== 5) t = null;   /* older saved colours ignored */
     if(t){
       var r = document.documentElement.style;
       var hm = t.home;
