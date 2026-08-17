@@ -701,7 +701,7 @@ window.addEventListener('DOMContentLoaded', function(){
       fig.className = 'piece';
       fig.innerHTML = '<a href="category.html?c=' + encodeURIComponent(k) + '">' +
         '<div class="frame"><div class="ph" data-label="Photograph — ' + k + '">' +
-        '<img src="' + img + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div></div>' +
+        '<img src="' + img + '" alt="" loading="eager" decoding="async" onerror="this.remove()"></div></div>' +
         '<figcaption><div class="name"></div><div class="meta"></div></figcaption></a>';
       fig.querySelector('.name').textContent = c.title;
       var mEl = fig.querySelector('.meta');
@@ -720,7 +720,7 @@ window.addEventListener('DOMContentLoaded', function(){
     <p class="eyebrow">The Fitting</p>
   </div>
   <div class="fitting-inner">
-    <div class="frame"><div class="ph" data-label="Photograph — measuring a pet / yarn detail"><img src="images/pet-fitting.jpg" alt="Measuring a pet for a made-to-measure Nodalis crochet piece" loading="lazy" decoding="async" onerror="this.remove()"></div></div>
+    <div class="frame"><div class="ph" data-label="Photograph — measuring a pet / yarn detail"><img src="images/pet-fitting.jpg" alt="Measuring a pet for a made-to-measure Nodalis crochet piece" loading="eager" decoding="async" onerror="this.remove()"></div></div>
     <div class="fitting-copy">
       <h2>Made to measure, down to the last paw.</h2>
       <p>Every wearable piece is crocheted to your pet's own measurements — no standard sizes, no guesswork. Send us three simple measurements with your request and we take care of the rest.</p>

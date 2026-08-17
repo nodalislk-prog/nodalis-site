@@ -692,7 +692,7 @@ window.addEventListener('DOMContentLoaded', function(){
       fig.className = 'piece';
       fig.innerHTML = '<a href="category.html?c=' + encodeURIComponent(k) + '">' +
         '<div class="frame"><div class="ph" data-label="Photograph — ' + k + '">' +
-        '<img src="' + img + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div></div>' +
+        '<img src="' + img + '" alt="" loading="eager" decoding="async" onerror="this.remove()"></div></div>' +
         '<figcaption><div class="name"></div><div class="meta"></div></figcaption></a>';
       fig.querySelector('.name').textContent = c.title;
       var mEl = fig.querySelector('.meta');
@@ -724,7 +724,7 @@ window.addEventListener('DOMContentLoaded', function(){
       fig.className = 'piece';
       fig.innerHTML = '<a href="category.html?c=' + encodeURIComponent(k) + '">' +
         '<div class="frame"><div class="ph" data-label="Photograph — ' + k + '">' +
-        '<img src="' + img + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div></div>' +
+        '<img src="' + img + '" alt="" loading="eager" decoding="async" onerror="this.remove()"></div></div>' +
         '<figcaption><div class="name"></div><div class="meta"></div></figcaption></a>';
       fig.querySelector('.name').textContent = c.title;
       var mEl = fig.querySelector('.meta');

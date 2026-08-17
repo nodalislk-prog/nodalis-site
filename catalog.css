@@ -104,6 +104,7 @@ body.pet .ph{
     linear-gradient(160deg,#F7E4EA,#F0D5DF 60%,#E7C4D4);
 }
 .ph::after{
+  z-index:0;
   content:attr(data-label);
   position:absolute;left:50%;bottom:14px;transform:translateX(-50%);
   white-space:nowrap;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
@@ -206,8 +207,9 @@ footer a:hover{color:var(--yarn)}
 /* ---------- hover: second photograph ---------- */
 .piece .ph{position:relative}
 .piece .ph img{display:block;width:100%;height:100%;object-fit:cover}
+.piece .ph .shot-a{position:absolute;inset:0;opacity:1;z-index:2}
 .piece .ph .shot-b{
-  position:absolute;inset:0;opacity:0;transition:opacity .7s ease;
+  position:absolute;inset:0;opacity:0;transition:opacity .7s ease;z-index:3;
 }
 .piece:hover .ph .shot-b{opacity:1}
 @media (hover:none){.piece .ph .shot-b{display:none}}
@@ -267,6 +269,4 @@ footer .logotype{color:#C9A45C;border:none !important;padding:0 !important}
 @media(max-width:760px){nav .wordmark-svg{height:2.2em}}
 @media (prefers-reduced-motion: reduce){nav .wordmark-svg path{fill:#D9B872}}
 
-/* skip rendering work for sections still far off screen */
-section{content-visibility:auto;contain-intrinsic-size:600px}
 .piece .ph{background-color:rgba(0,0,0,.03)}

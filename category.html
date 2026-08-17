@@ -176,7 +176,7 @@ window.addEventListener('DOMContentLoaded', function(){
     a.innerHTML =
       '<figure>' +
         '<div class="frame"><div class="ph" data-label="' + p.id + '-front.jpg">' +
-          '<img class="shot-a" src="images/products/' + p.id + '-front.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">' +
+          '<img class="shot-a" src="images/products/' + p.id + '-front.jpg" alt="" loading="eager" decoding="async" fetchpriority="high" onerror="this.remove()">' +
           '<img class="shot-b" src="images/products/' + p.id + '-side.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">' +
         '</div></div>' +
         '<figcaption>' +
