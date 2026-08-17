@@ -46,7 +46,11 @@
 
 <footer>Handmade in Sri Lanka · <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a> · <a href="index.html">nodalis.lk</a></footer>
 
-<script src="products.js"></script>
+<script>
+/* always fetch the freshest data — admin changes appear without a hard refresh */
+document.write('<scr' + 'ipt src="products.js?t=' + Math.floor(Date.now() / 60000) + '"><\/scr' + 'ipt>');
+</script>
+<noscript><script src="products.js"></script></noscript>
 <script>
   /* ---- apply theme from SITE ---- */
   function hexRgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}

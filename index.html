@@ -913,7 +913,11 @@
 </script>
 
 
-<script src="products.js"></script>
+<script>
+/* always fetch the freshest data — admin changes appear without a hard refresh */
+document.write('<scr' + 'ipt src="products.js?t=' + Math.floor(Date.now() / 60000) + '"><\/scr' + 'ipt>');
+</script>
+<noscript><script src="products.js"></script></noscript>
 <script>
 (function(){
   /* theme: gold + main inks (homepage gradient stays as designed) */
