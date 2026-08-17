@@ -339,7 +339,7 @@ const PRODUCTS = [
     "category": "dog-dresses",
     "price": "from LKR 5,500",
     "short": "Bobble-stitch bodice with a full ruffled skirt",
-    "description": "A lavender dress worked in a textured bobble stitch, flowing into a full ruffled skirt. Made to your dog's own neck, chest and back measurements, with room to move comfortably.",
+    "description": "A textured puff-stitch dress in dreamy lavender, finished with a full ruffled bustle skirt. Crocheted entirely by hand to your dog's own neck, chest and back measurements. Soft, fur-friendly yarn; gentle cold hand-wash.",
     "colors": [
       "Lavender"
     ],
