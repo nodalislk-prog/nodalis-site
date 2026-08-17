@@ -7,7 +7,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Yellowtail&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="catalog.css">
 </head>
 <body>
@@ -176,8 +176,8 @@ window.addEventListener('DOMContentLoaded', function(){
     a.innerHTML =
       '<figure>' +
         '<div class="frame"><div class="ph" data-label="' + p.id + '-front.jpg">' +
-          '<img class="shot-a" src="images/products/' + p.id + '-front.jpg" alt="" loading="lazy" onerror="this.remove()">' +
-          '<img class="shot-b" src="images/products/' + p.id + '-side.jpg" alt="" loading="lazy" onerror="this.remove()">' +
+          '<img class="shot-a" src="images/products/' + p.id + '-front.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">' +
+          '<img class="shot-b" src="images/products/' + p.id + '-side.jpg" alt="" loading="lazy" decoding="async" onerror="this.remove()">' +
         '</div></div>' +
         '<figcaption>' +
           '<div class="name"></div>' +

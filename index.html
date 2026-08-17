@@ -8,7 +8,7 @@
 <meta name="description" content="Nodalis. Handmade crochet pieces, made to order in Sri Lanka.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Yellowtail&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <style>
   :root{
     --bone:#F6F3FB;
@@ -697,24 +697,24 @@
 <header id="top">
   <div class="hero-reels">
     <div class="reel"><div class="ph" data-label="Video 1 — videos/hero.mp4"></div>
-      <video autoplay muted loop playsinline preload="metadata" onerror="this.remove()">
-        <source src="videos/hero.mp4" type="video/mp4" onerror="this.parentElement.remove()">
+      <video muted loop playsinline preload="none" data-lazy-video onerror="this.remove()">
+        <source data-src="videos/hero.mp4" type="video/mp4" onerror="this.parentElement.remove()">
       </video>
       <button class="reel-toggle" type="button" aria-label="Pause video">
         <svg viewBox="0 0 12 12" aria-hidden="true"><path class="ic-pause" d="M2 1h3v10H2zM7 1h3v10H7z"/><path class="ic-play" style="display:none" d="M2.5 1l8 5-8 5z"/></svg>
       </button>
     </div>
     <div class="reel"><div class="ph" data-label="Video 2 — videos/hero2.mp4"></div>
-      <video autoplay muted loop playsinline preload="metadata" onerror="this.remove()">
-        <source src="videos/hero2.mp4" type="video/mp4" onerror="this.parentElement.remove()">
+      <video muted loop playsinline preload="none" data-lazy-video onerror="this.remove()">
+        <source data-src="videos/hero2.mp4" type="video/mp4" onerror="this.parentElement.remove()">
       </video>
       <button class="reel-toggle" type="button" aria-label="Pause video">
         <svg viewBox="0 0 12 12" aria-hidden="true"><path class="ic-pause" d="M2 1h3v10H2zM7 1h3v10H7z"/><path class="ic-play" style="display:none" d="M2.5 1l8 5-8 5z"/></svg>
       </button>
     </div>
     <div class="reel"><div class="ph" data-label="Video 3 — videos/hero3.mp4"></div>
-      <video autoplay muted loop playsinline preload="metadata" onerror="this.remove()">
-        <source src="videos/hero3.mp4" type="video/mp4" onerror="this.parentElement.remove()">
+      <video muted loop playsinline preload="none" data-lazy-video onerror="this.remove()">
+        <source data-src="videos/hero3.mp4" type="video/mp4" onerror="this.parentElement.remove()">
       </video>
       <button class="reel-toggle" type="button" aria-label="Pause video">
         <svg viewBox="0 0 12 12" aria-hidden="true"><path class="ic-pause" d="M2 1h3v10H2zM7 1h3v10H7z"/><path class="ic-play" style="display:none" d="M2.5 1l8 5-8 5z"/></svg>
@@ -739,7 +739,7 @@
     <div class="chapter-num" aria-hidden="true">01</div>
     <div class="chapter-grid">
       <div class="chapter-media">
-        <div class="frame"><div class="ph" data-label="Photograph — her portrait"><img src="images/story-her.jpg" alt="The Nodalis Woman wearing a handmade crochet piece" loading="lazy" onerror="this.remove()"></div></div>
+        <div class="frame"><div class="ph" data-label="Photograph — her portrait"><img src="images/story-her.jpg" alt="The Nodalis Woman wearing a handmade crochet piece" loading="lazy" decoding="async" onerror="this.remove()"></div></div>
       </div>
       <div class="chapter-copy">
         <p class="chap-eyebrow">Chapter I</p>
@@ -757,7 +757,7 @@
     <div class="chapter-num" aria-hidden="true" style="left:auto;right:-8px">02</div>
     <div class="chapter-grid">
       <div class="chapter-media">
-        <div class="frame"><div class="ph" data-label="Photograph — his portrait"><img src="images/story-him.jpg" alt="The Nodalis Man wearing a handmade crochet piece" loading="lazy" onerror="this.remove()"></div></div>
+        <div class="frame"><div class="ph" data-label="Photograph — his portrait"><img src="images/story-him.jpg" alt="The Nodalis Man wearing a handmade crochet piece" loading="lazy" decoding="async" onerror="this.remove()"></div></div>
       </div>
       <div class="chapter-copy">
         <p class="chap-eyebrow">Chapter II</p>
@@ -775,7 +775,7 @@
     <div class="chapter-num" aria-hidden="true">03</div>
     <div class="chapter-grid">
       <div class="chapter-media">
-        <div class="frame"><div class="ph" data-label="Photograph — the companions"><img src="images/story-pets.jpg" alt="A companion in a handmade Nodalis crochet piece" loading="lazy" onerror="this.remove()"></div></div>
+        <div class="frame"><div class="ph" data-label="Photograph — the companions"><img src="images/story-pets.jpg" alt="A companion in a handmade Nodalis crochet piece" loading="lazy" decoding="async" onerror="this.remove()"></div></div>
       </div>
       <div class="chapter-copy">
         <p class="chap-eyebrow">Chapter III</p>
@@ -985,5 +985,31 @@ window.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 <script src="autoink.js"></script>
+
+<script>
+/* load the reels only when they scroll into view, so the page opens instantly */
+(function(){
+  var vids = document.querySelectorAll('video[data-lazy-video]');
+  if (!vids.length) return;
+  function start(v){
+    if (v.dataset.started) return;
+    v.dataset.started = '1';
+    v.querySelectorAll('source[data-src]').forEach(function(s){ s.src = s.dataset.src; });
+    v.load();
+    var p = v.play();
+    if (p && p.catch) p.catch(function(){});
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { start(e.target); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '200px' });
+    vids.forEach(function(v){ io.observe(v); });
+  } else {
+    vids.forEach(start);
+  }
+})();
+</script>
 </body>
 </html>

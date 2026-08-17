@@ -8,7 +8,7 @@
 <meta name="description" content="Nodalis Men. Handmade crochet menswear, made to order in Sri Lanka.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Yellowtail&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <style>
   :root{
     --bone:#6C5176;
@@ -691,7 +691,7 @@ window.addEventListener('DOMContentLoaded', function(){
       fig.className = 'piece';
       fig.innerHTML = '<a href="category.html?c=' + encodeURIComponent(k) + '">' +
         '<div class="frame"><div class="ph" data-label="Photograph — ' + k + '">' +
-        '<img src="' + img + '" alt="" loading="lazy" onerror="this.remove()"></div></div>' +
+        '<img src="' + img + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div></div>' +
         '<figcaption><div class="name"></div><div class="meta"></div></figcaption></a>';
       fig.querySelector('.name').textContent = c.title;
       var mEl = fig.querySelector('.meta');
@@ -723,7 +723,7 @@ window.addEventListener('DOMContentLoaded', function(){
       fig.className = 'piece';
       fig.innerHTML = '<a href="category.html?c=' + encodeURIComponent(k) + '">' +
         '<div class="frame"><div class="ph" data-label="Photograph — ' + k + '">' +
-        '<img src="' + img + '" alt="" loading="lazy" onerror="this.remove()"></div></div>' +
+        '<img src="' + img + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div></div>' +
         '<figcaption><div class="name"></div><div class="meta"></div></figcaption></a>';
       fig.querySelector('.name').textContent = c.title;
       var mEl = fig.querySelector('.meta');

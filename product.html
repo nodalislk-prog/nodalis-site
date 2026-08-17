@@ -7,7 +7,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Yellowtail&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="catalog.css">
 </head>
 <body>
@@ -272,7 +272,7 @@ window.addEventListener('DOMContentLoaded', function(){
   views.forEach((v, i) => {
     const b = document.createElement('button');
     b.type = 'button';
-    b.innerHTML = '<span class="ph" data-label=""><img src="' + srcFor(v.key) + '" alt="" loading="lazy" onerror="this.remove()"' +
+    b.innerHTML = '<span class="ph" data-label=""><img src="' + srcFor(v.key) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"' +
                   (v.key === 'size' ? ' style="object-fit:contain;background:#FFFFFF"' : '') + '></span>' +
                   '<span class="tlabel">' + v.label + '</span>';
     b.addEventListener('click', () => show(v, b));

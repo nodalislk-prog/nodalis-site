@@ -846,7 +846,7 @@ function fileToBase64(f){
 /* Shrinks any picked image to web size before upload:
    max side maxDim px, saved as compressed JPG (transparency flattened to white). */
 function processImage(f, maxDim, quality){
-  maxDim = maxDim || 1600; quality = quality || 0.85;
+  maxDim = maxDim || 1200; quality = quality || 0.78;
   return new Promise((res, rej) => {
     const img = new Image();
     img.onload = () => {
@@ -902,7 +902,7 @@ async function saveProduct(){
       if (pickedFiles[v]) {
         log('Uploading ' + v + ' image…');
         const path = 'images/products/' + id + '-' + v + '.jpg';
-        const b64 = await processImage(pickedFiles[v], 1600, 0.85);
+        const b64 = await processImage(pickedFiles[v], 1200, 0.78);
         const sha = await getSha(path);
         await putFile(path, b64, 'Admin: image ' + id + '-' + v, sha);
       }
@@ -912,7 +912,7 @@ async function saveProduct(){
     for (const cs in pickedColorFiles) {
       log('Uploading colour photo: ' + cs);
       const cpath = 'images/products/' + id + '-front-' + cs + '.jpg';
-      const cb64 = await processImage(pickedColorFiles[cs], 1600, 0.85);
+      const cb64 = await processImage(pickedColorFiles[cs], 1200, 0.78);
       const csha = await getSha(cpath);
       await putFile(cpath, cb64, 'Admin: colour photo ' + id + ' ' + cs, csha);
     }
@@ -1078,7 +1078,7 @@ function mediaSlot(it){
     try {
       btn.disabled = true;
       log('Uploading ' + it.label + '…');
-      const b64 = it.video ? await fileToBase64(f) : await processImage(f, 2000, 0.85);
+      const b64 = it.video ? await fileToBase64(f) : await processImage(f, 1600, 0.8);
       const sha = await getSha(it.path);
       await putFile(it.path, b64, 'Admin: replace ' + it.path, sha);
       prev.src = URL.createObjectURL(f);

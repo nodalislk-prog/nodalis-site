@@ -266,3 +266,7 @@ nav .wordmark-svg path{fill:url(#nodalis-shine)}
 footer .logotype{color:#C9A45C;border:none !important;padding:0 !important}
 @media(max-width:760px){nav .wordmark-svg{height:2.2em}}
 @media (prefers-reduced-motion: reduce){nav .wordmark-svg path{fill:#D9B872}}
+
+/* skip rendering work for sections still far off screen */
+section{content-visibility:auto;contain-intrinsic-size:600px}
+.piece .ph{background-color:rgba(0,0,0,.03)}
