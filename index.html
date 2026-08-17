@@ -650,62 +650,38 @@
   footer .wordmark-svg{height:2.1em}
   @media(max-width:760px){ .wordmark-svg{height:2.1em} }
 
-  /* ---------- the logo: framed, lit, glimmering ---------- */
+  /* ---------- the logo: glimmering gold ---------- */
   nav .logotype{
-    position:relative;
-    display:inline-flex;align-items:center;justify-content:center;
-    padding:10px 24px 11px;
-    border:1px solid rgba(238,210,152,.85) !important;
-    color:#EBD3A0;
-    overflow:hidden;
-    background:linear-gradient(180deg, rgba(238,210,152,.09), rgba(238,210,152,.02));
-    box-shadow:0 0 16px rgba(233,201,140,.22), inset 0 0 14px rgba(233,201,140,.07);
+    border:none !important;padding:0 !important;background:none !important;box-shadow:none !important;
+    color:#C9A45C;
   }
-  nav .logotype::before{
-    content:"";position:absolute;inset:4px;
-    border:.5px solid rgba(238,210,152,.42);
-    pointer-events:none;
-  }
-  /* the glimmer travelling across the whole plate */
-  nav .logotype::after{
-    content:"";position:absolute;top:-60%;left:-70%;
-    width:42%;height:220%;
-    background:linear-gradient(100deg, transparent, rgba(255,248,226,.5) 45%, rgba(255,255,255,.72) 50%, rgba(255,248,226,.5) 55%, transparent);
-    transform:skewX(-18deg);
-    animation:logoGlimmer 5.5s ease-in-out infinite;
-    pointer-events:none;
-  }
-  @keyframes logoGlimmer{
-    0%   {left:-70%}
-    52%  {left:135%}
-    100% {left:135%}
-  }
+  nav .logotype::before,nav .logotype::after{content:none !important}
   nav .wordmark-svg{
     height:2.5em;
-    filter:drop-shadow(0 0 6px rgba(240,214,158,.35));
+    filter:drop-shadow(0 0 8px rgba(240,214,158,.30));
   }
-  footer .logotype{color:#E3C68C}
-  footer .wordmark-svg{filter:drop-shadow(0 0 5px rgba(233,201,140,.2))}
-  @media(max-width:760px){
-    nav .logotype{padding:8px 18px 9px}
-    nav .wordmark-svg{height:2.2em}
-  }
+  nav .wordmark-svg path{fill:url(#nodalis-shine)}
+  footer .logotype{color:#C9A45C;border:none !important;padding:0 !important}
+  footer .wordmark-svg{filter:drop-shadow(0 0 5px rgba(233,201,140,.18))}
+  @media(max-width:760px){ nav .wordmark-svg{height:2.2em} }
   @media (prefers-reduced-motion: reduce){
-    nav .logotype::after{animation:none;opacity:0}
+    nav .wordmark-svg path{fill:#D9B872}
   }
 </style>
 </head>
 <body data-thread-start="ball">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <linearGradient id="nodalis-shine" x1="-0.4" y1="0" x2="0.25" y2="0.6">
-      <stop offset="0%"   stop-color="#C8A45E"/>
-      <stop offset="38%"  stop-color="#E8CE92"/>
-      <stop offset="50%"  stop-color="#FFF4D6"/>
-      <stop offset="62%"  stop-color="#E8CE92"/>
-      <stop offset="100%" stop-color="#C8A45E"/>
+    <linearGradient id="nodalis-shine" x1="0" y1="0.1" x2="1" y2="0.9">
+      <stop offset="0%"   stop-color="#B8903F"/>
+      <stop offset="30%"  stop-color="#C9A45C"/>
+      <stop offset="45%"  stop-color="#F2DDA6"/>
+      <stop offset="50%"  stop-color="#FFF8E4"/>
+      <stop offset="55%"  stop-color="#F2DDA6"/>
+      <stop offset="70%"  stop-color="#C9A45C"/>
+      <stop offset="100%" stop-color="#B8903F"/>
       <animateTransform attributeName="gradientTransform" type="translate"
-                        values="-0.7 0; 1.4 0; 1.4 0" dur="6s" repeatCount="indefinite"/>
+                        values="-1 0; 1 0; 1 0" dur="4.5s" repeatCount="indefinite"/>
     </linearGradient>
   </defs>
 </svg>
