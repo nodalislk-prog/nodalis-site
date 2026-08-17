@@ -478,19 +478,14 @@ const PRODUCTS = [
     "sizeStep": 500
   },
   {
-    "id": "peach-ruffle-dress",
-    "name": "The Peach Ruffle Dress",
+    "id": "peach-blossom-granny-dress",
+    "name": "Peach Blossom Granny Dress",
     "category": "dog-dresses",
     "price": "from LKR 5,500",
-    "basePrice": 5500,
-    "sizeStep": 500,
     "short": "Lace-edged tiers in soft peach",
-    "description": "A peach dress with a ribbed bodice and layered lace-edged ruffles trimmed in white. Light, sweet, and made to your dog's own neck, chest and back measurements.",
+    "description": "A breezy harness-style dress built around a classic cream-and-peach granny square, with an airy openwork ruffle skirt. Crocheted entirely by hand to your dog's own neck, chest and back measurements. Soft, fur-friendly yarn; gentle cold hand-wash.",
     "colors": [
-      "Peach",
-      "Coral",
-      "Cream",
-      "Custom colour"
+      "Peach"
     ],
     "sizes": [
       "XS",
@@ -550,7 +545,9 @@ const PRODUCTS = [
         "80–95",
         "60–75"
       ]
-    ]
+    ],
+    "basePrice": 5500,
+    "sizeStep": 500
   },
   {
     "id": "bumblebee-dress-set",
