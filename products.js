@@ -410,15 +410,10 @@ const PRODUCTS = [
     "name": "The Pastel Ruffle Dress",
     "category": "dog-dresses",
     "price": "from LKR 5,500",
-    "basePrice": 5500,
-    "sizeStep": 500,
     "short": "Tiered ruffles in pink, blue and lilac",
-    "description": "A three-tone dress with a soft pink ruffled collar and tiered skirt in powder blue and lilac. Crocheted by hand to your dog's own measurements — a piece for the softest occasions.",
+    "description": "A three-tier ruffle dress in blush, lilac and sky blue, topped with a romantic pink ruffle collar. Crocheted entirely by hand to your dog's own neck, chest and back measurements. Soft, fur-friendly yarn; gentle cold hand-wash.",
     "colors": [
-      "Pastel Mix",
-      "Pinks",
-      "Blues",
-      "Custom colours"
+      "Pastel Mix"
     ],
     "sizes": [
       "XS",
@@ -478,7 +473,9 @@ const PRODUCTS = [
         "80–95",
         "60–75"
       ]
-    ]
+    ],
+    "basePrice": 5500,
+    "sizeStep": 500
   },
   {
     "id": "peach-ruffle-dress",
