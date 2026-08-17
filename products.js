@@ -1,4 +1,4 @@
-/* Nodalis site data — edited via admin.html on 2026-08-16 */
+/* Nodalis site data — edited via admin.html on 2026-08-17 */
 
 const SITE = {
   "payment": {
@@ -10,37 +10,37 @@ const SITE = {
     "note": "After paying, please send us the receipt on WhatsApp with your order reference."
   },
   "theme": {
-    "gold": "#ffae00",
+    "gold": "#b08a2e",
     "apparel": {
-      "bgTop": "#ffffff",
-      "bgBottom": "#000000",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
-      "nav": "#751f55"
+      "bgTop": "#f5eef9",
+      "bgBottom": "#e3d2ed",
+      "ink": "#563467",
+      "inkSoft": "#8e6bb8",
+      "nav": "#563467"
     },
     "pet": {
-      "bgTop": "#ffffff",
-      "bgBottom": "#000000",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
-      "nav": "#ac3997"
+      "bgTop": "#fbeff0",
+      "bgBottom": "#efc3d3",
+      "ink": "#59283f",
+      "inkSoft": "#9c6580",
+      "nav": "#7a2c54"
     },
     "mens": {
-      "bgTop": "#ffffff",
-      "bgBottom": "#000000",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
-      "nav": "#371e7b"
+      "bgTop": "#563467",
+      "bgBottom": "#3a2544",
+      "ink": "#ead9ef",
+      "inkSoft": "#c4a9ce",
+      "nav": "#241a29"
     },
     "home": {
-      "g0": "#ffffff",
-      "g1": "#000000",
-      "g2": "#000000",
-      "g3": "#000000",
-      "g4": "#000000",
-      "ink": "#ffffff",
-      "inkSoft": "#ffffff",
-      "nav": "#792e7a"
+      "g0": "#f3ebfb",
+      "g1": "#dcc4f0",
+      "g2": "#9c7bc6",
+      "g3": "#6b5072",
+      "g4": "#25302c",
+      "ink": "#563467",
+      "inkSoft": "#8e6bb8",
+      "nav": "#563467"
     }
   },
   "type": {
