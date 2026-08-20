@@ -1,14 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NODALIS — Piece</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NODALIS — Your Basket</title>
+<meta name="description" content="Your Nodalis basket. Handmade crochet pieces, made to order in Sri Lanka.">
+<meta name="robots" content="noindex">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="catalog.css">
+<style>
+  .basket-wrap{max-width:860px;margin:0 auto;padding:clamp(28px,5vw,56px) 20px 80px}
+  .basket-title{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,40px);letter-spacing:.06em;text-align:center;margin-bottom:8px}
+  .basket-sub{text-align:center;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--yarn);margin-bottom:40px}
+  .b-item{display:flex;gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid var(--hairline)}
+  .b-thumb{width:86px;height:110px;flex-shrink:0;border:1px solid var(--hairline);position:relative;overflow:hidden;background:linear-gradient(160deg,#EFE9F6,#E4D6EF)}
+  .b-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .b-info{flex:1;min-width:0}
+  .b-name{font-family:var(--serif);font-size:19px;letter-spacing:.04em;margin-bottom:3px}
+  .b-meta{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .b-price{font-size:14px;color:var(--yarn);margin-top:5px;letter-spacing:.04em}
+  .b-qty{display:flex;align-items:center;gap:0;border:1px solid var(--hairline)}
+  .b-qty button{width:32px;height:32px;background:transparent;border:none;color:var(--ink);font-size:16px;cursor:pointer;font-family:var(--sans)}
+  .b-qty span{width:30px;text-align:center;font-size:14px;font-family:var(--sans)}
+  .b-remove{background:none;border:none;color:var(--ink-soft);font-size:11px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border-bottom:1px solid var(--hairline);padding:0 0 2px;margin-top:8px}
+  .b-right{text-align:right;flex-shrink:0}
+  .b-line-total{font-size:15px;letter-spacing:.04em}
+  .b-totals{margin-top:28px;border:1px solid var(--hairline);outline:1px solid var(--hairline);outline-offset:5px;padding:24px 26px}
+  .b-totals .co-line{display:flex;justify-content:space-between;padding:6px 0;font-size:14.5px}
+  .b-totals .co-total{border-top:1px solid var(--hairline);margin-top:8px;padding-top:14px;font-size:16px}
+  .b-empty{text-align:center;padding:70px 0 30px;color:var(--ink-soft)}
+  .b-empty a{display:inline-block;margin-top:18px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid var(--yarn);color:var(--yarn);padding-bottom:3px}
+  .b-sent{text-align:center;padding:60px 0;display:none}
+  .b-sent h2{font-family:var(--serif);font-weight:400;font-size:26px;letter-spacing:.06em;margin-bottom:10px}
+  .b-sent p{color:var(--ink-soft)}
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -34,39 +62,31 @@
 </nav>
 
 <main>
-  <p class="crumb" id="crumb"><a href="index.html">Home</a></p>
+<div class="basket-wrap">
+  <h1 class="basket-title">Your Basket</h1>
+  <p class="basket-sub">Every piece, gathered in one order</p>
 
-  <div class="product">
-    <div class="gallery">
-      <div class="frame"><div class="ph" id="main-ph" data-label="">
-        <img id="main-img" src="" alt="" onerror="this.style.display='none'">
-      </div></div>
-      <div class="thumbs" id="thumbs"></div>
-    </div>
+  <div id="b-list"></div>
 
-    <div class="pinfo">
-      <h1 id="p-name"></h1>
-      <p class="price" id="p-price"></p>
-      <p class="desc" id="p-desc"></p>
-
-      <p class="opt-label" id="color-label">Colour <span class="picked" id="picked-color"></span></p>
-      <div class="chips" id="colors"></div>
-
-      <p class="opt-label" id="size-label">Size <span class="picked" id="picked-size"></span></p>
-      <div class="chips" id="sizes"></div>
-
-      <button class="order-btn" onclick="order()">Order via WhatsApp</button>
-      <button class="order-btn order-btn--ghost" onclick="addToBasket()" style="background:transparent;color:var(--ink);border:1px solid var(--ink);margin-top:10px">Add to Basket</button>
-      <p class="order-hint">We reply personally to confirm measurements, timing, and payment.</p>
-    </div>
+  <div class="b-empty" id="b-empty" hidden>
+    <p>Your basket is empty — the story is waiting to be worn.</p>
+    <a href="index.html">Browse the collections</a>
   </div>
 
-  <div class="size-chart" id="size-chart" hidden>
-    <span class="knot" aria-hidden="true"></span>
-    <h2>Size Chart</h2>
-    <table id="chart-table"></table>
-    <p class="chart-note">Between sizes? Choose the larger one, or mention your exact measurements in the order message — every piece is made to order.</p>
+  <div class="b-totals" id="b-totals" hidden>
+    <div class="co-line"><span>Pieces (<span id="b-count"></span>)</span><span id="b-subtotal"></span></div>
+    <div class="co-line"><span>Delivery</span><span id="b-delivery"></span></div>
+    <div class="co-line co-total"><span>Total to pay</span><span id="b-total"></span></div>
+    <button class="order-btn" style="width:100%;margin-top:20px" onclick="openCheckout()">Order Everything via WhatsApp</button>
+    <p class="order-hint" style="text-align:center">One message, all your pieces. We reply personally to confirm measurements, timing, and payment.</p>
   </div>
+
+  <div class="b-sent" id="b-sent">
+    <h2>Your order is on its way to us</h2>
+    <p>WhatsApp has opened with everything written. Attach your payment receipt in the chat and your order is confirmed.</p>
+    <a href="index.html" style="display:inline-block;margin-top:18px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid var(--yarn);color:var(--yarn);padding-bottom:3px">Back to the story</a>
+  </div>
+</div>
 </main>
 
 <div id="checkout" style="display:none;position:fixed;inset:0;z-index:99;background:rgba(30,15,35,.5);align-items:center;justify-content:center;padding:18px">
@@ -119,7 +139,7 @@
     </div>
 
     <div id="co-totals" class="co-summary">
-      <div class="co-line"><span id="co-piece-label">Piece</span><span id="co-piece-amt">—</span></div>
+      <div id="co-items"></div>
       <div class="co-line"><span>Delivery</span><span id="co-delivery-amt">—</span></div>
       <div class="co-line co-total"><span>Total to pay</span><span id="co-total-amt">—</span></div>
     </div>
@@ -151,225 +171,115 @@
   </div>
 </div>
 
-<footer>Handmade in Sri Lanka · <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a> · <a href="index.html">nodalis.lk</a></footer>
-
 <script src="products.js"></script>
+<script src="autoink.js"></script>
+<script src="cart.js"></script>
 <script>
-/* safety net: if the data file fails to load, say so instead of showing a blank page */
-window.addEventListener('DOMContentLoaded', function(){
-  if (typeof PRODUCTS === 'undefined' || typeof CATEGORIES === 'undefined') {
-    var b = document.createElement('div');
-    b.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:999;background:#3E2247;color:#F6F1EA;'
-      + 'font:14px/1.5 system-ui,sans-serif;padding:14px 18px;text-align:center';
-    b.textContent = 'Could not load the catalogue just now. Please refresh the page.';
-    document.body.appendChild(b);
-  }
-});
-</script>
-<script>
-  function hexRgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
-  function applyTheme(pal){
-    try{
-      const t0 = (typeof SITE!=='undefined' && SITE.theme) ? SITE.theme : null;
-      const t = (t0 && t0.v === 5) ? t0 : null; if(!t) return;
-      const pp = t[pal] || {}; const r = document.documentElement.style;
-      if(pp.bgTop) r.setProperty('--bg-top', pp.bgTop);
-      if(pp.bgBottom) r.setProperty('--bg-bottom', pp.bgBottom);
-      if(pp.ink) r.setProperty('--ink', pp.ink);
-      if(pp.inkSoft) r.setProperty('--ink-soft', pp.inkSoft);
-      if(pp.nav){ const c=hexRgb(pp.nav); r.setProperty('--nav-bg','rgba('+c[0]+','+c[1]+','+c[2]+',.94)'); }
-      if(t.gold){ r.setProperty('--yarn', t.gold); const g=hexRgb(t.gold); r.setProperty('--hairline','rgba('+g[0]+','+g[1]+','+g[2]+',.42)'); r.setProperty('--gold-bright', t.gold); }
-    }catch(e){}
-    var r = document.documentElement.style;
-      var ty = (typeof SITE!=='undefined' && SITE.type) ? SITE.type : null;
-      if (ty) {
-        if (ty.serif) r.setProperty('--serif', "'" + ty.serif + "', Georgia, serif");
-        if (ty.sans) r.setProperty('--sans', "'" + ty.sans + "', Georgia, serif");
-        if (ty.base) r.setProperty('--fs-base', ty.base + 'px');
-        if (ty.hscale) r.setProperty('--hscale', (ty.hscale/100));
-        var fams = [];
-        if (ty.serif) fams.push(ty.serif);
-        if (ty.sans && ty.sans !== ty.serif) fams.push(ty.sans);
-        if (fams.length) {
-          var fl = document.createElement('link'); fl.rel = 'stylesheet';
-          fl.href = 'https://fonts.googleapis.com/css2?' + fams.map(function(f){ return 'family=' + f.trim().replace(/ /g,'+') + ':ital,wght@0,400;0,500;0,600;1,400;1,500'; }).join('&') + '&display=swap';
-          document.head.appendChild(fl);
-        }
-      }
-
-  }
-  const params = new URLSearchParams(location.search);
-  const id = params.get('id');
-  const p = PRODUCTS.find(x => x.id === id) || PRODUCTS[0];
-  const cat = CATEGORIES[p.category] || {};
-  if (cat.group === 'pet') document.body.classList.add('pet');
-  if (cat.group === 'mens') document.body.classList.add('mens');
-  applyTheme(cat.group === 'pet' ? 'pet' : (cat.group === 'mens' ? 'mens' : 'apparel'));
-
-  document.title = 'NODALIS — ' + p.name;
-  document.getElementById('p-name').textContent = p.name;
   function fmtLKR(n){ return 'LKR ' + Number(n).toLocaleString('en-US'); }
-  function startingPriceText(){
-    if (p.price) return p.price;
-    if (p.basePrice) return 'from ' + fmtLKR(p.basePrice);
-    return '';
-  }
-  document.getElementById('p-price').textContent = startingPriceText();
-  document.getElementById('p-desc').textContent = p.description || p.short || '';
-  let crumb = '<a href="index.html">Home</a>';
-  if (cat.group === 'pet') crumb += ' &nbsp;/&nbsp; <a href="petstore.html">Petstore</a>';
-  if (cat.parent && CATEGORIES[cat.parent]) {
-    crumb += ' &nbsp;/&nbsp; <a href="category.html?c=' + encodeURIComponent(cat.parent) + '">' + CATEGORIES[cat.parent].title + '</a>';
-  }
-  crumb += ' &nbsp;/&nbsp; <a href="category.html?c=' + encodeURIComponent(p.category) + '">' + (cat.title || 'Collection') + '</a>' +
-    ' &nbsp;/&nbsp; ' + p.name;
-  document.getElementById('crumb').innerHTML = crumb;
-
-  /* ----- gallery: front / side / size guide ----- */
-  const views = [
-    { key:'front', label:'Front' },
-    { key:'side',  label:'Side' },
-    { key:'size',  label:'Size Guide' }
-  ];
-  let currentView = 'front';
-  let pickedColor = null, pickedSize = null;
-  function colorSlug(s){
-    return String(s).toLowerCase().trim().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
-  }
-  /* If a colour is picked and a photo exists for it, show it; otherwise keep the default. */
-  function applyColorImage(){
-    if (currentView === 'size') return;
-    const fallback = srcFor(currentView);
-    if (!pickedColor) { mainImg.onerror = null; mainImg.src = fallback; return; }
-    const variant = 'images/products/' + p.id + '-' + currentView + '-' + colorSlug(pickedColor) + '.jpg';
-    const probe = new Image();
-    probe.onload = () => { mainImg.onerror = null; mainImg.src = variant; };
-    probe.onerror = () => { mainImg.onerror = null; mainImg.src = fallback; };
-    probe.src = variant;
-  }
-  const mainImg = document.getElementById('main-img');
-  const mainPh = document.getElementById('main-ph');
-  const thumbs = document.getElementById('thumbs');
-
-  function srcFor(v){ return 'images/products/' + p.id + '-' + v + '.jpg'; }
-  function show(v, btn){
-    currentView = v.key;
-    mainImg.style.display = '';
-    mainImg.src = srcFor(v.key);
-    mainImg.alt = p.name + ' — ' + v.label;
-    /* size guides are often wide — show them whole, never cropped */
-    if (v.key === 'size') {
-      mainImg.style.objectFit = 'contain';
-      mainImg.style.background = '#FFFFFF';
-    } else {
-      mainImg.style.objectFit = '';
-      mainImg.style.background = '';
-    }
-    mainPh.dataset.label = p.id + '-' + v.key + '.jpg';
-    thumbs.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    applyColorImage();
-  }
-  views.forEach((v, i) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.innerHTML = '<span class="ph" data-label=""><img src="' + srcFor(v.key) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"' +
-                  (v.key === 'size' ? ' style="object-fit:contain;background:#FFFFFF"' : '') + '></span>' +
-                  '<span class="tlabel">' + v.label + '</span>';
-    b.addEventListener('click', () => show(v, b));
-    thumbs.appendChild(b);
-    if (i === 0) show(v, b);
-  });
-
-  /* ----- colour & size chips ----- */
-  function chipGroup(list, mount, onPick){
-    const el = document.getElementById(mount);
-    (list || []).forEach(v => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.textContent = v;
-      b.addEventListener('click', () => {
-        el.querySelectorAll('button').forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        onPick(v);
-      });
-      el.appendChild(b);
-    });
-  }
-  chipGroup(p.colors, 'colors', v => {
-    pickedColor = v;
-    document.getElementById('picked-color').textContent = '— ' + v;
-    applyColorImage();
-  });
-  chipGroup(p.sizes,  'sizes',  v => {
-    pickedSize  = v;
-    document.getElementById('picked-size').textContent  = '— ' + v;
-    if (p.basePrice) {
-      const i = (p.sizes || []).indexOf(v);
-      const price = Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0);
-      document.getElementById('p-price').textContent = fmtLKR(price) + ' — size ' + v;
-    }
-  });
-  if (!p.colors || !p.colors.length) document.getElementById('color-label').hidden = true;
-  if (!p.sizes  || !p.sizes.length)  document.getElementById('size-label').hidden  = true;
-
-  /* ----- size chart table ----- */
-  if (p.sizeChart && p.sizeChart.length > 1) {
-    const t = document.getElementById('chart-table');
-    p.sizeChart.forEach((row, i) => {
-      const tr = document.createElement('tr');
-      row.forEach(cell => {
-        const td = document.createElement(i === 0 ? 'th' : 'td');
-        td.textContent = cell;
-        tr.appendChild(td);
-      });
-      t.appendChild(tr);
-    });
-    document.getElementById('size-chart').hidden = false;
-  }
-
-  /* ----- order via WhatsApp ----- */
-  let orderRef = '';
-  function orderPrice(){
-    if (!(pickedSize && p.basePrice)) return null;
-    const i = (p.sizes || []).indexOf(pickedSize);
-    return Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0);
-  }
-  function addToBasket(){
-    if (!p) return;
-    if ((p.sizes || []).length && !pickedSize){
-      var sl = document.getElementById('size-label');
-      if (sl){ sl.scrollIntoView({behavior:'smooth', block:'center'}); sl.style.color = 'var(--yarn)'; setTimeout(function(){ sl.style.color=''; }, 1800); }
-      return;
-    }
-    var unit = orderPrice() || Number(p.basePrice) || 0;
-    window.NodalisBasket && NodalisBasket.add({
-      id: p.id, name: p.name,
-      size: pickedSize || '', colour: pickedColor || '',
-      unitPrice: unit, priceText: p.price || ''
-    });
-  }
-  window.addToBasket = addToBasket;
   function pay(){ return (typeof SITE !== 'undefined' && SITE && SITE.payment) ? SITE.payment : {}; }
+  var orderRef = '';
+
+  function items(){ return NodalisBasket.read(); }
+
+  function deliveryFee(){
+    var d = (typeof SITE !== 'undefined' && SITE.delivery) ? SITE.delivery : null;
+    if (!d || d.free) return 0;
+    var raw = (d.flat != null && d.flat !== '') ? d.flat : (d.colombo || 0);
+    var flat = parseFloat(String(raw).replace(/[^\d.]/g, '')) || 0;
+    var over = parseFloat(String(d.freeOver || '').replace(/[^\d.]/g, '')) || 0;
+    var goods = NodalisBasket.subtotal();
+    if (over && goods >= over) return 0;
+    return flat;
+  }
+  function deliveryText(){
+    var d = (typeof SITE !== 'undefined' && SITE.delivery) ? SITE.delivery : null;
+    if (!d) return '';
+    var t;
+    if (d.free) t = 'Free delivery on every order.';
+    else {
+      t = 'Delivery: LKR ' + ((d.flat != null && d.flat !== '') ? d.flat : (d.colombo || '\u2014')) + ' island-wide.';
+      if (d.freeOver) t += ' Free over LKR ' + d.freeOver + '.';
+    }
+    if (d.days) t += ' ' + d.days + '.';
+    if (d.note) t += ' ' + d.note;
+    return t;
+  }
+
+  function render(){
+    var list = document.getElementById('b-list');
+    var arr = items();
+    list.innerHTML = '';
+    document.getElementById('b-empty').hidden = arr.length > 0;
+    document.getElementById('b-totals').hidden = arr.length === 0;
+    arr.forEach(function(it, i){
+      var row = document.createElement('div');
+      row.className = 'b-item';
+      var meta = [it.size, it.colour].filter(Boolean).join(' \u00b7 ');
+      var unit = Number(it.unitPrice) || 0;
+      row.innerHTML =
+        '<a class="b-thumb" href="product.html?id=' + encodeURIComponent(it.id) + '">' +
+          '<img src="images/products/' + it.id + '-front.jpg" alt="" loading="lazy" onerror="this.remove()">' +
+        '</a>' +
+        '<div class="b-info">' +
+          '<p class="b-name"></p>' +
+          (meta ? '<p class="b-meta"></p>' : '') +
+          '<p class="b-price">' + (unit ? fmtLKR(unit) + ' each' : 'Price confirmed on WhatsApp') + '</p>' +
+          '<button class="b-remove">Remove</button>' +
+        '</div>' +
+        '<div class="b-right">' +
+          '<div class="b-qty"><button aria-label="Less">\u2212</button><span>' + (it.qty||1) + '</span><button aria-label="More">+</button></div>' +
+          (unit ? '<p class="b-line-total" style="margin-top:10px">' + fmtLKR(unit * (it.qty||1)) + '</p>' : '') +
+        '</div>';
+      row.querySelector('.b-name').textContent = it.name;
+      if (meta) row.querySelector('.b-meta').textContent = meta;
+      row.querySelector('.b-remove').addEventListener('click', function(){ NodalisBasket.removeAt(i); render(); });
+      var btns = row.querySelectorAll('.b-qty button');
+      btns[0].addEventListener('click', function(){ NodalisBasket.setQty(i, (it.qty||1) - 1); render(); });
+      btns[1].addEventListener('click', function(){ NodalisBasket.setQty(i, (it.qty||1) + 1); render(); });
+      list.appendChild(row);
+    });
+    var goods = NodalisBasket.subtotal();
+    var fee = deliveryFee();
+    document.getElementById('b-count').textContent = NodalisBasket.count();
+    document.getElementById('b-subtotal').textContent = goods ? fmtLKR(goods) : '\u2014';
+    document.getElementById('b-delivery').textContent = arr.length ? (fee ? fmtLKR(fee) : 'Free') : '\u2014';
+    document.getElementById('b-total').textContent = arr.length ? fmtLKR(goods + fee) : '\u2014';
+  }
+
   function copyText(t, btn){
     const done = () => { const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(()=>{ btn.textContent = o; }, 1600); };
     if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(done, done); }
     else { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); done(); }
   }
-  function order(){
-    const need = [];
-    if (p.colors && p.colors.length && !pickedColor) need.push('a colour');
-    if (p.sizes && p.sizes.length && !pickedSize) need.push('a size');
-    if (need.length) { alert('Please choose ' + need.join(' and ') + ' first.'); return; }
 
+  function refreshSummary(){
+    var box = document.getElementById('co-items');
+    if (!box) return;
+    box.innerHTML = '';
+    items().forEach(function(it){
+      var d = document.createElement('div');
+      d.className = 'co-line';
+      var label = it.name + (it.size ? ' (' + it.size + ')' : '') + ((it.qty||1) > 1 ? ' \u00d7' + it.qty : '');
+      var amt = (Number(it.unitPrice)||0) * (it.qty||1);
+      d.innerHTML = '<span></span><span></span>';
+      d.children[0].textContent = label;
+      d.children[1].textContent = amt ? fmtLKR(amt) : '\u2014';
+      box.appendChild(d);
+    });
+    var goods = NodalisBasket.subtotal();
+    var fee = deliveryFee();
+    document.getElementById('co-delivery-amt').textContent = fee ? fmtLKR(fee) : 'Free';
+    document.getElementById('co-total-amt').textContent = (goods || fee) ? fmtLKR(goods + fee) : '\u2014';
+  }
+
+  function openCheckout(){
+    if (!items().length) return;
     orderRef = 'ND-' + Date.now().toString(36).toUpperCase().slice(-6);
     document.getElementById('co-ref').textContent = orderRef;
     document.getElementById('co-ref2').textContent = orderRef;
     document.getElementById('co-ref3').textContent = orderRef;
-    const priceN = orderPrice();
     document.getElementById('co-summary').textContent =
-      p.name + (pickedSize ? ' \u00b7 ' + pickedSize : '') + (pickedColor ? ' \u00b7 ' + pickedColor : '') +
-      (priceN ? ' \u00b7 ' + fmtLKR(priceN) : (p.price ? ' \u00b7 ' + p.price : ''));
+      NodalisBasket.count() + ' piece' + (NodalisBasket.count() > 1 ? 's' : '') + ' \u00b7 ' + fmtLKR(NodalisBasket.subtotal() + deliveryFee());
 
     const pm = pay();
     const hasBank = !!(pm.accountNumber && pm.bankName);
@@ -378,7 +288,6 @@ window.addEventListener('DOMContentLoaded', function(){
     document.getElementById('co-paypal').hidden = !hasPaypal;
     document.getElementById('co-nopay').hidden = hasBank || hasPaypal;
     document.getElementById('co-bank-title').textContent = (hasBank && hasPaypal) ? 'Or pay by bank deposit' : 'Bank deposit';
-
     if (hasBank) {
       const rows = document.getElementById('co-bank-rows');
       rows.innerHTML = '';
@@ -401,6 +310,10 @@ window.addEventListener('DOMContentLoaded', function(){
     if (hasPaypal) document.getElementById('co-paypal-link').href = pm.paypal;
     document.getElementById('co-note').textContent = pm.note || '';
     refreshSummary();
+    (function(){
+      var el = document.getElementById('d-delivery');
+      if (el) { var t = deliveryText(); if (t) el.textContent = t; }
+    })();
     document.getElementById('checkout').style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
@@ -408,47 +321,8 @@ window.addEventListener('DOMContentLoaded', function(){
     document.getElementById('checkout').style.display = 'none';
     document.body.style.overflow = '';
   }
-  function deliveryFee(){
-    var d = (typeof SITE !== 'undefined' && SITE.delivery) ? SITE.delivery : null;
-    if (!d || d.free) return 0;
-    var raw = (d.flat != null && d.flat !== '') ? d.flat : (d.colombo || 0);
-    var flat = parseFloat(String(raw).replace(/[^\d.]/g, '')) || 0;
-    var over = parseFloat(String(d.freeOver || '').replace(/[^\d.]/g, '')) || 0;
-    var goods = orderPrice() || 0;
-    if (over && goods >= over) return 0;
-    return flat;
-  }
-  function refreshSummary(){
-    var pieceEl = document.getElementById('co-piece-amt');
-    if (!pieceEl) return;
-    var goods = orderPrice() || 0;
-    var fee = deliveryFee();
-    pieceEl.textContent = goods ? fmtLKR(goods) : '\u2014';
-    document.getElementById('co-delivery-amt').textContent = fee ? fmtLKR(fee) : 'Free';
-    document.getElementById('co-total-amt').textContent = (goods || fee) ? fmtLKR(goods + fee) : '\u2014';
-    var lbl = document.getElementById('co-piece-label');
-    if (lbl) lbl.textContent = pickedSize ? ('Piece (' + pickedSize + ')') : 'Piece';
-  }
-  function deliveryText(){
-    var d = (typeof SITE !== 'undefined' && SITE.delivery) ? SITE.delivery : null;
-    if (!d) return '';
-    var t;
-    if (d.free) t = 'Free delivery on every order.';
-    else {
-      t = 'Delivery: LKR ' + ((d.flat != null && d.flat !== '') ? d.flat : (d.colombo || '\u2014')) + ' island-wide.';
-      if (d.freeOver) t += ' Free over LKR ' + d.freeOver + '.';
-    }
-    if (d.days) t += ' ' + d.days + '.';
-    if (d.note) t += ' ' + d.note;
-    return t;
-  }
-  (function(){
-    var el = document.getElementById('d-delivery');
-    if (el) { var t = deliveryText(); if (t) el.textContent = t; else el.remove(); }
-  })();
 
   function confirmOrder(){
-    let msg = "Hello Nodalis! I'd like to order:\n";
     const dv = id => (document.getElementById(id).value || '').trim();
     const required = [['d-name','your name'], ['d-phone','a contact number'],
                       ['d-addr','a delivery address'], ['d-city','your city'], ['d-district','your district']];
@@ -460,7 +334,7 @@ window.addEventListener('DOMContentLoaded', function(){
     });
     const errEl = document.getElementById('d-error');
     if (missing.length) {
-      errEl.textContent = 'Please add ' + missing.join(', ') + ' so we can deliver your piece.';
+      errEl.textContent = 'Please add ' + missing.join(', ') + ' so we can deliver your pieces.';
       errEl.hidden = false;
       const first = required.find(function(r){ return !dv(r[0]); });
       document.getElementById(first[0]).focus();
@@ -468,13 +342,18 @@ window.addEventListener('DOMContentLoaded', function(){
     }
     errEl.hidden = true;
 
+    let msg = "Hello Nodalis! I'd like to order:\n";
     msg += "Order ref: " + orderRef;
-    msg += "\nPiece: " + p.name;
-    if (pickedSize)  msg += "\nSize: " + pickedSize;
-    if (pickedColor) msg += "\nColour: " + pickedColor;
-    const priceN = orderPrice();
-    if (priceN) msg += "\nPrice: " + fmtLKR(priceN);
-    msg += "\n\n— Delivery —";
+    items().forEach(function(it, n){
+      msg += "\n\n\u2014 Piece " + (n+1) + " \u2014";
+      msg += "\n" + it.name;
+      if (it.size)   msg += "\nSize: " + it.size;
+      if (it.colour) msg += "\nColour: " + it.colour;
+      if ((it.qty||1) > 1) msg += "\nQuantity: " + it.qty;
+      var unit = Number(it.unitPrice) || 0;
+      if (unit) msg += "\nPrice: " + fmtLKR(unit) + ((it.qty||1) > 1 ? " each \u00b7 " + fmtLKR(unit * it.qty) : "");
+    });
+    msg += "\n\n\u2014 Delivery \u2014";
     msg += "\nName: " + dv('d-name');
     msg += "\nPhone: " + dv('d-phone');
     msg += "\nAddress: " + dv('d-addr');
@@ -485,23 +364,23 @@ window.addEventListener('DOMContentLoaded', function(){
     if (dv('d-country')) msg += "\nCountry: " + dv('d-country');
     if (dv('d-notes')) msg += "\nNotes: " + dv('d-notes');
     var fee = deliveryFee();
-    var goods = orderPrice() || 0;
-    if (goods || fee) {
-      msg += "\n\n— Total —";
-      if (goods) msg += "\nPiece: " + fmtLKR(goods);
-      msg += "\nDelivery: " + (fee ? fmtLKR(fee) : "Free");
-      msg += "\nTotal to pay: " + fmtLKR(goods + fee);
-    }
+    var goods = NodalisBasket.subtotal();
+    msg += "\n\n\u2014 Total \u2014";
+    if (goods) msg += "\nPieces: " + fmtLKR(goods);
+    msg += "\nDelivery: " + (fee ? fmtLKR(fee) : "Free");
+    msg += "\nTotal to pay: " + fmtLKR(goods + fee);
     var dtext = deliveryText();
     if (dtext) msg += "\n" + dtext;
     msg += "\n\nI will attach my payment receipt here.";
-    msg += "\n" + location.origin + location.pathname + "?id=" + encodeURIComponent(p.id);
     window.open("https://wa.me/94767003630?text=" + encodeURIComponent(msg), "_blank");
+    NodalisBasket.clear();
     closeCheckout();
+    render();
+    document.getElementById('b-sent').style.display = 'block';
+    document.getElementById('b-empty').hidden = true;
   }
+
+  render();
 </script>
-<script src="autoink.js"></script>
-<script src="warm.js"></script>
-<script src="cart.js"></script>
 </body>
 </html>
