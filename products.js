@@ -1,4 +1,4 @@
-/* Nodalis site data — edited via admin.html on 2026-08-17 */
+/* Nodalis site data — edited via admin.html on 2026-09-03 */
 
 const SITE = {
   "payment": {
@@ -621,5 +621,27 @@ const PRODUCTS = [
         "60–75"
       ]
     ]
+  },
+  {
+    "id": "the-confetti-lace-up-vest",
+    "name": "The Confetti Lace-Up Vest",
+    "category": "tops",
+    "price": "from LKR 4,500",
+    "short": "Cream granny-square vest, threaded with autumn confetti and tied at the sides",
+    "description": "An open-work vest in soft cream, worked square by square and edged in a speckled yarn that scatters amber, rust, and midnight through the weave like confetti. The sides fasten with hand-braided lace-up ties — loosen them for an easy drape, pull them close for a fitted shape — so one piece flatters many bodies. Wears beautifully over a bralette or a slip top, with denim or a summer skirt. Crocheted entirely by hand; gentle cold hand-wash, dry flat.",
+    "colors": [
+      "Cream"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 4500,
+    "sizeStep": 500
   }
 ];
