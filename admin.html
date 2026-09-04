@@ -57,6 +57,18 @@
   .plist .pname{font-family:var(--serif);font-size:17px;flex:1}
   .plist .pcat{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
   .imgslot{border:1px dashed var(--hairline);padding:12px;text-align:center}
+  .mg-card{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--hairline);padding:16px 18px;margin-bottom:10px;cursor:pointer;background:#fff}
+  .mg-card:hover{border-color:var(--yarn)}
+  .mg-name{font-family:var(--serif);font-size:19px;letter-spacing:.05em}
+  .mg-sub{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+  .gv-cat{border:1px solid var(--hairline);margin-bottom:14px;background:#fff}
+  .gv-cat-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--hairline);background:#FBF9FE;flex-wrap:wrap}
+  .gv-cat-title{font-family:var(--serif);font-size:17px;letter-spacing:.04em}
+  .gv-cat-sub{font-size:12px;color:var(--ink-soft)}
+  .gv-plist{list-style:none;margin:0;padding:0}
+  .gv-plist li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--hairline)}
+  .gv-plist li:last-child{border-bottom:none}
+  .gv-empty{padding:12px 14px;font-size:13px;color:var(--ink-soft)}
   .imgslot img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;margin-bottom:8px;background:#EFE9F6}
   .imgslot .slotname{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
   .imgslot input[type=file]{width:100%;font-size:12px}
@@ -127,9 +139,22 @@
         <button class="small" onclick="signOut()">Sign out</button>
       </div>
     </div>
-    <div class="card" id="panel-products">
-      <ul class="plist" id="plist"></ul>
-      <p class="muted" id="plist-empty" style="padding:10px 4px">No products yet — add your first.</p>
+    <div id="panel-products">
+      <div class="card" id="main-browser">
+        <p class="muted" style="margin-bottom:14px"><b>Main</b> — your shop in three worlds. Open one to see its sections and every piece inside; add sections and pieces right where they belong.</p>
+        <div id="main-groups"></div>
+        <div id="main-unfiled"></div>
+      </div>
+      <div class="card hidden" id="group-view">
+        <div class="topbar" style="margin:0 0 12px">
+          <h1 style="font-size:20px" id="gv-title"></h1>
+          <div>
+            <button class="small" onclick="gvAddSection()">+ Add section here</button>
+            <button class="small" onclick="closeGroup()">&larr; All worlds</button>
+          </div>
+        </div>
+        <div id="group-cats"></div>
+      </div>
     </div>
 
     <div id="panel-media" class="hidden">
@@ -485,13 +510,10 @@
     </div>
 
     <div class="card">
-      <label style="margin-top:0">Images — front, side, size guide</label>
-      <p class="muted" style="margin-bottom:14px">JPG images. New picks replace the current ones when you save.</p>
-      <div class="row3">
-        <div class="imgslot"><div class="slotname">Front</div><img id="img-front" alt=""><input type="file" accept="image/*" id="file-front"></div>
-        <div class="imgslot"><div class="slotname">Side</div><img id="img-side" alt=""><input type="file" accept="image/*" id="file-side"></div>
-        <div class="imgslot"><div class="slotname">Size Guide</div><img id="img-size" alt=""><input type="file" accept="image/*" id="file-size"></div>
-      </div>
+      <label style="margin-top:0">Photos — as many as you like</label>
+      <p class="muted" style="margin-bottom:14px">One photo or ten — you decide. <b>Photo 1 is the main one</b>: it appears on category tiles and first on the product page. Use <b>+ Add photo</b> for more, <b>Remove</b> to take one off the site (the old file stays harmlessly in storage). New picks upload when you save.</p>
+      <div class="row3" id="gal-slots"></div>
+      <div style="margin-top:12px"><button class="small" type="button" onclick="galAdd()">+ Add photo</button></div>
     </div>
 
     <div class="card">
@@ -540,7 +562,189 @@ const DEFAULT_THEME = {
 };
 let productsSha = null;   // sha of products.js for updates
 let editingIndex = -1;    // -1 = new product
-let pickedFiles = { front:null, side:null, size:null };
+let galItems = [];   /* [{file:'name.jpg'|null, picked:File|null, legacy:bool}] */
+let openGroupKey = null;
+const GROUPS = { apparel: {name:"Women", sub:"Tops, skirts, bags, dresses\u2026"},
+                 mens:    {name:"Men", sub:"Menswear pieces"},
+                 pet:     {name:"Petstore", sub:"For dogs, cats, and every companion"} };
+
+/* ---------- photo gallery (any number of photos) ---------- */
+function galAdd(){ galItems.push({file:null, picked:null, legacy:false}); renderGal(); }
+function galRemove(i){
+  if (galItems.length === 1) { galItems[0] = {file:null, picked:null, legacy:false}; }
+  else galItems.splice(i,1);
+  renderGal();
+}
+function renderGal(){
+  const mount = document.getElementById('gal-slots');
+  if (!mount) return;
+  mount.innerHTML = '';
+  if (!galItems.length) galItems.push({file:null, picked:null, legacy:false});
+  galItems.forEach((it, i) => {
+    const d = document.createElement('div');
+    d.className = 'imgslot';
+    const nm = document.createElement('div'); nm.className = 'slotname';
+    nm.textContent = i === 0 ? 'Photo 1 \u2014 main (shown on tiles)' : 'Photo ' + (i+1);
+    const img = document.createElement('img'); img.alt = '';
+    if (it.picked) { img.src = URL.createObjectURL(it.picked); nm.textContent += ' \u2014 ready, uploads on save'; nm.style.color = 'var(--yarn)'; }
+    else if (it.file) {
+      img.src = 'images/products/' + it.file;
+      img.onerror = function(){ img.removeAttribute('src'); if (it.legacy) { it.file = null; } nm.textContent = (i===0?'Photo 1 \u2014 main (shown on tiles)':'Photo '+(i+1)) + ' \u2014 no image yet'; nm.style.color=''; };
+      img.onload = function(){ nm.textContent = (i===0?'Photo 1 \u2014 main (shown on tiles)':'Photo '+(i+1)) + ' \u2014 \u2713 uploaded'; nm.style.color = 'var(--ok)'; };
+    } else { nm.textContent += ' \u2014 no image yet'; }
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+    inp.addEventListener('change', function(){ const f = this.files[0]; if (!f) return; it.picked = f; renderGal(); });
+    const rm = document.createElement('button'); rm.type='button'; rm.className = 'small danger'; rm.textContent = 'Remove';
+    rm.style.marginTop = '8px';
+    rm.onclick = function(){ galRemove(i); };
+    d.appendChild(nm); d.appendChild(img); d.appendChild(inp); d.appendChild(rm);
+    mount.appendChild(d);
+  });
+}
+function galInit(p){
+  galItems = [];
+  if (p && Array.isArray(p.images) && p.images.length) {
+    galItems = p.images.map(f => ({file:f, picked:null, legacy:false}));
+  } else if (p && p.id) {
+    /* older product saved before the gallery existed \u2014 offer its three classic photos */
+    galItems = [
+      {file: p.id + '-front.jpg', picked:null, legacy:true},
+      {file: p.id + '-side.jpg',  picked:null, legacy:true},
+      {file: p.id + '-size.jpg',  picked:null, legacy:true}
+    ];
+  } else {
+    galItems = [{file:null, picked:null, legacy:false}];
+  }
+  renderGal();
+}
+
+/* ---------- Main browser: Women / Men / Petstore ---------- */
+function catsTopLevel(g){
+  return Object.keys(CATEGORIES).filter(k => CATEGORIES[k].group === g && !CATEGORIES[k].parent);
+}
+function catChildren(k){
+  return Object.keys(CATEGORIES).filter(x => CATEGORIES[x].parent === k);
+}
+function productsIn(k){
+  const out = [];
+  PRODUCTS.forEach((p,i) => { if (p.category === k) out.push(i); });
+  return out;
+}
+function groupCount(g){
+  let n = 0;
+  PRODUCTS.forEach(p => { const c = CATEGORIES[p.category]; if (c && (c.group === g || (c.parent && CATEGORIES[c.parent] && CATEGORIES[c.parent].group === g))) n++; });
+  return n;
+}
+function openGroup(g){ openGroupKey = g; renderList(); }
+function closeGroup(){ openGroupKey = null; renderList(); }
+function gvAddSection(){
+  const g = openGroupKey;
+  showTab('categories');
+  catNew();
+  try { catFillParentSelect(g === 'apparel' ? 'apparel' : g); } catch(e){}
+}
+function newProductIn(k){
+  openEditor(-1);
+  const s = document.getElementById('f-category');
+  if (s) s.value = k;
+}
+function sectionBlock(k, host){
+  const c = CATEGORIES[k];
+  const box = document.createElement('div'); box.className = 'gv-cat';
+  const head = document.createElement('div'); head.className = 'gv-cat-head';
+  const left = document.createElement('div');
+  left.innerHTML = '<div class="gv-cat-title"></div><div class="gv-cat-sub"></div>';
+  left.querySelector('.gv-cat-title').textContent = c.title || k;
+  const ids = productsIn(k);
+  left.querySelector('.gv-cat-sub').textContent = ids.length + (ids.length === 1 ? ' piece' : ' pieces');
+  const right = document.createElement('div');
+  const addB = document.createElement('button'); addB.className='small'; addB.textContent = '+ Add piece here';
+  addB.onclick = () => newProductIn(k);
+  const edB = document.createElement('button'); edB.className='small'; edB.textContent = 'Section settings'; edB.style.marginLeft='8px';
+  edB.onclick = () => { showTab('categories'); catOpenEditor(k); };
+  right.appendChild(addB); right.appendChild(edB);
+  head.appendChild(left); head.appendChild(right);
+  box.appendChild(head);
+  const ul = document.createElement('ul'); ul.className = 'gv-plist';
+  ids.forEach(i => {
+    const p = PRODUCTS[i];
+    const li = document.createElement('li');
+    const nm = document.createElement('span'); nm.className='pname'; nm.textContent = p.name;
+    const b = document.createElement('button'); b.className = 'small'; b.textContent = 'Edit';
+    b.onclick = () => openEditor(i);
+    li.appendChild(nm); li.appendChild(b);
+    ul.appendChild(li);
+  });
+  if (!ids.length) {
+    const e = document.createElement('div'); e.className='gv-empty'; e.textContent = 'No pieces here yet.';
+    box.appendChild(e);
+  } else box.appendChild(ul);
+  host.appendChild(box);
+}
+function renderGroups(){
+  const mount = document.getElementById('main-groups');
+  mount.innerHTML = '';
+  for (const g in GROUPS) {
+    const d = document.createElement('div'); d.className = 'mg-card';
+    d.innerHTML = '<div><div class="mg-name"></div><div class="mg-sub"></div></div><div style="font-size:13px;color:var(--ink-soft)"></div>';
+    d.querySelector('.mg-name').textContent = GROUPS[g].name;
+    d.querySelector('.mg-sub').textContent = GROUPS[g].sub;
+    const cats = catsTopLevel(g).length;
+    const pc = groupCount(g);
+    d.lastChild.textContent = cats + (cats===1?' section \u00b7 ':' sections \u00b7 ') + pc + (pc===1?' piece \u203a':' pieces \u203a');
+    d.onclick = () => openGroup(g);
+    mount.appendChild(d);
+  }
+  /* pieces whose section no longer exists */
+  const un = document.getElementById('main-unfiled');
+  un.innerHTML = '';
+  const lost = [];
+  PRODUCTS.forEach((p,i) => { if (!CATEGORIES[p.category]) lost.push(i); });
+  if (lost.length) {
+    const box = document.createElement('div'); box.className='gv-cat'; box.style.marginTop='14px';
+    const h = document.createElement('div'); h.className='gv-cat-head';
+    h.innerHTML = '<div class="gv-cat-title">Unfiled pieces</div><div class="gv-cat-sub">their section was removed \u2014 open each and pick a new one</div>';
+    box.appendChild(h);
+    const ul = document.createElement('ul'); ul.className='gv-plist';
+    lost.forEach(i => {
+      const li = document.createElement('li');
+      const nm = document.createElement('span'); nm.className='pname'; nm.textContent = PRODUCTS[i].name;
+      const b = document.createElement('button'); b.className='small'; b.textContent='Edit';
+      b.onclick = () => openEditor(i);
+      li.appendChild(nm); li.appendChild(b); ul.appendChild(li);
+    });
+    box.appendChild(ul); un.appendChild(box);
+  }
+}
+function renderGroupView(){
+  const g = openGroupKey;
+  document.getElementById('gv-title').textContent = GROUPS[g].name;
+  const host = document.getElementById('group-cats');
+  host.innerHTML = '';
+  const tops = catsTopLevel(g);
+  if (!tops.length) {
+    host.innerHTML = '<p class="muted" style="padding:6px 2px">No sections yet \u2014 press \u201c+ Add section here\u201d to create the first.</p>';
+  }
+  tops.forEach(k => {
+    const kids = catChildren(k);
+    if (kids.length) {
+      const wrap = document.createElement('div'); wrap.style.marginBottom = '18px';
+      const h = document.createElement('div'); h.className='gv-cat-head'; h.style.border='1px solid var(--hairline)'; h.style.marginBottom='10px';
+      h.innerHTML = '<div><div class="gv-cat-title"></div><div class="gv-cat-sub">group of sections</div></div>';
+      h.querySelector('.gv-cat-title').textContent = CATEGORIES[k].title || k;
+      const btn = document.createElement('button'); btn.className='small'; btn.textContent='Group settings';
+      btn.onclick = () => { showTab('categories'); catOpenEditor(k); };
+      h.appendChild(btn);
+      wrap.appendChild(h);
+      kids.forEach(kid => sectionBlock(kid, wrap));
+      /* pieces attached directly to the parent */
+      if (productsIn(k).length) sectionBlock(k, wrap);
+      host.appendChild(wrap);
+    } else {
+      sectionBlock(k, host);
+    }
+  });
+}
 
 /* ================= helpers ================= */
 function log(msg, cls){
@@ -611,19 +815,18 @@ async function boot(){
 
 /* ================= product list ================= */
 function renderList(){
-  const ul = document.getElementById('plist');
-  ul.innerHTML = '';
-  document.getElementById('plist-empty').style.display = PRODUCTS.length ? 'none' : 'block';
-  PRODUCTS.forEach((p, i) => {
-    const li = document.createElement('li');
-    li.innerHTML = '<span class="pname">'+esc(p.name)+'</span>' +
-      '<span class="pcat">'+esc((CATEGORIES[p.category]||{}).title || p.category)+'</span>';
-    const b = document.createElement('button');
-    b.className = 'small'; b.textContent = 'Edit';
-    b.onclick = () => openEditor(i);
-    li.appendChild(b);
-    ul.appendChild(li);
-  });
+  const browser = document.getElementById('main-browser');
+  const gview = document.getElementById('group-view');
+  if (openGroupKey && GROUPS[openGroupKey]) {
+    browser.classList.add('hidden');
+    gview.classList.remove('hidden');
+    renderGroupView();
+  } else {
+    openGroupKey = null;
+    gview.classList.add('hidden');
+    browser.classList.remove('hidden');
+    renderGroups();
+  }
 }
 
 /* ================= editor ================= */
@@ -633,7 +836,7 @@ function fillCategorySelect(sel){
   for (const k in CATEGORIES) {
     const c = CATEGORIES[k];
     const o = document.createElement('option');
-    const prefix = c.parent && CATEGORIES[c.parent] ? CATEGORIES[c.parent].title + ' — ' : (c.group === 'pet' ? 'Petstore — ' : (c.group === 'mens' ? "Men's — " : ''));
+    const prefix = c.parent && CATEGORIES[c.parent] ? CATEGORIES[c.parent].title + ' — ' : (c.group === 'pet' ? 'Petstore — ' : (c.group === 'mens' ? "Men's — " : "Women's — "));
     o.value = k; o.textContent = prefix + c.title;
     s.appendChild(o);
   }
@@ -642,9 +845,7 @@ function fillCategorySelect(sel){
 function newProduct(){ openEditor(-1); }
 function openEditor(i){
   editingIndex = i;
-  pickedFiles = { front:null, side:null, size:null };
   pickedColorFiles = {};
-  ['front','side','size'].forEach(v => { document.getElementById('file-'+v).value = ''; });
   const p = i >= 0 ? PRODUCTS[i] : { name:'', category:'tops', price:'', short:'', description:'', colors:[], sizes:[], sizeChart:[['Size','Measurement (cm)'],['','']] , id:''};
   document.getElementById('ed-title').textContent = i >= 0 ? 'Edit — ' + p.name : 'New product';
   document.getElementById('f-name').value = p.name || '';
@@ -658,22 +859,7 @@ function openEditor(i){
   document.getElementById('f-colors').value = (p.colors||[]).join(', ');
   document.getElementById('f-sizes').value = (p.sizes||[]).join(', ');
   renderChart(p.sizeChart && p.sizeChart.length ? p.sizeChart : [['Size','Measurement (cm)'],['','']]);
-  ['front','side','size'].forEach(v => {
-    const img = document.getElementById('img-'+v);
-    const stat = document.querySelector('#file-'+v).closest('.imgslot').querySelector('.slotname');
-    const base = v === 'size' ? 'Size Guide' : v.charAt(0).toUpperCase() + v.slice(1);
-    img.removeAttribute('src');
-    if (p.id) {
-      stat.textContent = base + ' — checking…';
-      previewInto(img, 'images/products/' + p.id + '-' + v + '.jpg').then(ok => {
-        stat.textContent = base + (ok ? ' — ✓ uploaded' : ' — no image yet');
-        stat.style.color = ok ? 'var(--ok)' : '';
-      });
-    } else {
-      stat.textContent = base + ' — no image yet';
-      stat.style.color = '';
-    }
-  });
+  galInit(i >= 0 ? p : null);
   document.getElementById('del-btn').style.display = i >= 0 ? '' : 'none';
   renderColorSlots();
   document.getElementById('dash').classList.add('hidden');
@@ -733,19 +919,7 @@ function renderColorSlots(){
 }
 document.getElementById('f-colors').addEventListener('input', renderColorSlots);
 
-['front','side','size'].forEach(v => {
-  document.getElementById('file-'+v).addEventListener('change', function(){
-    const f = this.files[0];
-    if (!f) { pickedFiles[v] = null; return; }
-    pickedFiles[v] = f;
-    const img = document.getElementById('img-'+v);
-    img.src = URL.createObjectURL(f);
-    const stat = this.closest('.imgslot').querySelector('.slotname');
-    const base = v === 'size' ? 'Size Guide' : v.charAt(0).toUpperCase() + v.slice(1);
-    stat.textContent = base + ' — ready, uploads on save';
-    stat.style.color = 'var(--yarn)';
-  });
-});
+
 
 /* ---- size chart grid ---- */
 function renderChart(rows){
@@ -897,16 +1071,26 @@ async function saveProduct(){
     if (!isNaN(stepP)) p.sizeStep = stepP;
     if (editingIndex >= 0) PRODUCTS[editingIndex] = p; else PRODUCTS.push(p);
 
-    /* upload any newly picked images first */
-    for (const v of ['front','side','size']) {
-      if (pickedFiles[v]) {
-        log('Uploading ' + v + ' image…');
-        const path = 'images/products/' + id + '-' + v + '.jpg';
-        const b64 = await processImage(pickedFiles[v], 1200, 0.78);
-        const sha = await getSha(path);
-        await putFile(path, b64, 'Admin: image ' + id + '-' + v, sha);
+    /* upload the photo gallery */
+    const keep = [];
+    for (let gi = 0; gi < galItems.length; gi++) {
+      const it = galItems[gi];
+      if (!it.picked && !it.file) continue;            /* empty slot — skip */
+      let fname = it.file;
+      if (it.picked) {
+        if (keep.length === 0) fname = id + '-front.jpg';                    /* photo 1 = the tile image */
+        else if (!fname || !fname.startsWith(id + '-')) fname = id + '-g' + (keep.length + 1) + '.jpg';
+        log('Uploading photo ' + (keep.length + 1) + '…');
+        const b64 = await processImage(it.picked, 1200, 0.78);
+        const sha = await getSha('images/products/' + fname);
+        await putFile('images/products/' + fname, b64, 'Admin: photo ' + fname, sha);
+        it.picked = null;
+        it.file = fname;
+        it.legacy = false;
       }
+      keep.push(fname);
     }
+    p.images = keep;
 
     /* colour variant photos */
     for (const cs in pickedColorFiles) {
@@ -922,15 +1106,8 @@ async function saveProduct(){
     productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: save ' + name, productsSha)).content.sha;
 
     log('Saved. The live site updates in about a minute.', 'ok');
-    ['front','side','size'].forEach(v => {
-      if (pickedFiles[v]) {
-        const stat = document.querySelector('#file-'+v).closest('.imgslot').querySelector('.slotname');
-        const base = v === 'size' ? 'Size Guide' : v.charAt(0).toUpperCase() + v.slice(1);
-        stat.textContent = base + ' — ✓ uploaded';
-        stat.style.color = 'var(--ok)';
-        pickedFiles[v] = null;
-      }
-    });
+    galItems = keep.map(f => ({file:f, picked:null, legacy:false}));
+    renderGal();
     editingIndex = PRODUCTS.indexOf(p);
     document.getElementById('ed-title').textContent = 'Edit — ' + p.name;
     document.getElementById('del-btn').style.display = '';

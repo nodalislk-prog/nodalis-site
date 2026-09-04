@@ -225,23 +225,31 @@ window.addEventListener('DOMContentLoaded', function(){
     ' &nbsp;/&nbsp; ' + p.name;
   document.getElementById('crumb').innerHTML = crumb;
 
-  /* ----- gallery: front / side / size guide ----- */
-  const views = [
-    { key:'front', label:'Front' },
-    { key:'side',  label:'Side' },
-    { key:'size',  label:'Size Guide' }
-  ];
-  let currentView = 'front';
+  /* ----- gallery: the product's own photo list, or the classic three ----- */
+  const views = (p.images && p.images.length)
+    ? p.images.map(function(f, i){
+        const isSize = f.indexOf('-size') >= 0;
+        return { file: f,
+                 label: isSize ? 'Size Guide' : (i === 0 ? 'Front' : 'View ' + (i + 1)),
+                 isSize: isSize,
+                 isFront: i === 0 || f.indexOf('-front') >= 0 };
+      })
+    : [
+        { file: p.id + '-front.jpg', label:'Front', isFront:true },
+        { file: p.id + '-side.jpg',  label:'Side' },
+        { file: p.id + '-size.jpg',  label:'Size Guide', isSize:true }
+      ];
+  let currentView = views[0];
   let pickedColor = null, pickedSize = null;
   function colorSlug(s){
     return String(s).toLowerCase().trim().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   }
   /* If a colour is picked and a photo exists for it, show it; otherwise keep the default. */
   function applyColorImage(){
-    if (currentView === 'size') return;
+    if (!currentView || currentView.isSize || !currentView.isFront) return;
     const fallback = srcFor(currentView);
     if (!pickedColor) { mainImg.onerror = null; mainImg.src = fallback; return; }
-    const variant = 'images/products/' + p.id + '-' + currentView + '-' + colorSlug(pickedColor) + '.jpg';
+    const variant = 'images/products/' + p.id + '-front-' + colorSlug(pickedColor) + '.jpg';
     const probe = new Image();
     probe.onload = () => { mainImg.onerror = null; mainImg.src = variant; };
     probe.onerror = () => { mainImg.onerror = null; mainImg.src = fallback; };
@@ -251,21 +259,21 @@ window.addEventListener('DOMContentLoaded', function(){
   const mainPh = document.getElementById('main-ph');
   const thumbs = document.getElementById('thumbs');
 
-  function srcFor(v){ return 'images/products/' + p.id + '-' + v + '.jpg'; }
+  function srcFor(v){ return 'images/products/' + v.file; }
   function show(v, btn){
-    currentView = v.key;
+    currentView = v;
     mainImg.style.display = '';
-    mainImg.src = srcFor(v.key);
+    mainImg.src = srcFor(v);
     mainImg.alt = p.name + ' — ' + v.label;
     /* size guides are often wide — show them whole, never cropped */
-    if (v.key === 'size') {
+    if (v.isSize) {
       mainImg.style.objectFit = 'contain';
       mainImg.style.background = '#FFFFFF';
     } else {
       mainImg.style.objectFit = '';
       mainImg.style.background = '';
     }
-    mainPh.dataset.label = p.id + '-' + v.key + '.jpg';
+    mainPh.dataset.label = v.file;
     thumbs.querySelectorAll('button').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
     applyColorImage();
@@ -273,8 +281,8 @@ window.addEventListener('DOMContentLoaded', function(){
   views.forEach((v, i) => {
     const b = document.createElement('button');
     b.type = 'button';
-    b.innerHTML = '<span class="ph" data-label=""><img src="' + srcFor(v.key) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"' +
-                  (v.key === 'size' ? ' style="object-fit:contain;background:#FFFFFF"' : '') + '></span>' +
+    b.innerHTML = '<span class="ph" data-label=""><img src="' + srcFor(v) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()"' +
+                  (v.isSize ? ' style="object-fit:contain;background:#FFFFFF"' : '') + '></span>' +
                   '<span class="tlabel">' + v.label + '</span>';
     b.addEventListener('click', () => show(v, b));
     thumbs.appendChild(b);
