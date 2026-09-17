@@ -1,4 +1,4 @@
-/* Nodalis site data — edited via admin.html on 2026-09-03 */
+/* Nodalis site data — edited via admin.html on 2026-09-17 */
 
 const SITE = {
   "payment": {
@@ -185,6 +185,12 @@ const CATEGORIES = {
     "line": "Frocks",
     "meta": "Handmade · Made to order",
     "group": "apparel"
+  },
+  "shirt": {
+    "title": "Shirt",
+    "line": "Crocheted Shirt",
+    "meta": "Handmade · Made to order",
+    "group": "mens"
   }
 };
 
