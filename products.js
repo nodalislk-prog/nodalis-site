@@ -649,5 +649,30 @@ const PRODUCTS = [
     "sizeChart": [],
     "basePrice": 4500,
     "sizeStep": 500
+  },
+  {
+    "id": "granny-square-crocheted-shirt",
+    "name": "Granny Square Crocheted Shirt",
+    "category": "shirt",
+    "price": "8000",
+    "short": "Granny Square Crocheted Shirt",
+    "description": "Granny Square Crocheted Shirt",
+    "colors": [
+      "Off White"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 8000,
+    "sizeStep": 300,
+    "images": [
+      "granny-square-crocheted-shirt-front.jpg"
+    ]
   }
 ];
