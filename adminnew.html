@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Nodalis — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4EFF9; --panel:#FFFFFF; --ink:#3B2D59; --ink-soft:#6E5E96;
+    --yarn:#B08A2E; --gold:#EBC96A; --hairline:rgba(176,138,46,.4);
+    --danger:#A33B3B; --ok:#3E7A4E;
+    --serif:'Cormorant Garamond',Georgia,serif; --sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --radius:12px; --shadow:0 1px 3px rgba(59,45,89,.08), 0 8px 24px rgba(59,45,89,.06);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:linear-gradient(180deg,#F6F1FB,#EFE7F7);min-height:100vh;color:var(--ink);font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.6}
+  a{color:inherit}
+  h1{font-family:var(--serif);font-weight:400;letter-spacing:.08em}
+  .wrap{max-width:980px;margin:0 auto;padding:36px 20px 80px}
+  .brand{
+    text-align:center;font-family:var(--serif);letter-spacing:.5em;text-indent:.42em;
+    text-transform:uppercase;color:var(--yarn);font-size:20px;margin-bottom:6px;
+  }
+  .sub{text-align:center;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:34px}
+  .card{background:var(--panel);border:1px solid rgba(176,138,46,.25);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin-bottom:22px}
+  label{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:16px 0 6px}
+  input[type=text],input[type=password],textarea,select,input[type=number]{
+    width:100%;font-family:var(--sans);font-weight:400;font-size:15px;color:var(--ink);
+    background:#FBF9FE;border:1px solid rgba(110,94,150,.35);border-radius:8px;padding:11px 13px;outline:none;transition:border-color .2s, box-shadow .2s;
+  }
+  input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(176,138,46,.18)}
+  input:focus,textarea:focus,select:focus{border-color:var(--yarn)}
+  textarea{resize:vertical;min-height:80px}
+  button{
+    font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+    padding:12px 22px;border:1px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);
+    cursor:pointer;transition:all .2s;
+  }
+  button:hover{background:var(--ink);color:#fff}
+  button.primary{background:var(--yarn);border-color:var(--yarn);color:#fff}
+  button.primary:hover{background:#96751F;border-color:#96751F}
+  button.danger{border-color:var(--danger);color:var(--danger)}
+  button.danger:hover{background:var(--danger);color:#fff}
+  button.small{padding:7px 14px;font-size:11px}
+  button:disabled{opacity:.45;cursor:default}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  @media(max-width:640px){.row,.row3{grid-template-columns:1fr}}
+  .plist{list-style:none}
+  .plist li{
+    display:flex;align-items:center;gap:14px;padding:13px 4px;border-bottom:1px solid var(--hairline);
+  }
+  .plist .pname{font-family:var(--serif);font-size:17px;flex:1}
+  .plist .pcat{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+  .imgslot{border:1px dashed var(--hairline);padding:12px;text-align:center}
+  .mg-card{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--hairline);padding:16px 18px;margin-bottom:10px;cursor:pointer;background:#fff}
+  .mg-card:hover{border-color:var(--yarn)}
+  .mg-name{font-family:var(--serif);font-size:19px;letter-spacing:.05em}
+  .mg-sub{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+  .gv-cat{border:1px solid var(--hairline);margin-bottom:14px;background:#fff}
+  .gv-cat-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--hairline);background:#FBF9FE;flex-wrap:wrap}
+  .gv-cat-title{font-family:var(--serif);font-size:17px;letter-spacing:.04em}
+  .gv-cat-sub{font-size:12px;color:var(--ink-soft)}
+  .gv-plist{list-style:none;margin:0;padding:0}
+  .gv-plist li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--hairline)}
+  .gv-plist li:last-child{border-bottom:none}
+  .gv-empty{padding:12px 14px;font-size:13px;color:var(--ink-soft)}
+  .imgslot img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;margin-bottom:8px;background:#EFE9F6}
+  .imgslot .slotname{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+  .imgslot input[type=file]{width:100%;font-size:12px}
+  .chart-rows{width:100%;border-collapse:collapse;margin-top:4px}
+  .chart-rows td{padding:3px}
+  .chart-rows input{padding:8px 10px;font-size:14px}
+  .chart-rows .rowdel{width:38px}
+  .muted{color:var(--ink-soft);font-size:13px}
+  #log{
+    position:fixed;left:0;right:0;bottom:0;background:#2A1F42;color:#E8DFF7;
+    font-size:13px;padding:10px 20px;letter-spacing:.04em;display:none;
+  }
+  #log.err{background:#5A2323}
+  #log.ok{background:#24462E}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+  .hidden{display:none!important}
+  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55}
+  button.tab{border-color:transparent;background:rgba(255,255,255,.6);color:var(--ink-soft)}
+  button.tab:hover{background:#fff;color:var(--ink)}
+  button.tab.active{background:var(--ink);border-color:var(--ink);color:#fff;box-shadow:var(--shadow)}
+  .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+  .mslot{border:1px solid var(--hairline);background:var(--panel);padding:12px}
+  .mslot .mname{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-bottom:2px}
+  .mslot .mpath{font-size:11px;color:var(--ink-soft);margin-bottom:8px;word-break:break-all}
+  .mslot img,.mslot video{width:100%;aspect-ratio:1/1;object-fit:cover;background:#EFE9F6;display:block;margin-bottom:8px}
+  .mslot input[type=file]{width:100%;font-size:12px;margin-bottom:8px}
+  .mgroup-title{font-family:var(--serif);font-size:18px;letter-spacing:.06em;margin:26px 0 12px}
+  .mgroup-title:first-child{margin-top:0}
+  .hint a{color:var(--yarn)}
+  .tclr{width:64px;height:36px;padding:2px;border:1px solid var(--hairline);background:#fff}
+  .cat-row{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--hairline)}
+  .cat-row .cname{font-family:var(--serif);font-size:16px;flex:1}
+  .cat-row.child{padding-left:34px}
+  .cat-row .ccount{font-size:11px;letter-spacing:.14em;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Nodalis</div>
+  <div class="sub">Atelier Admin</div>
+
+  <!-- ============ LOGIN ============ -->
+  <div class="card" id="login-card">
+    <h1 style="font-size:22px;margin-bottom:8px">Sign in</h1>
+
+    <div id="auth-login" class="hidden">
+      <label for="au-user">Username</label>
+      <input type="text" id="au-user" autocomplete="username" autocapitalize="none">
+      <label for="au-pass">Password</label>
+      <input type="password" id="au-pass" autocomplete="current-password">
+      <div style="margin-top:18px"><button class="primary" onclick="vaultSignIn()">Sign in</button></div>
+      <p class="hint" style="margin-top:14px"><a href="#" onclick="authShow('token');return false">Use a GitHub token instead</a> &nbsp;·&nbsp; <a href="#" onclick="vaultForget();return false">Forget this device</a></p>
+    </div>
+
+    <div id="auth-token">
+      <p class="muted" id="auth-token-note">Paste your GitHub access token <b>once</b>, then choose a username and password — from then on you sign in with those. The token is sealed with your password (AES encryption) in this browser only; without the password it is unreadable.</p>
+      <label for="token">Access token</label>
+      <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
+      <label for="au-newuser">Choose a username</label>
+      <input type="text" id="au-newuser" autocomplete="off" autocapitalize="none" placeholder="krish">
+      <label for="au-newpass">Choose a password <span style="text-transform:none;letter-spacing:0">(8+ characters)</span></label>
+      <input type="password" id="au-newpass" autocomplete="new-password">
+      <label for="au-newpass2">Password again</label>
+      <input type="password" id="au-newpass2" autocomplete="new-password">
+      <div style="margin-top:18px"><button class="primary" onclick="vaultCreate()">Create my login</button></div>
+      <p class="hint">To create a token: GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token. Repository access: <b>Only select repositories → nodalis-site</b>. Permissions: <b>Contents → Read and write</b>. Copy the token and keep it like a password.</p>
+      <p class="hint"><a href="#" onclick="tokenOnlySignIn();return false">Or sign in with the token just this once (no password saved)</a></p>
+    </div>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div id="dash" class="hidden">
+    <div class="topbar">
+      <div>
+        <button class="small tab active" id="tab-products" onclick="showTab('products')">Products</button>
+        <button class="small tab" id="tab-categories" onclick="showTab('categories')">Sections</button>
+        <button class="small tab" id="tab-theme" onclick="showTab('theme')">Colours</button>
+        <button class="small tab" id="tab-media" onclick="showTab('media')">Site Media</button>
+        <button class="small tab" id="tab-orders" onclick="showTab('orders')">Orders</button>
+        <button class="small tab" id="tab-dashboard" onclick="showTab('dashboard')">Dashboard</button>
+      </div>
+      <div>
+        <button class="small" id="addbtn" onclick="newProduct()">+ Add product</button>
+        <button class="small" onclick="signOut()">Sign out</button>
+      </div>
+    </div>
+    <div id="panel-products">
+      <div class="card" id="main-browser">
+        <p class="muted" style="margin-bottom:14px"><b>Main</b> — your shop in three worlds. Open one to see its sections and every piece inside; add sections and pieces right where they belong.</p>
+        <div id="main-groups"></div>
+        <div id="main-unfiled"></div>
+      </div>
+      <div class="card hidden" id="group-view">
+        <div class="topbar" style="margin:0 0 12px">
+          <h1 style="font-size:20px" id="gv-title"></h1>
+          <div>
+            <button class="small" onclick="gvAddSection()">+ Add section here</button>
+            <button class="small" onclick="closeGroup()">&larr; All worlds</button>
+          </div>
+        </div>
+        <div id="group-cats"></div>
+      </div>
+    </div>
+
+    <div id="panel-media" class="hidden">
+        <div class="card">
+          <h1 style="font-size:17px;margin-bottom:4px">The Creator — your story</h1>
+          <p class="muted" style="margin-bottom:6px">Chapter IV on the homepage. Your portrait uploads in the “The Creator” slot below.</p>
+          <label>Heading</label>
+          <input type="text" id="cr-title" placeholder="The hands behind the thread.">
+          <label>Your story — leave a blank line between paragraphs</label>
+          <textarea id="cr-story" rows="8" placeholder="Nodalis began with one pair of hands..."></textarea>
+          <label>Signature line</label>
+          <input type="text" id="cr-sign" placeholder="— the maker of Nodalis">
+          <label>Full story — for the Creator page (creator.html, Section I)</label>
+          <textarea id="cr-page" rows="9" placeholder="Leave empty to keep the written story on the Creator page."></textarea>
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="primary" onclick="creatorSave()">Save &amp; publish story</button>
+            <button class="small" onclick="creatorReset()">Restore default story</button>
+          </div>
+        </div>
+
+      <p class="muted" style="margin-bottom:16px">Every image and video on the website. Pick a new file and it replaces the old one — the live site updates about a minute later. Any image type works \u2014 it is automatically resized and converted for the web before upload. Videos should be MP4.</p>
+      <div id="media-groups"></div>
+    </div>
+
+    <div id="panel-categories" class="hidden">
+      <p class="muted" style="margin-bottom:16px">The sections of your shop. Main-page sections hold products directly; petstore sections (For Dogs, For Cats…) hold sub-sections like Sweaters or Bandanas. Rename anything, rearrange with the arrows, add new ones, or remove empty ones. Changes go live when you press <b>Publish section changes</b>.</p>
+      <div class="card"><div id="cat-tree"></div>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="small" onclick="catNew()">+ Add section</button>
+          <button class="primary" id="cat-save" onclick="catPublish()">Publish section changes</button>
+        </div>
+      </div>
+      <div class="card hidden" id="cat-editor">
+        <h1 style="font-size:19px;margin-bottom:4px" id="cat-ed-title">Edit section</h1>
+        <div class="row">
+          <div><label>Name (shown on the site)</label><input type="text" id="c-title" placeholder="Sweaters"></div>
+          <div><label>Where it lives</label><select id="c-parent"></select></div>
+        </div>
+        <div class="row">
+          <div><label>Small line under the tile</label><input type="text" id="c-meta" placeholder="Handmade · Made to measure"></div>
+          <div><label>Page subtitle</label><input type="text" id="c-line" placeholder="Handmade crochet dog sweaters, made to measure"></div>
+        </div>
+        <label>Web address name <span style="text-transform:none;letter-spacing:0">(auto — cannot change after creation)</span></label>
+        <input type="text" id="c-id" placeholder="dog-sweaters">
+        <div class="row" style="margin-top:16px;align-items:end">
+          <div class="imgslot"><div class="slotname">Tile picture</div><img id="c-img" alt=""><input type="file" accept="image/*" id="c-file"></div>
+          <div>
+            <button class="primary" onclick="catApply()">Done</button>
+            <button class="small" onclick="catCloseEditor()" style="margin-left:8px">Cancel</button>
+            <button class="danger small" id="c-del" onclick="catDelete()" style="margin-left:8px">Remove section</button>
+            <p class="hint">"Done" keeps the change in the list — press <b>Publish section changes</b> to make it live.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-theme" class="hidden">
+      <p class="muted" style="margin-bottom:16px">The site's colours. Pick, then press <b>Publish colours</b> — the whole site updates in about a minute. The Landing page column paints the homepage's story gradient from sky to night; the other columns paint each world's pages.</p>
+      <div class="card">
+        <label style="margin-top:0">Gold accent (thread, frames, prices)</label>
+        <input type="color" id="t-gold" style="width:64px;height:40px;padding:2px;border:1px solid var(--hairline);background:#fff">
+        <div class="row3" style="margin-top:20px">
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Women’s pages</h1>
+            <label>Background — top</label><input type="color" id="t-a-bgTop" class="tclr">
+            <label>Background — bottom</label><input type="color" id="t-a-bgBottom" class="tclr">
+            <label>Text</label><input type="color" id="t-a-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-a-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-a-nav" class="tclr">
+          </div>
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Petstore pages</h1>
+            <label>Background — top</label><input type="color" id="t-p-bgTop" class="tclr">
+            <label>Background — bottom</label><input type="color" id="t-p-bgBottom" class="tclr">
+            <label>Text</label><input type="color" id="t-p-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-p-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-p-nav" class="tclr">
+          </div>
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Men's pages</h1>
+            <label>Background</label><input type="color" id="t-m-bgTop" class="tclr">
+            <label>Background lower</label><input type="color" id="t-m-bgBottom" class="tclr">
+            <label>Text</label><input type="color" id="t-m-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-m-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-m-nav" class="tclr">
+          </div>
+          <div>
+            <h1 style="font-size:17px;margin-bottom:6px">Landing page</h1>
+            <label>Sky (top)</label><input type="color" id="t-h-g0" class="tclr">
+            <label>Morning</label><input type="color" id="t-h-g1" class="tclr">
+            <label>Dusk</label><input type="color" id="t-h-g2" class="tclr">
+            <label>Evening</label><input type="color" id="t-h-g3" class="tclr">
+            <label>Night (bottom)</label><input type="color" id="t-h-g4" class="tclr">
+            <label>Text</label><input type="color" id="t-h-ink" class="tclr">
+            <label>Soft text</label><input type="color" id="t-h-inkSoft" class="tclr">
+            <label>Top bar</label><input type="color" id="t-h-nav" class="tclr">
+          </div>
+        </div>
+        <div class="card" style="margin-top:26px">
+          <h1 style="font-size:17px;margin-bottom:4px">Typography</h1>
+          <p class="muted" style="margin-bottom:14px">Fonts and sizes for the whole website — headings, story text, everything.</p>
+          <div class="row">
+            <div>
+              <label>Headings font</label>
+              <select id="t-f-serif">
+                <optgroup label="Poetic &amp; literary">
+                  <option>Cormorant Garamond</option>
+                  <option>EB Garamond</option>
+                  <option>Crimson Pro</option>
+                  <option>Gentium Book Plus</option>
+                  <option>Spectral</option>
+                </optgroup>
+                <optgroup label="Fashion editorial">
+                  <option>Playfair Display</option>
+                  <option>Bodoni Moda</option>
+                  <option>Prata</option>
+                  <option>DM Serif Display</option>
+                </optgroup>
+                <optgroup label="Classical &amp; carved">
+                  <option>Cinzel</option>
+                  <option>Marcellus</option>
+                  <option>Italiana</option>
+                  <option>Cormorant Infant</option>
+                </optgroup>
+                <optgroup label="Warm &amp; readable">
+                  <option>Lora</option>
+                  <option>Libre Caslon Text</option>
+                  <option>Source Serif 4</option>
+                  <option>Newsreader</option>
+                </optgroup>
+              </select>
+              <label>Body text font</label>
+              <select id="t-f-sans">
+                <optgroup label="Clear &amp; modern (best for prices, buttons, sizes)">
+                  <option>Inter</option>
+                  <option>Plus Jakarta Sans</option>
+                  <option>Karla</option>
+                  <option>Work Sans</option>
+                  <option>Nunito Sans</option>
+                  <option>Outfit</option>
+                  <option>Jost</option>
+                </optgroup>
+                <optgroup label="Book serif (softer, slower to read)">
+                  <option>EB Garamond</option>
+                  <option>Lora</option>
+                  <option>Crimson Pro</option>
+                  <option>Spectral</option>
+                  <option>Source Serif 4</option>
+                </optgroup>
+              </select>
+            </div>
+            <div>
+              <label>Body text size — <span id="t-f-base-out">17</span>px</label>
+              <input type="range" id="t-f-base" min="14" max="20" step="0.5" value="17" oninput="document.getElementById('t-f-base-out').textContent=this.value">
+              <label>Heading size — <span id="t-f-hscale-out">100</span>%</label>
+              <input type="range" id="t-f-hscale" min="80" max="125" step="5" value="100" oninput="document.getElementById('t-f-hscale-out').textContent=this.value">
+              <p class="muted" style="margin-top:10px">Smaller % = quieter, more book-like headlines.</p>
+            </div>
+          </div>
+          <label style="margin-top:20px">Ready-made pairings</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+            <button class="small" onclick="typePair('Cormorant Garamond','Inter',16.5,100)">Poetic · Cormorant + Inter</button>
+            <button class="small" onclick="typePair('Playfair Display','Plus Jakarta Sans',16,95)">Editorial · Playfair + Jakarta</button>
+            <button class="small" onclick="typePair('Prata','Karla',16,90)">Fashion · Prata + Karla</button>
+            <button class="small" onclick="typePair('Marcellus','Work Sans',16.5,100)">Atelier · Marcellus + Work Sans</button>
+            <button class="small" onclick="typePair('Spectral','Inter',16.5,95)">Novel · Spectral + Inter</button>
+            <button class="small" onclick="typePair('Cinzel','Outfit',15.5,90)">Heritage · Cinzel + Outfit</button>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="small" onclick="typeReset()">Restore default fonts</button>
+          </div>
+        </div>
+        <div style="margin-top:22px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="primary" onclick="themePublish()">Save &amp; publish design</button>
+          <button class="small" onclick="themeReset()">Restore default colours</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-orders" class="hidden">
+      <div class="card">
+        <label style="margin-top:0">Payment details shown at checkout</label>
+        <p class="muted" style="margin-bottom:10px">These appear to customers when they order. Leave PayPal empty to hide that option (check your account can <b>receive</b> money first). Bank details only allow deposits — safe to show.</p>
+        <div class="row">
+          <div><label>Bank name</label><input type="text" id="pay-bankName" placeholder="Commercial Bank"></div>
+          <div><label>Branch</label><input type="text" id="pay-branch" placeholder="Colombo 03"></div>
+        </div>
+        <div class="row">
+          <div><label>Account name</label><input type="text" id="pay-accountName" placeholder="K. Vadivel"></div>
+          <div><label>Account number</label><input type="text" id="pay-accountNumber" placeholder="8001234567"></div>
+        </div>
+        <div class="row">
+          <div><label>PayPal link (optional)</label><input type="text" id="pay-paypal" placeholder="https://paypal.me/yourname"></div>
+          <div><label>Note to customer</label><input type="text" id="pay-note" placeholder="After paying, send the receipt on WhatsApp with your order ref."></div>
+        </div>
+        <div style="margin-top:16px"><button class="primary" onclick="payPublish()">Publish payment details</button></div>
+      </div>
+
+      <div class="card">
+        <h1 style="font-size:17px;margin-bottom:4px">Delivery</h1>
+        <p class="muted" style="margin-bottom:14px">What customers see at checkout. Waive it and every order shows free delivery.</p>
+
+        <label style="display:flex;align-items:center;gap:10px;margin:0 0 6px;text-transform:none;letter-spacing:0;font-size:15px;color:var(--ink)">
+          <input type="checkbox" id="dl-free" style="width:auto;margin:0" onchange="deliveryToggle()">
+          Waive delivery — free for everyone
+        </label>
+
+        <div id="dl-charges">
+          <div class="row">
+            <div>
+              <label>Delivery charge — island-wide (LKR)</label>
+              <input type="text" id="dl-flat" inputmode="numeric" placeholder="500">
+            </div>
+            <div>
+              <label>Free delivery over (LKR) — optional</label>
+              <input type="text" id="dl-freeover2" inputmode="numeric" placeholder="10000" style="display:none">
+              <input type="text" id="dl-other" inputmode="numeric" placeholder="" style="display:none">
+              <p class="hint" style="margin-top:8px">Customers see this added to the piece price, so they deposit the correct total.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Free delivery over (LKR) — leave empty for none</label>
+              <input type="text" id="dl-freeover" inputmode="numeric" placeholder="10000">
+            </div>
+            <div>
+              <label>Delivery time</label>
+              <input type="text" id="dl-days" placeholder="2–4 working days after dispatch">
+            </div>
+          </div>
+        </div>
+
+        <label>Note shown at checkout (optional)</label>
+        <input type="text" id="dl-note" placeholder="Island-wide delivery by courier.">
+
+        <div class="card" style="margin-top:16px;background:#FBF9FE;box-shadow:none">
+          <p class="muted" style="margin-bottom:6px">Customers will see:</p>
+          <p id="dl-preview" style="font-size:15px;color:var(--ink)"></p>
+        </div>
+
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="primary" onclick="deliverySave()">Save &amp; publish delivery</button>
+          <button class="small" onclick="deliveryReset()">Restore defaults</button>
+        </div>
+      </div>
+
+      <div class="topbar" style="margin-top:26px">
+        <h1 style="font-size:20px">Orders</h1>
+        <button class="small" onclick="orderNew()">+ Add order</button>
+      </div>
+      <div class="card">
+        <ul class="plist" id="olist"></ul>
+        <p class="muted" id="olist-empty" style="padding:10px 4px">No orders yet. When a customer sends an order on WhatsApp, add it here.</p>
+      </div>
+
+      <div class="card hidden" id="order-editor">
+        <h1 style="font-size:19px;margin-bottom:4px" id="o-ed-title">New order</h1>
+        <div class="row">
+          <div><label>Order ref</label><input type="text" id="o-ref" placeholder="ND-ABC123 (from the WhatsApp message)"></div>
+          <div><label>Date</label><input type="text" id="o-date" placeholder="2026-08-16"></div>
+        </div>
+        <div class="row">
+          <div><label>Customer name</label><input type="text" id="o-customer"></div>
+          <div><label>Phone / contact</label><input type="text" id="o-phone"></div>
+        </div>
+        <div class="row">
+          <div><label>Piece</label><select id="o-product"></select></div>
+          <div><label>Size</label><input type="text" id="o-size" placeholder="M"></div>
+        </div>
+        <div class="row">
+          <div><label>Colour</label><input type="text" id="o-color"></div>
+          <div><label>Price (LKR, numbers only)</label><input type="text" id="o-price" inputmode="numeric" placeholder="5500"></div>
+        </div>
+        <div class="row">
+          <div><label>Paying by</label><select id="o-method"><option>Bank Transfer</option><option>PayPal</option><option>Cash</option><option>Other</option></select></div>
+          <div><label>Status</label><select id="o-status"><option>New</option><option>Paid</option><option>Making</option><option>Dispatched</option><option>In Transit</option><option>Delivered</option><option>Cancelled</option></select></div>
+        </div>
+        <label>Notes (measurements, address, anything)</label>
+        <textarea id="o-notes"></textarea>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="primary" onclick="orderSave()">Save order</button>
+          <button class="small" onclick="orderCloseEditor()">Cancel</button>
+          <button class="danger small" id="o-del" onclick="orderDelete()">Delete order</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-dashboard" class="hidden">
+      <div id="dash-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px"></div>
+      <div class="card">
+        <label style="margin-top:0">By status</label>
+        <div id="dash-status"></div>
+      </div>
+      <div class="card">
+        <label style="margin-top:0">Best sellers</label>
+        <div id="dash-top"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ EDITOR ============ -->
+  <div id="editor" class="hidden">
+    <div class="topbar">
+      <h1 style="font-size:22px" id="ed-title">Edit product</h1>
+      <button class="small" onclick="closeEditor()">← Back to list</button>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <label>Name</label>
+          <input type="text" id="f-name" placeholder="The Classic Dog Sweater">
+        </div>
+        <div>
+          <label>Category</label>
+          <select id="f-category"></select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Starting price in LKR <span style="text-transform:none;letter-spacing:0">(numbers only — the price of the first size)</span></label>
+          <input type="text" id="f-baseprice" inputmode="numeric" placeholder="4500">
+        </div>
+        <div>
+          <label>Added per size step in LKR <span style="text-transform:none;letter-spacing:0">(e.g. 500: XS 4500 → S 5000 → M 5500)</span></label>
+          <input type="text" id="f-sizestep" inputmode="numeric" placeholder="500">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Price text <span style="text-transform:none;letter-spacing:0">(optional — shown before a size is picked; empty = automatic "from LKR")</span></label>
+          <input type="text" id="f-price" placeholder="from LKR 4,500">
+        </div>
+        <div>
+          <label>Web address name <span style="text-transform:none;letter-spacing:0">(auto — also the image filenames)</span></label>
+          <input type="text" id="f-id" placeholder="classic-dog-sweater">
+        </div>
+      </div>
+      <label>One-line description (category page)</label>
+      <input type="text" id="f-short" placeholder="Chunky ribbed warmth, made to measure">
+      <label>Full description (product page)</label>
+      <textarea id="f-desc"></textarea>
+      <div class="row">
+        <div>
+          <label>Colours (separate with commas)</label>
+          <input type="text" id="f-colors" placeholder="Cream, Dusty Rose, Sage">
+        </div>
+        <div>
+          <label>Sizes (separate with commas)</label>
+          <input type="text" id="f-sizes" placeholder="XS, S, M, L, XL">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label style="margin-top:0">Photos — as many as you like</label>
+      <p class="muted" style="margin-bottom:14px">One photo or ten — you decide. <b>Photo 1 is the main one</b>: it appears on category tiles and first on the product page. Use <b>+ Add photo</b> for more, <b>Remove</b> to take one off the site (the old file stays harmlessly in storage). New picks upload when you save.</p>
+      <div class="row3" id="gal-slots"></div>
+      <div style="margin-top:12px"><button class="small" type="button" onclick="galAdd()">+ Add photo</button></div>
+    </div>
+
+    <div class="card">
+      <label style="margin-top:0">Colour photos <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+      <p class="muted" style="margin-bottom:14px">One photo per colour — when a customer picks that colour, the product photo changes to it. Colours come from the Colours field above. No photo yet? The main Front photo shows instead, so add these whenever you have them.</p>
+      <div class="row3" id="color-slots"></div>
+    </div>
+
+    <div class="card">
+      <label style="margin-top:0">Size chart</label>
+      <p class="muted" style="margin-bottom:10px">First row is the header. Add or remove columns and rows as needed.</p>
+      <table class="chart-rows" id="chart"></table>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="small" onclick="chartAddRow()">+ Row</button>
+        <button class="small" onclick="chartAddCol()">+ Column</button>
+        <button class="small" onclick="chartDelCol()">− Column</button>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button class="primary" id="save-btn" onclick="saveProduct()">Save &amp; publish</button>
+      <button class="danger" id="del-btn" onclick="deleteProduct()">Delete product</button>
+    </div>
+    <p class="hint">After saving, the live site updates in about a minute.</p>
+  </div>
+</div>
+
+<div id="log"></div>
+
+<script>
+/* ================= config ================= */
+const OWNER = 'nodalislk-prog';
+const REPO  = 'nodalis-site';
+const BRANCH = 'main';
+const API = 'https://api.github.com';
+
+let token = null;
+let CATEGORIES = {}, PRODUCTS = [];
+let SITE = null;
+const DEFAULT_THEME = {
+  gold: "#B98A4B",
+  apparel: { bgTop:"#FDFBF7", bgBottom:"#F5ECF3", ink:"#2D2D2D", inkSoft:"#7A6473", nav:"#3A1F42" },
+  pet:     { bgTop:"#FDFBF7", bgBottom:"#F7EEDC", ink:"#2D2D2D", inkSoft:"#7A6A62", nav:"#3A2A3E" },
+  mens:    { bgTop:"#FBF9F4", bgBottom:"#EEEAF1", ink:"#2D2D2D", inkSoft:"#645C74", nav:"#241C33" },
+  home:    { g0:"#FDFBF7", g1:"#F4EDE4", g2:"#D8C3D8", g3:"#7A4B81", g4:"#2E1B33", ink:"#2D2D2D", inkSoft:"#6B6459", nav:"#2E1B33" }
+};
+let productsSha = null;   // sha of products.js for updates
+let editingIndex = -1;    // -1 = new product
+let galItems = [];   /* [{file:'name.jpg'|null, picked:File|null, legacy:bool}] */
+let openGroupKey = null;
+const GROUPS = { apparel: {name:"Women", sub:"Tops, skirts, bags, dresses\u2026"},
+                 mens:    {name:"Men", sub:"Menswear pieces"},
+                 pet:     {name:"Petstore", sub:"For dogs, cats, and every companion"} };
+
+/* ---------- photo gallery (any number of photos) ---------- */
+function galAdd(){ galItems.push({file:null, picked:null, legacy:false}); renderGal(); }
+function galRemove(i){
+  if (galItems.length === 1) { galItems[0] = {file:null, picked:null, legacy:false}; }
+  else galItems.splice(i,1);
+  renderGal();
+}
+function renderGal(){
+  const mount = document.getElementById('gal-slots');
+  if (!mount) return;
+  mount.innerHTML = '';
+  if (!galItems.length) galItems.push({file:null, picked:null, legacy:false});
+  galItems.forEach((it, i) => {
+    const d = document.createElement('div');
+    d.className = 'imgslot';
+    const nm = document.createElement('div'); nm.className = 'slotname';
+    nm.textContent = i === 0 ? 'Photo 1 \u2014 main (shown on tiles)' : 'Photo ' + (i+1);
+    const img = document.createElement('img'); img.alt = '';
+    if (it.picked) { img.src = URL.createObjectURL(it.picked); nm.textContent += ' \u2014 ready, uploads on save'; nm.style.color = 'var(--yarn)'; }
+    else if (it.file) {
+      img.src = 'images/products/' + it.file;
+      img.onerror = function(){ img.removeAttribute('src'); if (it.legacy) { it.file = null; } nm.textContent = (i===0?'Photo 1 \u2014 main (shown on tiles)':'Photo '+(i+1)) + ' \u2014 no image yet'; nm.style.color=''; };
+      img.onload = function(){ nm.textContent = (i===0?'Photo 1 \u2014 main (shown on tiles)':'Photo '+(i+1)) + ' \u2014 \u2713 uploaded'; nm.style.color = 'var(--ok)'; };
+    } else { nm.textContent += ' \u2014 no image yet'; }
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+    inp.addEventListener('change', function(){ const f = this.files[0]; if (!f) return; it.picked = f; renderGal(); });
+    const rm = document.createElement('button'); rm.type='button'; rm.className = 'small danger'; rm.textContent = 'Remove';
+    rm.style.marginTop = '8px';
+    rm.onclick = function(){ galRemove(i); };
+    d.appendChild(nm); d.appendChild(img); d.appendChild(inp); d.appendChild(rm);
+    mount.appendChild(d);
+  });
+}
+function galInit(p){
+  galItems = [];
+  if (p && Array.isArray(p.images) && p.images.length) {
+    galItems = p.images.map(f => ({file:f, picked:null, legacy:false}));
+  } else if (p && p.id) {
+    /* older product saved before the gallery existed \u2014 offer its three classic photos */
+    galItems = [
+      {file: p.id + '-front.jpg', picked:null, legacy:true},
+      {file: p.id + '-side.jpg',  picked:null, legacy:true},
+      {file: p.id + '-size.jpg',  picked:null, legacy:true}
+    ];
+  } else {
+    galItems = [{file:null, picked:null, legacy:false}];
+  }
+  renderGal();
+}
+
+/* ---------- Main browser: Women / Men / Petstore ---------- */
+function catsTopLevel(g){
+  return Object.keys(CATEGORIES).filter(k => CATEGORIES[k].group === g && !CATEGORIES[k].parent);
+}
+function catChildren(k){
+  return Object.keys(CATEGORIES).filter(x => CATEGORIES[x].parent === k);
+}
+function productsIn(k){
+  const out = [];
+  PRODUCTS.forEach((p,i) => { if (p.category === k) out.push(i); });
+  return out;
+}
+function groupCount(g){
+  let n = 0;
+  PRODUCTS.forEach(p => { const c = CATEGORIES[p.category]; if (c && (c.group === g || (c.parent && CATEGORIES[c.parent] && CATEGORIES[c.parent].group === g))) n++; });
+  return n;
+}
+function openGroup(g){ openGroupKey = g; renderList(); }
+function closeGroup(){ openGroupKey = null; renderList(); }
+function gvAddSection(){
+  const g = openGroupKey;
+  showTab('categories');
+  catNew();
+  try { catFillParentSelect(g === 'apparel' ? 'apparel' : g); } catch(e){}
+}
+function newProductIn(k){
+  openEditor(-1);
+  const s = document.getElementById('f-category');
+  if (s) s.value = k;
+}
+function sectionBlock(k, host){
+  const c = CATEGORIES[k];
+  const box = document.createElement('div'); box.className = 'gv-cat';
+  const head = document.createElement('div'); head.className = 'gv-cat-head';
+  const left = document.createElement('div');
+  left.innerHTML = '<div class="gv-cat-title"></div><div class="gv-cat-sub"></div>';
+  left.querySelector('.gv-cat-title').textContent = c.title || k;
+  const ids = productsIn(k);
+  left.querySelector('.gv-cat-sub').textContent = ids.length + (ids.length === 1 ? ' piece' : ' pieces');
+  const right = document.createElement('div');
+  const addB = document.createElement('button'); addB.className='small'; addB.textContent = '+ Add piece here';
+  addB.onclick = () => newProductIn(k);
+  const edB = document.createElement('button'); edB.className='small'; edB.textContent = 'Section settings'; edB.style.marginLeft='8px';
+  edB.onclick = () => { showTab('categories'); catOpenEditor(k); };
+  right.appendChild(addB); right.appendChild(edB);
+  head.appendChild(left); head.appendChild(right);
+  box.appendChild(head);
+  const ul = document.createElement('ul'); ul.className = 'gv-plist';
+  ids.forEach(i => {
+    const p = PRODUCTS[i];
+    const li = document.createElement('li');
+    const nm = document.createElement('span'); nm.className='pname'; nm.textContent = p.name;
+    const b = document.createElement('button'); b.className = 'small'; b.textContent = 'Edit';
+    b.onclick = () => openEditor(i);
+    li.appendChild(nm); li.appendChild(b);
+    ul.appendChild(li);
+  });
+  if (!ids.length) {
+    const e = document.createElement('div'); e.className='gv-empty'; e.textContent = 'No pieces here yet.';
+    box.appendChild(e);
+  } else box.appendChild(ul);
+  host.appendChild(box);
+}
+function renderGroups(){
+  const mount = document.getElementById('main-groups');
+  mount.innerHTML = '';
+  for (const g in GROUPS) {
+    const d = document.createElement('div'); d.className = 'mg-card';
+    d.innerHTML = '<div><div class="mg-name"></div><div class="mg-sub"></div></div><div style="font-size:13px;color:var(--ink-soft)"></div>';
+    d.querySelector('.mg-name').textContent = GROUPS[g].name;
+    d.querySelector('.mg-sub').textContent = GROUPS[g].sub;
+    const cats = catsTopLevel(g).length;
+    const pc = groupCount(g);
+    d.lastChild.textContent = cats + (cats===1?' section \u00b7 ':' sections \u00b7 ') + pc + (pc===1?' piece \u203a':' pieces \u203a');
+    d.onclick = () => openGroup(g);
+    mount.appendChild(d);
+  }
+  /* pieces whose section no longer exists */
+  const un = document.getElementById('main-unfiled');
+  un.innerHTML = '';
+  const lost = [];
+  PRODUCTS.forEach((p,i) => { if (!CATEGORIES[p.category]) lost.push(i); });
+  if (lost.length) {
+    const box = document.createElement('div'); box.className='gv-cat'; box.style.marginTop='14px';
+    const h = document.createElement('div'); h.className='gv-cat-head';
+    h.innerHTML = '<div class="gv-cat-title">Unfiled pieces</div><div class="gv-cat-sub">their section was removed \u2014 open each and pick a new one</div>';
+    box.appendChild(h);
+    const ul = document.createElement('ul'); ul.className='gv-plist';
+    lost.forEach(i => {
+      const li = document.createElement('li');
+      const nm = document.createElement('span'); nm.className='pname'; nm.textContent = PRODUCTS[i].name;
+      const b = document.createElement('button'); b.className='small'; b.textContent='Edit';
+      b.onclick = () => openEditor(i);
+      li.appendChild(nm); li.appendChild(b); ul.appendChild(li);
+    });
+    box.appendChild(ul); un.appendChild(box);
+  }
+}
+function renderGroupView(){
+  const g = openGroupKey;
+  document.getElementById('gv-title').textContent = GROUPS[g].name;
+  const host = document.getElementById('group-cats');
+  host.innerHTML = '';
+  const tops = catsTopLevel(g);
+  if (!tops.length) {
+    host.innerHTML = '<p class="muted" style="padding:6px 2px">No sections yet \u2014 press \u201c+ Add section here\u201d to create the first.</p>';
+  }
+  tops.forEach(k => {
+    const kids = catChildren(k);
+    if (kids.length) {
+      const wrap = document.createElement('div'); wrap.style.marginBottom = '18px';
+      const h = document.createElement('div'); h.className='gv-cat-head'; h.style.border='1px solid var(--hairline)'; h.style.marginBottom='10px';
+      h.innerHTML = '<div><div class="gv-cat-title"></div><div class="gv-cat-sub">group of sections</div></div>';
+      h.querySelector('.gv-cat-title').textContent = CATEGORIES[k].title || k;
+      const btn = document.createElement('button'); btn.className='small'; btn.textContent='Group settings';
+      btn.onclick = () => { showTab('categories'); catOpenEditor(k); };
+      h.appendChild(btn);
+      wrap.appendChild(h);
+      kids.forEach(kid => sectionBlock(kid, wrap));
+      /* pieces attached directly to the parent */
+      if (productsIn(k).length) sectionBlock(k, wrap);
+      host.appendChild(wrap);
+    } else {
+      sectionBlock(k, host);
+    }
+  });
+}
+
+/* ================= helpers ================= */
+function log(msg, cls){
+  const el = document.getElementById('log');
+  el.textContent = msg; el.className = cls || ''; el.style.display = 'block';
+  if (cls === 'ok') setTimeout(()=>{ el.style.display='none'; }, 5000);
+}
+async function gh(path, opts){
+  opts = opts || {};
+  opts.headers = Object.assign({
+    'Authorization': 'Bearer ' + token,
+    'Accept': 'application/vnd.github+json'
+  }, opts.headers || {});
+  const r = await fetch(API + path, opts);
+  if (!r.ok && r.status !== 404) {
+    const t = await r.text();
+    throw new Error('GitHub said: ' + r.status + ' ' + t.slice(0,200));
+  }
+  return r;
+}
+function b64EncodeUtf8(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function slugify(s){
+  return s.toLowerCase().trim().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
+
+/* ================= auth — password-sealed token vault ================= */
+const VAULT_KEY = 'nodalis_admin_vault';
+function authShow(which){
+  document.getElementById('auth-login').classList.toggle('hidden', which !== 'login');
+  document.getElementById('auth-token').classList.toggle('hidden', which !== 'token');
+}
+function vaultRead(){
+  try { const s = localStorage.getItem(VAULT_KEY); return s ? JSON.parse(s) : null; } catch(e){ return null; }
+}
+const te = new TextEncoder(), td = new TextDecoder();
+function abToB64(ab){ let s=''; const b=new Uint8Array(ab); for (let i=0;i<b.length;i++) s+=String.fromCharCode(b[i]); return btoa(s); }
+function b64ToAb(s){ const bin=atob(s); const b=new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) b[i]=bin.charCodeAt(i); return b.buffer; }
+async function vaultKey(pass, saltAb){
+  const km = await crypto.subtle.importKey('raw', te.encode(pass), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2', salt: saltAb, iterations: 310000, hash:'SHA-256'}, km,
+                                 {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']);
+}
+async function vaultCreate(){
+  const t  = document.getElementById('token').value.trim();
+  const u  = document.getElementById('au-newuser').value.trim();
+  const p1 = document.getElementById('au-newpass').value;
+  const p2 = document.getElementById('au-newpass2').value;
+  if (!t)  { log('Paste your GitHub token first.', 'err'); return; }
+  if (!u)  { log('Choose a username.', 'err'); return; }
+  if (p1.length < 8) { log('Password needs at least 8 characters.', 'err'); return; }
+  if (p1 !== p2) { log('The two passwords do not match.', 'err'); return; }
+  try {
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const iv   = crypto.getRandomValues(new Uint8Array(12));
+    const key  = await vaultKey(p1, salt.buffer);
+    const ct   = await crypto.subtle.encrypt({name:'AES-GCM', iv: iv}, key, te.encode(t));
+    localStorage.setItem(VAULT_KEY, JSON.stringify({v:1, u:u, s:abToB64(salt.buffer), i:abToB64(iv.buffer), c:abToB64(ct)}));
+    try { localStorage.removeItem('nodalis_admin_token'); } catch(e){}
+    token = t;
+    log('Login created — from now on, sign in with your username and password.', 'ok');
+    boot();
+  } catch(e) { log('Could not create the login: ' + e.message, 'err'); }
+}
+async function vaultSignIn(){
+  const vault = vaultRead();
+  if (!vault) { authShow('token'); return; }
+  const u = document.getElementById('au-user').value.trim();
+  const p = document.getElementById('au-pass').value;
+  if (u.toLowerCase() !== String(vault.u||'').toLowerCase()) { log('Wrong username or password.', 'err'); return; }
+  try {
+    const key = await vaultKey(p, b64ToAb(vault.s));
+    const pt  = await crypto.subtle.decrypt({name:'AES-GCM', iv: new Uint8Array(b64ToAb(vault.i))}, key, b64ToAb(vault.c));
+    token = td.decode(pt);
+    boot();
+  } catch(e) {
+    log('Wrong username or password.', 'err');
+  }
+}
+function tokenOnlySignIn(){
+  const t = document.getElementById('token').value.trim();
+  if (!t) { log('Paste your token first.', 'err'); return; }
+  token = t;
+  boot();
+}
+function vaultForget(){
+  if (!confirm('Forget the saved login on this device?\n\nYou will need your GitHub token to set it up again.')) return;
+  try { localStorage.removeItem(VAULT_KEY); localStorage.removeItem('nodalis_admin_token'); } catch(e){}
+  authShow('token');
+  log('This device has been forgotten.', 'ok');
+}
+function signOut(){
+  location.reload();
+}
+
+/* ================= load data ================= */
+async function boot(){
+  log('Loading products…');
+  try {
+    const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/products.js?ref='+BRANCH);
+    if (r.status === 404) throw new Error('products.js not found in the repo — upload it once via GitHub first.');
+    const j = await r.json();
+    productsSha = j.sha;
+    const src = decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))));
+    const fn = new Function(src + '; return {SITE: (typeof SITE!=="undefined"?SITE:null), CATEGORIES, PRODUCTS};');
+    const data = fn();
+    CATEGORIES = data.CATEGORIES; PRODUCTS = data.PRODUCTS;
+    SITE = data.SITE || { theme: JSON.parse(JSON.stringify(DEFAULT_THEME)) };
+    if (!SITE.theme) SITE.theme = JSON.parse(JSON.stringify(DEFAULT_THEME));
+    document.getElementById('login-card').classList.add('hidden');
+    document.getElementById('dash').classList.remove('hidden');
+    renderList();
+    await loadOrders();
+    log('Loaded ' + PRODUCTS.length + ' products, ' + ORDERS.length + ' orders.', 'ok');
+  } catch(e) {
+    token = null;
+    log(e.message.includes('401') ? 'That token was not accepted — check it and try again.' : e.message, 'err');
+  }
+}
+
+/* ================= product list ================= */
+function renderList(){
+  const browser = document.getElementById('main-browser');
+  const gview = document.getElementById('group-view');
+  if (openGroupKey && GROUPS[openGroupKey]) {
+    browser.classList.add('hidden');
+    gview.classList.remove('hidden');
+    renderGroupView();
+  } else {
+    openGroupKey = null;
+    gview.classList.add('hidden');
+    browser.classList.remove('hidden');
+    renderGroups();
+  }
+}
+
+/* ================= editor ================= */
+function fillCategorySelect(sel){
+  const s = document.getElementById('f-category');
+  s.innerHTML = '';
+  for (const k in CATEGORIES) {
+    const c = CATEGORIES[k];
+    const o = document.createElement('option');
+    const prefix = c.parent && CATEGORIES[c.parent] ? CATEGORIES[c.parent].title + ' — ' : (c.group === 'pet' ? 'Petstore — ' : (c.group === 'mens' ? "Men's — " : "Women's — "));
+    o.value = k; o.textContent = prefix + c.title;
+    s.appendChild(o);
+  }
+  if (sel) s.value = sel;
+}
+function newProduct(){ openEditor(-1); }
+function openEditor(i){
+  editingIndex = i;
+  pickedColorFiles = {};
+  const p = i >= 0 ? PRODUCTS[i] : { name:'', category:'tops', price:'', short:'', description:'', colors:[], sizes:[], sizeChart:[['Size','Measurement (cm)'],['','']] , id:''};
+  document.getElementById('ed-title').textContent = i >= 0 ? 'Edit — ' + p.name : 'New product';
+  document.getElementById('f-name').value = p.name || '';
+  fillCategorySelect(p.category);
+  document.getElementById('f-price').value = p.price || '';
+  document.getElementById('f-baseprice').value = p.basePrice != null ? p.basePrice : '';
+  document.getElementById('f-sizestep').value = p.sizeStep != null ? p.sizeStep : '';
+  document.getElementById('f-id').value = p.id || '';
+  document.getElementById('f-short').value = p.short || '';
+  document.getElementById('f-desc').value = p.description || '';
+  document.getElementById('f-colors').value = (p.colors||[]).join(', ');
+  document.getElementById('f-sizes').value = (p.sizes||[]).join(', ');
+  renderChart(p.sizeChart && p.sizeChart.length ? p.sizeChart : [['Size','Measurement (cm)'],['','']]);
+  galInit(i >= 0 ? p : null);
+  document.getElementById('del-btn').style.display = i >= 0 ? '' : 'none';
+  renderColorSlots();
+  document.getElementById('dash').classList.add('hidden');
+  document.getElementById('editor').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+function closeEditor(){
+  document.getElementById('editor').classList.add('hidden');
+  document.getElementById('dash').classList.remove('hidden');
+}
+document.getElementById('f-name').addEventListener('input', function(){
+  if (editingIndex < 0) document.getElementById('f-id').value = slugify(this.value);
+});
+let pickedColorFiles = {};   // colour slug -> File
+function colorSlug(s){
+  return String(s).toLowerCase().trim().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+function renderColorSlots(){
+  const mount = document.getElementById('color-slots');
+  mount.innerHTML = '';
+  const id = slugify(document.getElementById('f-id').value.trim());
+  const colors = document.getElementById('f-colors').value.split(',').map(s=>s.trim()).filter(Boolean);
+  colors.forEach(cname => {
+    const cs = colorSlug(cname);
+    const d = document.createElement('div');
+    d.className = 'imgslot';
+    d.innerHTML = '<div class="slotname"></div><img alt=""><input type="file" accept="image/*">';
+    const stat = d.querySelector('.slotname');
+    const img = d.querySelector('img');
+    const inp = d.querySelector('input');
+    if (pickedColorFiles[cs]) {
+      img.src = URL.createObjectURL(pickedColorFiles[cs]);
+      stat.textContent = cname + ' \u2014 ready, uploads on save';
+      stat.style.color = 'var(--yarn)';
+    } else if (id && editingIndex >= 0) {
+      stat.textContent = cname + ' \u2014 checking\u2026';
+      previewInto(img, 'images/products/' + id + '-front-' + cs + '.jpg').then(ok => {
+        stat.textContent = cname + (ok ? ' \u2014 \u2713 uploaded' : ' \u2014 no photo yet');
+        stat.style.color = ok ? 'var(--ok)' : '';
+      });
+    } else {
+      stat.textContent = cname + ' \u2014 no photo yet';
+    }
+    inp.addEventListener('change', function(){
+      const f = this.files[0];
+      if (!f) return;
+      pickedColorFiles[cs] = f;
+      img.src = URL.createObjectURL(f);
+      stat.textContent = cname + ' \u2014 ready, uploads on save';
+      stat.style.color = 'var(--yarn)';
+    });
+    mount.appendChild(d);
+  });
+  if (!colors.length) {
+    mount.innerHTML = '<p class="muted">Add colours in the field above first.</p>';
+  }
+}
+document.getElementById('f-colors').addEventListener('input', renderColorSlots);
+
+
+
+/* ---- size chart grid ---- */
+function renderChart(rows){
+  const t = document.getElementById('chart');
+  t.innerHTML = '';
+  rows.forEach((row) => chartAddRow(row));
+}
+function chartAddRow(values){
+  const t = document.getElementById('chart');
+  const cols = t.rows.length ? t.rows[0].cells.length - 1 : (values ? values.length : 2);
+  const tr = t.insertRow();
+  const n = values ? values.length : cols;
+  for (let c = 0; c < n; c++) {
+    const td = tr.insertCell();
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.value = values ? (values[c] || '') : '';
+    td.appendChild(inp);
+  }
+  const del = tr.insertCell();
+  del.className = 'rowdel';
+  const b = document.createElement('button');
+  b.className = 'small'; b.textContent = '×'; b.title = 'Remove row';
+  b.onclick = () => { if (t.rows.length > 1) tr.remove(); };
+  del.appendChild(b);
+}
+function chartAddCol(){
+  const t = document.getElementById('chart');
+  for (const tr of t.rows) {
+    const td = tr.insertCell(tr.cells.length - 1);
+    const inp = document.createElement('input'); inp.type = 'text';
+    td.appendChild(inp);
+  }
+}
+function chartDelCol(){
+  const t = document.getElementById('chart');
+  if (!t.rows.length || t.rows[0].cells.length <= 2) return;
+  for (const tr of t.rows) tr.deleteCell(tr.cells.length - 2);
+}
+function readChart(){
+  const t = document.getElementById('chart');
+  const rows = [];
+  for (const tr of t.rows) {
+    const row = [];
+    for (let c = 0; c < tr.cells.length - 1; c++) row.push(tr.cells[c].querySelector('input').value.trim());
+    if (row.some(v => v !== '')) rows.push(row);
+  }
+  return rows.length > 1 ? rows : [];
+}
+
+/* ================= save / delete ================= */
+function serializeProducts(){
+  const header = '/* Nodalis site data — edited via admin.html on ' + new Date().toISOString().slice(0,10) + ' */\n\n';
+  return header +
+    'const SITE = ' + JSON.stringify(SITE, null, 2) + ';\n\n' +
+    'const CATEGORIES = ' + JSON.stringify(CATEGORIES, null, 2) + ';\n\n' +
+    'const PRODUCTS = ' + JSON.stringify(PRODUCTS, null, 2) + ';\n';
+}
+async function putFile(path, base64content, message, sha){
+  const body = { message: message, content: base64content, branch: BRANCH };
+  if (sha) body.sha = sha;
+  const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/'+path, {
+    method:'PUT', body: JSON.stringify(body)
+  });
+  if (r.status === 404) throw new Error('Could not write ' + path + ' — check the token has Contents: Read and write for this repo.');
+  return r.json();
+}
+async function getSha(path){
+  const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/'+encodeURI(path)+'?ref='+BRANCH);
+  if (r.status === 404) return null;
+  const j = await r.json();
+  return j.sha;
+}
+/* Loads a preview straight from GitHub (the source of truth), so it shows the
+   moment something is uploaded — no waiting for the live site to rebuild.
+   Returns true if the file exists. */
+async function previewInto(imgEl, path){
+  try {
+    const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/'+encodeURI(path)+'?ref='+BRANCH);
+    if (r.status === 404) { imgEl.removeAttribute('src'); return false; }
+    const j = await r.json();
+    if (j.content) {
+      imgEl.src = 'data:image/jpeg;base64,' + j.content.replace(/\n/g,'');
+    } else if (j.download_url) {
+      imgEl.src = j.download_url + (j.download_url.includes('?') ? '&' : '?') + 't=' + Date.now();
+    } else { imgEl.removeAttribute('src'); return false; }
+    return true;
+  } catch(e) { imgEl.removeAttribute('src'); return false; }
+}
+function fileToBase64(f){
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = () => rej(new Error('Could not read ' + f.name));
+    r.readAsDataURL(f);
+  });
+}
+/* Shrinks any picked image to web size before upload:
+   max side maxDim px, saved as compressed JPG (transparency flattened to white). */
+function processImage(f, maxDim, quality){
+  maxDim = maxDim || 1200; quality = quality || 0.78;
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        let w = img.naturalWidth, h = img.naturalHeight;
+        const scale = Math.min(1, maxDim / Math.max(w, h));
+        w = Math.max(1, Math.round(w * scale));
+        h = Math.max(1, Math.round(h * scale));
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(img.src);
+        res(c.toDataURL('image/jpeg', quality).split(',')[1]);
+      } catch(e) { rej(new Error('Could not process ' + f.name)); }
+    };
+    img.onerror = () => rej(new Error('Could not read ' + f.name + ' \u2014 is it an image?'));
+    img.src = URL.createObjectURL(f);
+  });
+}
+async function saveProduct(){
+  const btn = document.getElementById('save-btn');
+  try {
+    const name = document.getElementById('f-name').value.trim();
+    let id = slugify(document.getElementById('f-id').value.trim() || name);
+    if (!name) { log('The product needs a name.', 'err'); return; }
+    if (!id)   { log('The product needs a web address name.', 'err'); return; }
+    const clash = PRODUCTS.findIndex((p,ix) => p.id === id && ix !== editingIndex);
+    if (clash >= 0) { log('Another product already uses that web address name — change it.', 'err'); return; }
+
+    btn.disabled = true;
+    const baseP = parseInt(document.getElementById('f-baseprice').value.replace(/[^0-9]/g,''), 10);
+    const stepP = parseInt(document.getElementById('f-sizestep').value.replace(/[^0-9]/g,''), 10);
+    const p = {
+      id: id,
+      name: name,
+      category: document.getElementById('f-category').value,
+      price: document.getElementById('f-price').value.trim(),
+      short: document.getElementById('f-short').value.trim(),
+      description: document.getElementById('f-desc').value.trim(),
+      colors: document.getElementById('f-colors').value.split(',').map(s=>s.trim()).filter(Boolean),
+      sizes:  document.getElementById('f-sizes').value.split(',').map(s=>s.trim()).filter(Boolean),
+      sizeChart: readChart()
+    };
+    if (!isNaN(baseP)) p.basePrice = baseP;
+    if (!isNaN(stepP)) p.sizeStep = stepP;
+    if (editingIndex >= 0) PRODUCTS[editingIndex] = p; else PRODUCTS.push(p);
+
+    /* upload the photo gallery */
+    const keep = [];
+    for (let gi = 0; gi < galItems.length; gi++) {
+      const it = galItems[gi];
+      if (!it.picked && !it.file) continue;            /* empty slot — skip */
+      let fname = it.file;
+      if (it.picked) {
+        if (keep.length === 0) fname = id + '-front.jpg';                    /* photo 1 = the tile image */
+        else if (!fname || !fname.startsWith(id + '-')) fname = id + '-g' + (keep.length + 1) + '.jpg';
+        log('Uploading photo ' + (keep.length + 1) + '…');
+        const b64 = await processImage(it.picked, 1200, 0.78);
+        const sha = await getSha('images/products/' + fname);
+        await putFile('images/products/' + fname, b64, 'Admin: photo ' + fname, sha);
+        it.picked = null;
+        it.file = fname;
+        it.legacy = false;
+      }
+      keep.push(fname);
+    }
+    p.images = keep;
+
+    /* colour variant photos */
+    for (const cs in pickedColorFiles) {
+      log('Uploading colour photo: ' + cs);
+      const cpath = 'images/products/' + id + '-front-' + cs + '.jpg';
+      const cb64 = await processImage(pickedColorFiles[cs], 1200, 0.78);
+      const csha = await getSha(cpath);
+      await putFile(cpath, cb64, 'Admin: colour photo ' + id + ' ' + cs, csha);
+    }
+    pickedColorFiles = {};
+
+    log('Saving product data…');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: save ' + name, productsSha)).content.sha;
+
+    log('Saved. The live site updates in about a minute.', 'ok');
+    galItems = keep.map(f => ({file:f, picked:null, legacy:false}));
+    renderGal();
+    editingIndex = PRODUCTS.indexOf(p);
+    document.getElementById('ed-title').textContent = 'Edit — ' + p.name;
+    document.getElementById('del-btn').style.display = '';
+    renderList();
+  } catch(e) {
+    log(e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+async function deleteProduct(){
+  if (editingIndex < 0) return;
+  const p = PRODUCTS[editingIndex];
+  if (!confirm('Remove "' + p.name + '" from the website?\n\nIts images stay in the repo (harmless) — only the product listing is removed.')) return;
+  try {
+    document.getElementById('del-btn').disabled = true;
+    PRODUCTS.splice(editingIndex, 1);
+    log('Removing…');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: remove ' + p.name, productsSha)).content.sha;
+    log('Removed. The live site updates in about a minute.', 'ok');
+    renderList();
+    closeEditor();
+  } catch(e) {
+    log(e.message, 'err');
+  } finally {
+    document.getElementById('del-btn').disabled = false;
+  }
+}
+
+/* ================= site media ================= */
+const SITE_MEDIA = [
+  { group: 'Homepage — Hero Videos', items: [
+    { path:'images/creator.jpg', label:'The Creator — Krishanthani (portrait)' },
+    { path:'images/storyteller.jpg', label:'The Storyteller — Ajenth (portrait)' },
+    { path:'images/story-her.jpg', label:'Homepage — Chapter I portrait (her)' },
+    { path:'images/story-him.jpg', label:'Homepage — Chapter II portrait (him)' },
+    { path:'images/story-pets.jpg', label:'Homepage — Chapter III portrait (pets)' },
+    { path:'images/women-hero1.jpg', label:'Women page — hero 1' },
+    { path:'images/women-hero2.jpg', label:'Women page — hero 2' },
+    { path:'images/women-hero3.jpg', label:'Women page — hero 3' },
+    { path:'images/mens-hero1.jpg', label:"Men's page — hero 1" },
+    { path:'images/mens-hero2.jpg', label:"Men's page — hero 2" },
+    { path:'images/mens-hero3.jpg', label:"Men's page — hero 3" },
+    { path:'videos/hero.mp4',  label:'Hero reel 1', video:true },
+    { path:'videos/hero2.mp4', label:'Hero reel 2', video:true },
+    { path:'videos/hero3.mp4', label:'Hero reel 3', video:true }
+  ]},
+  { group: 'Homepage — Collection Tiles', items: [
+    { path:'images/tops.jpg',        label:'Tops' },
+    { path:'images/skirts.jpg',      label:'Skirts' },
+    { path:'images/bags.jpg',        label:'Bags' },
+    { path:'images/hats.jpg',        label:'Hats' },
+    { path:'images/accessories.jpg', label:'Accessories' },
+    { path:'images/shirts.jpg',      label:'Shirts & T-Shirts' }
+  ]},
+  { group: 'Homepage — Petstore Strip & Atelier', items: [
+    { path:'images/pet-cats.jpg',  label:'Petstore — Cats tile' },
+    { path:'images/pet-dogs.jpg',  label:'Petstore — Dogs tile' },
+    { path:'images/pet-other.jpg', label:'Petstore — Other tile' },
+    { path:'images/atelier.jpg',   label:'Atelier photo' }
+  ]},
+  { group: 'Petstore Page — Heroes & Fitting', items: [
+    { path:'images/pet-hero1.jpg',  label:'Petstore hero 1' },
+    { path:'images/pet-hero2.jpg',  label:'Petstore hero 2' },
+    { path:'images/pet-hero3.jpg',  label:'Petstore hero 3' },
+    { path:'images/pet-fitting.jpg',label:'Fitting section photo' }
+  ]},
+  { group: 'Petstore Page — Category Tiles', items: [
+    { path:'images/dog-sweaters.jpg',   label:'Dogs — Sweaters' },
+    { path:'images/dog-bandanas.jpg',   label:'Dogs — Bandanas' },
+    { path:'images/dog-collars.jpg',    label:'Dogs — Collars & Leads' },
+    { path:'images/cat-toys.jpg',       label:'Cats — Toys' },
+    { path:'images/cat-beds.jpg',       label:'Cats — Beds & Caves' },
+    { path:'images/cat-collars.jpg',    label:'Cats — Collars' },
+    { path:'images/pet-blankets.jpg',   label:'Companion — Blankets' },
+    { path:'images/pet-baskets.jpg',    label:'Companion — Baskets' },
+    { path:'images/pet-accessories.jpg',label:'Companion — Toys & Accessories' }
+  ]}
+];
+
+function showTab(t){
+  ['products','categories','theme','media','orders','dashboard'].forEach(x => {
+    document.getElementById('tab-'+x).classList.toggle('active', t===x);
+    document.getElementById('panel-'+x).classList.toggle('hidden', t!==x);
+  });
+  document.getElementById('addbtn').style.display = t==='products' ? '' : 'none';
+  if (t==='media') renderMedia();
+  if (t==='categories') catRender();
+  if (t==='theme') themeFill(); creatorFill(); deliveryFill();
+  if (t==='orders') { payFill(); orderRenderList(); }
+  if (t==='dashboard') dashRender();
+}
+function renderMedia(){
+  const root = document.getElementById('media-groups');
+  root.innerHTML = '';
+  SITE_MEDIA.forEach(g => {
+    const h = document.createElement('div');
+    h.className = 'mgroup-title'; h.textContent = g.group;
+    root.appendChild(h);
+    const grid = document.createElement('div');
+    grid.className = 'media-grid';
+    g.items.forEach(it => grid.appendChild(mediaSlot(it)));
+    root.appendChild(grid);
+  });
+}
+function mediaSlot(it){
+  const d = document.createElement('div');
+  d.className = 'mslot';
+  const nm = document.createElement('div'); nm.className='mname'; nm.textContent = it.label;
+  const pt = document.createElement('div'); pt.className='mpath'; pt.textContent = it.path;
+  let prev;
+  if (it.video) {
+    prev = document.createElement('video');
+    prev.muted = true; prev.controls = true; prev.preload = 'metadata';
+  } else {
+    prev = document.createElement('img');
+  }
+  const stat = document.createElement('div');
+  stat.className = 'mpath';
+  if (it.video) {
+    prev.src = it.path + '?t=' + Date.now();
+    prev.onerror = () => { prev.removeAttribute('src'); };
+    stat.textContent = '';
+    getSha(it.path).then(sha => {
+      stat.textContent = sha ? '✓ uploaded' : 'no video yet';
+      stat.style.color = sha ? 'var(--ok)' : '';
+    }).catch(()=>{});
+  } else {
+    stat.textContent = 'checking…';
+    previewInto(prev, it.path).then(ok => {
+      stat.textContent = ok ? '✓ uploaded' : 'no image yet';
+      stat.style.color = ok ? 'var(--ok)' : '';
+    });
+  }
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = it.video ? 'video/mp4' : 'image/*';
+  const btn = document.createElement('button');
+  btn.className = 'small'; btn.textContent = 'Replace';
+  btn.onclick = async () => {
+    const f = inp.files[0];
+    if (!f) { log('Choose a file for "' + it.label + '" first.', 'err'); return; }
+    const maxMB = it.video ? 90 : 20;
+    if (f.size > maxMB * 1024 * 1024) { log('That file is too large — keep it under ' + maxMB + ' MB.', 'err'); return; }
+    try {
+      btn.disabled = true;
+      log('Uploading ' + it.label + '…');
+      const b64 = it.video ? await fileToBase64(f) : await processImage(f, 1600, 0.8);
+      const sha = await getSha(it.path);
+      await putFile(it.path, b64, 'Admin: replace ' + it.path, sha);
+      prev.src = URL.createObjectURL(f);
+      inp.value = '';
+      stat.textContent = '✓ uploaded';
+      stat.style.color = 'var(--ok)';
+      log(it.label + ' replaced. Live in about a minute.', 'ok');
+    } catch(e) {
+      log(e.message, 'err');
+    } finally {
+      btn.disabled = false;
+    }
+  };
+  d.append(nm, pt, prev, stat, inp, btn);
+  return d;
+}
+
+/* ================= sections (categories) ================= */
+let catDirty = false;
+let catEditingId = null;      // null = new
+let pickedCatFiles = {};      // id -> File (tile pictures pending upload)
+
+function catProductCount(k){
+  return PRODUCTS.filter(p => p.category === k).length;
+}
+function catChildren(k){
+  return Object.keys(CATEGORIES).filter(x => CATEGORIES[x].parent === k);
+}
+function catKeysOrdered(){ return Object.keys(CATEGORIES); }
+function catRebuild(orderedKeys){
+  const next = {};
+  orderedKeys.forEach(k => { next[k] = CATEGORIES[k]; });
+  CATEGORIES = next;
+}
+function catSiblings(k){
+  const c = CATEGORIES[k];
+  return catKeysOrdered().filter(x => {
+    const o = CATEGORIES[x];
+    return (o.parent || null) === (c.parent || null) && (o.group === c.group);
+  });
+}
+function catMove(k, dir){
+  const keys = catKeysOrdered();
+  const sibs = catSiblings(k);
+  const si = sibs.indexOf(k);
+  const ti = si + dir;
+  if (ti < 0 || ti >= sibs.length) return;
+  const a = keys.indexOf(k), b = keys.indexOf(sibs[ti]);
+  keys[a] = sibs[ti]; keys[b] = k;
+  catRebuild(keys);
+  catDirty = true;
+  catRender();
+}
+function catRowHtml(k, isChild){
+  const c = CATEGORIES[k];
+  const n = catProductCount(k);
+  const kidn = catChildren(k).length;
+  const bits = [];
+  if (kidn) bits.push(kidn + ' sub-section' + (kidn>1?'s':''));
+  bits.push(n + ' piece' + (n===1?'':'s'));
+  return '<div class="cat-row' + (isChild ? ' child' : '') + '">' +
+    '<span class="cname">' + escHtml(c.title) + '</span>' +
+    '<span class="ccount">' + bits.join(' · ') + '</span>' +
+    '<button class="small" onclick="catMove(\'' + k + '\',-1)" title="Move up">\u2191</button>' +
+    '<button class="small" onclick="catMove(\'' + k + '\',1)" title="Move down">\u2193</button>' +
+    '<button class="small" onclick="catEdit(\'' + k + '\')">Edit</button>' +
+    '</div>';
+}
+function escHtml(s){ const d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
+function catRender(){
+  const mount = document.getElementById('cat-tree');
+  let out = '';
+  out += '<p class="muted" style="margin:4px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Women’s</p>';
+  catKeysOrdered().filter(k => CATEGORIES[k].group === 'apparel' && !CATEGORIES[k].parent)
+    .forEach(k => { out += catRowHtml(k, false); });
+  out += '<p class="muted" style="margin:20px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Petstore</p>';
+  catKeysOrdered().filter(k => CATEGORIES[k].group === 'pet' && !CATEGORIES[k].parent)
+    .forEach(pk => {
+      out += catRowHtml(pk, false);
+      catChildren(pk).forEach(ck => { out += catRowHtml(ck, true); });
+    });
+  const mensTop = catKeysOrdered().filter(k => CATEGORIES[k].group === 'mens' && !CATEGORIES[k].parent);
+  if (mensTop.length) {
+    out += '<p class="muted" style="margin:20px 0 6px;letter-spacing:.18em;text-transform:uppercase;font-size:11px">Men&#8217;s</p>';
+    mensTop.forEach(pk => {
+      out += catRowHtml(pk, false);
+      catChildren(pk).forEach(ck => { out += catRowHtml(ck, true); });
+    });
+  }
+  mount.innerHTML = out;
+  document.getElementById('cat-save').textContent = catDirty ? 'Publish section changes \u25cf' : 'Publish section changes';
+}
+function catFillParentSelect(current){
+  const s = document.getElementById('c-parent');
+  s.innerHTML = '';
+  const add = (v, label) => { const o = document.createElement('option'); o.value=v; o.textContent=label; s.appendChild(o); };
+  add('apparel', 'Women\u2019s \u2014 top level');
+  add('pet', 'Petstore \u2014 top level');
+  add('mens', "Men's \u2014 top level");
+  catKeysOrdered().filter(k => !CATEGORIES[k].parent && (CATEGORIES[k].group === 'pet' || CATEGORIES[k].group === 'mens'))
+    .forEach(k => add('parent:' + k, (CATEGORIES[k].group === 'mens' ? "Men's" : 'Petstore') + ' \u2014 inside ' + CATEGORIES[k].title));
+  s.value = current || 'apparel';
+}
+function catNew(){ catOpenEditor(null); }
+function catEdit(k){ catOpenEditor(k); }
+function catOpenEditor(k){
+  catEditingId = k;
+  const c = k ? CATEGORIES[k] : { title:'', line:'', meta:'', group:'pet' };
+  document.getElementById('cat-ed-title').textContent = k ? ('Edit \u2014 ' + c.title) : 'New section';
+  document.getElementById('c-title').value = c.title || '';
+  document.getElementById('c-line').value = c.line || '';
+  document.getElementById('c-meta').value = c.meta || '';
+  const idEl = document.getElementById('c-id');
+  idEl.value = k || '';
+  idEl.disabled = !!k;
+  let where = 'apparel';
+  if (c.parent) where = 'parent:' + c.parent;
+  else if (c.group === 'pet') where = 'pet';
+  else if (c.group === 'mens') where = 'mens';
+  catFillParentSelect(where);
+  const img = document.getElementById('c-img');
+  const stat = document.querySelector('#c-file').closest('.imgslot').querySelector('.slotname');
+  img.removeAttribute('src');
+  if (k) {
+    stat.textContent = 'Tile picture — checking…';
+    previewInto(img, c.image || ('images/' + k + '.jpg')).then(ok => {
+      stat.textContent = 'Tile picture' + (ok ? ' — ✓ uploaded' : ' — no image yet');
+      stat.style.color = ok ? 'var(--ok)' : '';
+    });
+  } else {
+    stat.textContent = 'Tile picture — no image yet';
+    stat.style.color = '';
+  }
+  document.getElementById('c-file').value = '';
+  document.getElementById('c-del').style.display = k ? '' : 'none';
+  document.getElementById('cat-editor').classList.remove('hidden');
+  document.getElementById('cat-editor').scrollIntoView({behavior:'smooth'});
+}
+function catCloseEditor(){
+  document.getElementById('cat-editor').classList.add('hidden');
+  catEditingId = null;
+}
+document.getElementById('c-title').addEventListener('input', function(){
+  if (!catEditingId) document.getElementById('c-id').value = slugify(this.value);
+});
+document.getElementById('c-file').addEventListener('change', function(){
+  const f = this.files[0];
+  if (f) {
+    document.getElementById('c-img').src = URL.createObjectURL(f);
+    const stat = this.closest('.imgslot').querySelector('.slotname');
+    stat.textContent = 'Tile picture — ready, uploads on publish';
+    stat.style.color = 'var(--yarn)';
+  }
+});
+function catApply(){
+  const title = document.getElementById('c-title').value.trim();
+  if (!title) { log('The section needs a name.', 'err'); return; }
+  let id = catEditingId || slugify(document.getElementById('c-id').value.trim() || title);
+  if (!id) { log('The section needs a web address name.', 'err'); return; }
+  if (!catEditingId && CATEGORIES[id]) { log('A section with that web address name already exists.', 'err'); return; }
+  const where = document.getElementById('c-parent').value;
+  const entry = catEditingId ? CATEGORIES[id] : {};
+  entry.title = title;
+  entry.line = document.getElementById('c-line').value.trim() || title;
+  entry.meta = document.getElementById('c-meta').value.trim() || 'Handmade \u00b7 Made to order';
+  if (where === 'apparel') { entry.group = 'apparel'; delete entry.parent; }
+  else if (where === 'pet') { entry.group = 'pet'; delete entry.parent; }
+  else if (where === 'mens') { entry.group = 'mens'; delete entry.parent; }
+  else {
+    const pk = where.slice(7);
+    entry.group = (CATEGORIES[pk] && CATEGORIES[pk].group) || 'pet';
+    entry.parent = pk;
+  }
+  if (entry.parent === id) { log('A section cannot live inside itself.', 'err'); return; }
+  if (!catEditingId) CATEGORIES[id] = entry;
+  const f = document.getElementById('c-file').files[0];
+  if (f) pickedCatFiles[id] = f;
+  catDirty = true;
+  catCloseEditor();
+  catRender();
+  log('Kept. Press \u201cPublish section changes\u201d to make it live.', 'ok');
+}
+async function catDelete(){
+  const k = catEditingId;
+  if (!k) return;
+  if (catProductCount(k) > 0) { log('Move or delete its pieces first \u2014 this section still has products.', 'err'); return; }
+  if (catChildren(k).length > 0) { log('Remove or move its sub-sections first.', 'err'); return; }
+  if (!confirm('Remove the section \u201c' + CATEGORIES[k].title + '\u201d from the website?')) return;
+  delete CATEGORIES[k];
+  delete pickedCatFiles[k];
+  catDirty = true;
+  catCloseEditor();
+  catRender();
+  log('Removed from the list. Press \u201cPublish section changes\u201d to make it live.', 'ok');
+}
+async function catPublish(){
+  const btn = document.getElementById('cat-save');
+  try {
+    btn.disabled = true;
+    for (const id in pickedCatFiles) {
+      log('Uploading tile picture for ' + id + '\u2026');
+      const path = (CATEGORIES[id] && CATEGORIES[id].image) ? CATEGORIES[id].image : ('images/' + id + '.jpg');
+      const b64 = await processImage(pickedCatFiles[id], 1000, 0.85);
+      const sha = await getSha(path);
+      await putFile(path, b64, 'Admin: section tile ' + id, sha);
+    }
+    pickedCatFiles = {};
+    log('Saving sections\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: sections', productsSha)).content.sha;
+    catDirty = false;
+    catRender();
+    log('Published. The live site updates in about a minute.', 'ok');
+  } catch(e) {
+    log(e.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ================= colours (theme) ================= */
+const DEFAULT_TYPE = { serif:'Cormorant Garamond', sans:'Inter', base:16.5, hscale:100 };
+function typeFill(){
+  const ty = (SITE && SITE.type) || {};
+  document.getElementById('t-f-serif').value = ty.serif || DEFAULT_TYPE.serif;
+  document.getElementById('t-f-sans').value = ty.sans || DEFAULT_TYPE.sans;
+  const b = ty.base || DEFAULT_TYPE.base, s = ty.hscale || DEFAULT_TYPE.hscale;
+  document.getElementById('t-f-base').value = b; document.getElementById('t-f-base-out').textContent = b;
+  document.getElementById('t-f-hscale').value = s; document.getElementById('t-f-hscale-out').textContent = s;
+}
+function typePair(serif, sans, base, hscale){
+  document.getElementById('t-f-serif').value = serif;
+  document.getElementById('t-f-sans').value = sans;
+  document.getElementById('t-f-base').value = base;
+  document.getElementById('t-f-base-out').textContent = base;
+  document.getElementById('t-f-hscale').value = hscale;
+  document.getElementById('t-f-hscale-out').textContent = hscale;
+  log('Pairing chosen \u2014 press \u201cSave & publish design\u201d to make it live.');
+}
+function typeReset(){
+  delete SITE.type; typeFill();
+  log('Fonts reset — press “Save & publish design” to make it live.');
+}
+const DEFAULT_CREATOR = {
+  title: 'The hands behind the thread.',
+  story: 'Nodalis began with one pair of hands and a single skein of yarn in Colombo \u2014 evenings spent learning what thread could become when no one hurried it.\n\nEvery piece in this story is still made by those same hands: measured, stitched, unpicked, and stitched again until it is exactly what it was meant to be. Not a factory. Not a batch. One maker, one piece, one person it belongs to.',
+  sign: '\u2014 the maker of Nodalis'
+};
+function creatorFill(){
+  const c = (SITE && SITE.creator) || {};
+  document.getElementById('cr-title').value = c.title || DEFAULT_CREATOR.title;
+  document.getElementById('cr-story').value = c.story || DEFAULT_CREATOR.story;
+  document.getElementById('cr-sign').value = c.sign || DEFAULT_CREATOR.sign;
+  document.getElementById('cr-page').value = c.pageStory || '';
+}
+async function creatorSave(){
+  try{
+    SITE.creator = {
+      title: document.getElementById('cr-title').value.trim(),
+      story: document.getElementById('cr-story').value.trim(),
+      sign: document.getElementById('cr-sign').value.trim(),
+      pageStory: document.getElementById('cr-page').value.trim()
+    };
+    log('Saving your story\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: creator story', productsSha)).content.sha;
+    log('Published \u2014 live in about a minute.', true);
+  }catch(e){ log('Could not save: ' + e.message); }
+}
+function creatorReset(){
+  document.getElementById('cr-title').value = DEFAULT_CREATOR.title;
+  document.getElementById('cr-story').value = DEFAULT_CREATOR.story;
+  document.getElementById('cr-sign').value = DEFAULT_CREATOR.sign;
+  document.getElementById('cr-page').value = '';
+  log('Story reset \u2014 press \u201cSave & publish story\u201d to make it live.');
+}
+function themeFill(){
+  typeFill();
+  const t = (SITE && SITE.theme) ? SITE.theme : DEFAULT_THEME;
+  document.getElementById('t-gold').value = t.gold || DEFAULT_THEME.gold;
+  ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
+    document.getElementById('t-a-'+k).value = (t.apparel && t.apparel[k]) || DEFAULT_THEME.apparel[k];
+    document.getElementById('t-p-'+k).value = (t.pet && t.pet[k]) || DEFAULT_THEME.pet[k];
+    document.getElementById('t-m-'+k).value = (t.mens && t.mens[k]) || DEFAULT_THEME.mens[k];
+  });
+  ['g0','g1','g2','g3','g4','ink','inkSoft','nav'].forEach(k => {
+    document.getElementById('t-h-'+k).value = (t.home && t.home[k]) || DEFAULT_THEME.home[k];
+  });
+}
+function themeReset(){
+  delete SITE.theme;
+  themeFill();
+  log('Colours reset to the built-in palettes \u2014 press \u201cSave & publish design\u201d to make it live.');
+}
+async function themePublish(){
+  try {
+    SITE = SITE || {};
+    SITE.theme = {
+      v: 5,
+      gold: document.getElementById('t-gold').value,
+      apparel: {}, pet: {}, mens: {}, home: {}
+    };
+    ['bgTop','bgBottom','ink','inkSoft','nav'].forEach(k => {
+      SITE.theme.apparel[k] = document.getElementById('t-a-'+k).value;
+      SITE.theme.pet[k] = document.getElementById('t-p-'+k).value;
+      SITE.theme.mens[k] = document.getElementById('t-m-'+k).value;
+    });
+    ['g0','g1','g2','g3','g4','ink','inkSoft','nav'].forEach(k => {
+      SITE.theme.home[k] = document.getElementById('t-h-'+k).value;
+    });
+    SITE.type = {
+      serif: document.getElementById('t-f-serif').value,
+      sans: document.getElementById('t-f-sans').value,
+      base: parseFloat(document.getElementById('t-f-base').value),
+      hscale: parseInt(document.getElementById('t-f-hscale').value, 10)
+    };
+    log('Saving colours\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: colours', productsSha)).content.sha;
+    log('Published. The live site updates in about a minute.', 'ok');
+  } catch(e) {
+    log(e.message, 'err');
+  }
+}
+
+/* ================= orders ================= */
+let ORDERS = [];
+let ordersSha = null;
+let orderEditingIndex = -1;
+
+async function loadOrders(){
+  try {
+    const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/orders.js?ref='+BRANCH);
+    if (r.status === 404) { ORDERS = []; ordersSha = null; return; }
+    const j = await r.json();
+    ordersSha = j.sha;
+    const src = decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))));
+    const fn = new Function(src + '; return (typeof ORDERS!=="undefined") ? ORDERS : [];');
+    ORDERS = fn() || [];
+  } catch(e) { ORDERS = []; ordersSha = null; }
+}
+function serializeOrders(){
+  return '/* Nodalis orders \u2014 edited via admin.html */\n\nconst ORDERS = ' + JSON.stringify(ORDERS, null, 2) + ';\n';
+}
+async function saveOrdersFile(msg){
+  const res = await putFile('orders.js', b64EncodeUtf8(serializeOrders()), msg, ordersSha);
+  ordersSha = res.content.sha;
+}
+function fmtLKRn(n){ return 'LKR ' + Number(n||0).toLocaleString('en-US'); }
+const ORDER_STATUSES = ['New','Paid','Making','Dispatched','In Transit','Delivered','Cancelled'];
+
+function orderRenderList(){
+  const ul = document.getElementById('olist');
+  ul.innerHTML = '';
+  document.getElementById('olist-empty').style.display = ORDERS.length ? 'none' : 'block';
+  ORDERS.slice().reverse().forEach((o) => {
+    const i = ORDERS.indexOf(o);
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="pname" style="font-size:15px"></span>' +
+      '<span class="pcat"></span><span class="pcat" style="color:var(--yarn)"></span>';
+    li.querySelector('.pname').textContent = (o.ref ? o.ref + ' \u00b7 ' : '') + (o.customer || 'Customer') + ' \u2014 ' + (o.productName || '');
+    li.querySelectorAll('.pcat')[0].textContent = o.date || '';
+    li.querySelectorAll('.pcat')[1].textContent = o.price ? fmtLKRn(o.price) : '';
+    const sel = document.createElement('select');
+    sel.style.cssText = 'width:auto;padding:6px 8px;font-size:12px';
+    ORDER_STATUSES.forEach(s => { const op = document.createElement('option'); op.textContent = s; sel.appendChild(op); });
+    sel.value = o.status || 'New';
+    sel.addEventListener('change', async () => {
+      o.status = sel.value;
+      try { log('Updating status\u2026'); await saveOrdersFile('Admin: order ' + (o.ref||'') + ' \u2192 ' + o.status); log('Status saved: ' + o.status, 'ok'); }
+      catch(e){ log(e.message, 'err'); }
+    });
+    li.appendChild(sel);
+    const b = document.createElement('button');
+    b.className = 'small'; b.textContent = 'Edit';
+    b.onclick = () => orderOpenEditor(i);
+    li.appendChild(b);
+    ul.appendChild(li);
+  });
+}
+function orderFillProductSelect(sel){
+  const s = document.getElementById('o-product');
+  s.innerHTML = '';
+  const blank = document.createElement('option'); blank.value=''; blank.textContent='\u2014 pick a piece \u2014'; s.appendChild(blank);
+  PRODUCTS.forEach(p => { const o = document.createElement('option'); o.value = p.id; o.textContent = p.name; s.appendChild(o); });
+  if (sel) s.value = sel;
+}
+function orderNew(){ orderOpenEditor(-1); }
+function orderOpenEditor(i){
+  orderEditingIndex = i;
+  const o = i >= 0 ? ORDERS[i] : { ref:'', date:new Date().toISOString().slice(0,10), customer:'', phone:'', productId:'', size:'', color:'', price:'', method:'Bank Transfer', status:'New', notes:'' };
+  document.getElementById('o-ed-title').textContent = i >= 0 ? ('Edit \u2014 ' + (o.ref || o.customer || 'order')) : 'New order';
+  document.getElementById('o-ref').value = o.ref || '';
+  document.getElementById('o-date').value = o.date || '';
+  document.getElementById('o-customer').value = o.customer || '';
+  document.getElementById('o-phone').value = o.phone || '';
+  orderFillProductSelect(o.productId || '');
+  document.getElementById('o-size').value = o.size || '';
+  document.getElementById('o-color').value = o.color || '';
+  document.getElementById('o-price').value = o.price != null && o.price !== '' ? o.price : '';
+  document.getElementById('o-method').value = o.method || 'Bank Transfer';
+  document.getElementById('o-status').value = o.status || 'New';
+  document.getElementById('o-notes').value = o.notes || '';
+  document.getElementById('o-del').style.display = i >= 0 ? '' : 'none';
+  document.getElementById('order-editor').classList.remove('hidden');
+  document.getElementById('order-editor').scrollIntoView({behavior:'smooth'});
+}
+function orderCloseEditor(){
+  document.getElementById('order-editor').classList.add('hidden');
+  orderEditingIndex = -1;
+}
+/* picking a piece + size auto-suggests the price */
+function orderSuggestPrice(){
+  const pid = document.getElementById('o-product').value;
+  const size = document.getElementById('o-size').value.trim();
+  const p = PRODUCTS.find(x => x.id === pid);
+  if (!p || !p.basePrice) return;
+  const i = (p.sizes || []).indexOf(size);
+  const priceEl = document.getElementById('o-price');
+  if (priceEl.value.trim() === '') {
+    priceEl.value = Number(p.basePrice) + (i > 0 ? i * Number(p.sizeStep || 0) : 0);
+  }
+}
+document.getElementById('o-product').addEventListener('change', orderSuggestPrice);
+document.getElementById('o-size').addEventListener('input', orderSuggestPrice);
+
+async function orderSave(){
+  const pid = document.getElementById('o-product').value;
+  const p = PRODUCTS.find(x => x.id === pid);
+  const o = {
+    ref: document.getElementById('o-ref').value.trim(),
+    date: document.getElementById('o-date').value.trim() || new Date().toISOString().slice(0,10),
+    customer: document.getElementById('o-customer').value.trim(),
+    phone: document.getElementById('o-phone').value.trim(),
+    productId: pid,
+    productName: p ? p.name : '',
+    size: document.getElementById('o-size').value.trim(),
+    color: document.getElementById('o-color').value.trim(),
+    price: parseInt(String(document.getElementById('o-price').value).replace(/[^0-9]/g,''), 10) || 0,
+    method: document.getElementById('o-method').value,
+    status: document.getElementById('o-status').value,
+    notes: document.getElementById('o-notes').value.trim()
+  };
+  if (!o.customer && !o.ref) { log('Give the order at least a customer name or a ref.', 'err'); return; }
+  if (orderEditingIndex >= 0) ORDERS[orderEditingIndex] = o; else ORDERS.push(o);
+  try {
+    log('Saving order\u2026');
+    await saveOrdersFile('Admin: order ' + (o.ref || o.customer));
+    log('Order saved.', 'ok');
+    orderCloseEditor();
+    orderRenderList();
+  } catch(e) { log(e.message, 'err'); }
+}
+async function orderDelete(){
+  if (orderEditingIndex < 0) return;
+  const o = ORDERS[orderEditingIndex];
+  if (!confirm('Delete this order (' + (o.ref || o.customer || '') + ')? For a cancelled sale, setting status to Cancelled is usually better \u2014 it keeps the record.')) return;
+  ORDERS.splice(orderEditingIndex, 1);
+  try {
+    log('Deleting\u2026');
+    await saveOrdersFile('Admin: delete order ' + (o.ref || ''));
+    log('Order deleted.', 'ok');
+    orderCloseEditor();
+    orderRenderList();
+  } catch(e) { log(e.message, 'err'); }
+}
+
+/* ================= payment details ================= */
+function payFill(){
+  const pm = (SITE && SITE.payment) ? SITE.payment : {};
+  ['bankName','branch','accountName','accountNumber','paypal','note'].forEach(k => {
+    document.getElementById('pay-'+k).value = pm[k] || '';
+  });
+}
+const DEFAULT_DELIVERY = { free:false, flat:'500', freeOver:'', days:'2\u20134 working days after dispatch', note:'Island-wide delivery by courier.' };
+function deliveryFill(){
+  const d = (SITE && SITE.delivery) || {};
+  document.getElementById('dl-free').checked = !!d.free;
+  const flat = (d.flat != null && d.flat !== '') ? d.flat : (d.colombo != null && d.colombo !== '' ? d.colombo : DEFAULT_DELIVERY.flat);
+  document.getElementById('dl-flat').value = flat;
+  document.getElementById('dl-other').value = '';
+  document.getElementById('dl-freeover').value = d.freeOver || '';
+  document.getElementById('dl-days').value = d.days || DEFAULT_DELIVERY.days;
+  document.getElementById('dl-note').value = d.note != null ? d.note : DEFAULT_DELIVERY.note;
+  deliveryToggle();
+}
+function deliveryToggle(){
+  const free = document.getElementById('dl-free').checked;
+  document.getElementById('dl-charges').style.opacity = free ? '.4' : '1';
+  document.getElementById('dl-charges').style.pointerEvents = free ? 'none' : 'auto';
+  deliveryPreview();
+}
+function deliveryPreview(){
+  const free = document.getElementById('dl-free').checked;
+  const flat = document.getElementById('dl-flat').value.trim();
+  const fo = document.getElementById('dl-freeover').value.trim();
+  const days = document.getElementById('dl-days').value.trim();
+  const note = document.getElementById('dl-note').value.trim();
+  let t;
+  if (free) t = 'Free delivery on every order.';
+  else {
+    t = 'Delivery: LKR ' + (flat || '\u2014') + ' island-wide.';
+    if (fo) t += ' Free over LKR ' + fo + '.';
+  }
+  if (days) t += ' ' + days + '.';
+  if (note) t += ' ' + note;
+  document.getElementById('dl-preview').textContent = t;
+}
+['dl-flat','dl-freeover','dl-days','dl-note'].forEach(function(id){
+  document.addEventListener('input', function(e){ if (e.target && e.target.id === id) deliveryPreview(); });
+});
+async function deliverySave(){
+  try{
+    SITE.delivery = {
+      free: document.getElementById('dl-free').checked,
+      flat: document.getElementById('dl-flat').value.trim(),
+      freeOver: document.getElementById('dl-freeover').value.trim(),
+      days: document.getElementById('dl-days').value.trim(),
+      note: document.getElementById('dl-note').value.trim()
+    };
+    log('Saving delivery\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: delivery', productsSha)).content.sha;
+    log('Published \u2014 live in about a minute.', true);
+  }catch(e){ log('Could not save: ' + e.message); }
+}
+function deliveryReset(){
+  delete SITE.delivery; deliveryFill();
+  log('Delivery reset \u2014 press \u201cSave & publish delivery\u201d to make it live.');
+}
+async function payPublish(){
+  SITE = SITE || {};
+  SITE.payment = {};
+  ['bankName','branch','accountName','accountNumber','paypal','note'].forEach(k => {
+    SITE.payment[k] = document.getElementById('pay-'+k).value.trim();
+  });
+  try {
+    log('Saving payment details\u2026');
+    productsSha = (await putFile('products.js', b64EncodeUtf8(serializeProducts()), 'Admin: payment details', productsSha)).content.sha;
+    log('Published. Checkout updates in about a minute.', 'ok');
+  } catch(e) { log(e.message, 'err'); }
+}
+
+/* ================= dashboard ================= */
+function dashRender(){
+  const active = ORDERS.filter(o => o.status !== 'Cancelled');
+  const paid = active.filter(o => ['Paid','Making','Dispatched','In Transit','Delivered'].includes(o.status));
+  const revenue = paid.reduce((s,o) => s + (Number(o.price)||0), 0);
+  const delivered = active.filter(o => o.status === 'Delivered');
+  const month = new Date().toISOString().slice(0,7);
+  const thisMonth = paid.filter(o => (o.date||'').startsWith(month));
+  const monthRevenue = thisMonth.reduce((s,o) => s + (Number(o.price)||0), 0);
+
+  const cards = [
+    ['Revenue (paid orders)', fmtLKRn(revenue)],
+    ['Revenue this month', fmtLKRn(monthRevenue)],
+    ['Orders', String(active.length)],
+    ['Delivered', String(delivered.length)],
+    ['Awaiting payment', String(active.filter(o => o.status === 'New').length)],
+    ['In progress', String(active.filter(o => ['Paid','Making','Dispatched','In Transit'].includes(o.status)).length)]
+  ];
+  const cm = document.getElementById('dash-cards');
+  cm.innerHTML = '';
+  cards.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'card';
+    d.style.marginBottom = '0';
+    d.innerHTML = '<div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px"></div>' +
+      '<div style="font-family:var(--serif);font-size:24px"></div>';
+    d.querySelector('div').textContent = c[0];
+    d.querySelectorAll('div')[1].textContent = c[1];
+    cm.appendChild(d);
+  });
+
+  const st = document.getElementById('dash-status');
+  st.innerHTML = '';
+  ORDER_STATUSES.forEach(s => {
+    const n = ORDERS.filter(o => o.status === s).length;
+    if (!n) return;
+    const d = document.createElement('div');
+    d.style.cssText = 'display:flex;justify-content:space-between;padding:8px 2px;border-bottom:1px solid var(--hairline)';
+    d.innerHTML = '<span></span><b style="font-weight:400"></b>';
+    d.querySelector('span').textContent = s;
+    d.querySelector('b').textContent = n;
+    st.appendChild(d);
+  });
+  if (!st.children.length) st.innerHTML = '<p class="muted">No orders yet.</p>';
+
+  const tops = {};
+  paid.forEach(o => {
+    const k = o.productName || o.productId || 'Unknown';
+    tops[k] = tops[k] || { n:0, rev:0 };
+    tops[k].n++; tops[k].rev += Number(o.price)||0;
+  });
+  const tp = document.getElementById('dash-top');
+  tp.innerHTML = '';
+  Object.keys(tops).sort((a,b) => tops[b].rev - tops[a].rev).slice(0,8).forEach(k => {
+    const d = document.createElement('div');
+    d.style.cssText = 'display:flex;justify-content:space-between;gap:10px;padding:8px 2px;border-bottom:1px solid var(--hairline)';
+    d.innerHTML = '<span style="flex:1"></span><span class="pcat"></span><b style="font-weight:400"></b>';
+    d.querySelector('span').textContent = k;
+    d.querySelector('.pcat').textContent = tops[k].n + ' sold';
+    d.querySelector('b').textContent = fmtLKRn(tops[k].rev);
+    tp.appendChild(d);
+  });
+  if (!tp.children.length) tp.innerHTML = '<p class="muted">Sales will appear here.</p>';
+}
+
+/* ================= start ================= */
+(function(){
+  const vault = vaultRead();
+  if (vault) { authShow('login'); return; }
+  let saved = null;
+  try { saved = localStorage.getItem('nodalis_admin_token'); } catch(e){}
+  if (saved) {
+    /* older setup: token was remembered in the open — guide into sealing it */
+    document.getElementById('token').value = saved;
+    authShow('token');
+    document.getElementById('auth-token-note').innerHTML = 'Your saved token was found. Choose a username and password below to <b>seal it with encryption</b> — from then on you sign in with those instead.';
+  } else {
+    authShow('token');
+  }
+})();
+</script>
+</body>
+</html>
