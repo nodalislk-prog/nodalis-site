@@ -113,14 +113,30 @@
   <!-- ============ LOGIN ============ -->
   <div class="card" id="login-card">
     <h1 style="font-size:22px;margin-bottom:8px">Sign in</h1>
-    <p class="muted">Paste your GitHub access token. It stays in this browser only — it is never put on the website.</p>
-    <label for="token">Access token</label>
-    <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
-    <label style="display:flex;align-items:center;gap:8px;margin-top:14px;text-transform:none;letter-spacing:.04em;font-size:13px">
-      <input type="checkbox" id="remember" style="width:auto"> Remember on this device
-    </label>
-    <div style="margin-top:18px"><button class="primary" onclick="signIn()">Sign in</button></div>
-    <p class="hint">To create a token: GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token. Repository access: <b>Only select repositories → nodalis-site</b>. Permissions: <b>Contents → Read and write</b>. Copy the token and keep it like a password.</p>
+
+    <div id="auth-login" class="hidden">
+      <label for="au-user">Username</label>
+      <input type="text" id="au-user" autocomplete="username" autocapitalize="none">
+      <label for="au-pass">Password</label>
+      <input type="password" id="au-pass" autocomplete="current-password">
+      <div style="margin-top:18px"><button class="primary" onclick="vaultSignIn()">Sign in</button></div>
+      <p class="hint" style="margin-top:14px"><a href="#" onclick="authShow('token');return false">Use a GitHub token instead</a> &nbsp;·&nbsp; <a href="#" onclick="vaultForget();return false">Forget this device</a></p>
+    </div>
+
+    <div id="auth-token">
+      <p class="muted" id="auth-token-note">Paste your GitHub access token <b>once</b>, then choose a username and password — from then on, you \u2014 and anyone you trust with the username and password \u2014 sign in with those, on any device. The token is sealed with your password (AES encryption); without the password it is unreadable, and it is never shown to whoever signs in.</p>
+      <label for="token">Access token</label>
+      <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
+      <label for="au-newuser">Choose a username</label>
+      <input type="text" id="au-newuser" autocomplete="off" autocapitalize="none" placeholder="krish">
+      <label for="au-newpass">Choose a password <span style="text-transform:none;letter-spacing:0">(8+ characters)</span></label>
+      <input type="password" id="au-newpass" autocomplete="new-password">
+      <label for="au-newpass2">Password again</label>
+      <input type="password" id="au-newpass2" autocomplete="new-password">
+      <div style="margin-top:18px"><button class="primary" onclick="vaultCreate()">Create my login</button></div>
+      <p class="hint">To create a token: GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token. Repository access: <b>Only select repositories → nodalis-site</b>. Permissions: <b>Contents → Read and write</b>. Copy the token and keep it like a password.</p>
+      <p class="hint"><a href="#" onclick="tokenOnlySignIn();return false">Or sign in with the token just this once (no password saved)</a></p>
+    </div>
   </div>
 
   <!-- ============ DASHBOARD ============ -->
@@ -773,18 +789,82 @@ function slugify(s){
 }
 function esc(s){ const d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
 
-/* ================= auth ================= */
-function signIn(){
+/* ================= auth — password-sealed token vault ================= */
+const VAULT_KEY = 'nodalis_admin_vault';
+function authShow(which){
+  document.getElementById('auth-login').classList.toggle('hidden', which !== 'login');
+  document.getElementById('auth-token').classList.toggle('hidden', which !== 'token');
+}
+function vaultRead(){
+  try { const s = localStorage.getItem(VAULT_KEY); return s ? JSON.parse(s) : null; } catch(e){ return null; }
+}
+const te = new TextEncoder(), td = new TextDecoder();
+function abToB64(ab){ let s=''; const b=new Uint8Array(ab); for (let i=0;i<b.length;i++) s+=String.fromCharCode(b[i]); return btoa(s); }
+function b64ToAb(s){ const bin=atob(s); const b=new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) b[i]=bin.charCodeAt(i); return b.buffer; }
+async function vaultKey(pass, saltAb, iters){
+  const km = await crypto.subtle.importKey('raw', te.encode(pass), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2', salt: saltAb, iterations: iters || 310000, hash:'SHA-256'}, km,
+                                 {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']);
+}
+async function vaultCreate(){
+  const t  = document.getElementById('token').value.trim();
+  const u  = document.getElementById('au-newuser').value.trim();
+  const p1 = document.getElementById('au-newpass').value;
+  const p2 = document.getElementById('au-newpass2').value;
+  if (!t)  { log('Paste your GitHub token first.', 'err'); return; }
+  if (!u)  { log('Choose a username.', 'err'); return; }
+  if (p1.length < 8) { log('Password needs at least 8 characters.', 'err'); return; }
+  if (p1 !== p2) { log('The two passwords do not match.', 'err'); return; }
+  try {
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const iv   = crypto.getRandomValues(new Uint8Array(12));
+    const ITERS = 600000;
+    const key  = await vaultKey(p1, salt.buffer, ITERS);
+    const ct   = await crypto.subtle.encrypt({name:'AES-GCM', iv: iv}, key, te.encode(t));
+    const vault = {v:2, u:u, it:ITERS, s:abToB64(salt.buffer), i:abToB64(iv.buffer), c:abToB64(ct)};
+    localStorage.setItem(VAULT_KEY, JSON.stringify(vault));
+    try { localStorage.removeItem('nodalis_admin_token'); } catch(e){}
+    token = t;
+    log('Login created on this device.', 'ok');
+    try {
+      log('Publishing the shared login\u2026');
+      const vsha = await getSha('admin-vault.json');
+      await putFile('admin-vault.json', b64EncodeUtf8(JSON.stringify(vault)), 'Admin: shared login', vsha);
+      log('Shared login published \u2014 in about a minute, the same username and password work on any device. The token itself is never shared.', 'ok');
+    } catch(pe) {
+      log('Login works on this device, but publishing the shared login failed: ' + pe.message, 'err');
+    }
+    boot();
+  } catch(e) { log('Could not create the login: ' + e.message, 'err'); }
+}
+async function vaultSignIn(){
+  const vault = vaultRead();
+  if (!vault) { authShow('token'); return; }
+  const u = document.getElementById('au-user').value.trim();
+  const p = document.getElementById('au-pass').value;
+  if (u.toLowerCase() !== String(vault.u||'').toLowerCase()) { log('Wrong username or password.', 'err'); return; }
+  try {
+    const key = await vaultKey(p, b64ToAb(vault.s), vault.it || 310000);
+    const pt  = await crypto.subtle.decrypt({name:'AES-GCM', iv: new Uint8Array(b64ToAb(vault.i))}, key, b64ToAb(vault.c));
+    token = td.decode(pt);
+    boot();
+  } catch(e) {
+    log('Wrong username or password.', 'err');
+  }
+}
+function tokenOnlySignIn(){
   const t = document.getElementById('token').value.trim();
   if (!t) { log('Paste your token first.', 'err'); return; }
   token = t;
-  if (document.getElementById('remember').checked) {
-    try { localStorage.setItem('nodalis_admin_token', t); } catch(e){}
-  }
   boot();
 }
+function vaultForget(){
+  if (!confirm('Forget the saved login on this device?\n\nYou will need your GitHub token to set it up again.')) return;
+  try { localStorage.removeItem(VAULT_KEY); localStorage.removeItem('nodalis_admin_token'); } catch(e){}
+  authShow('token');
+  log('This device has been forgotten.', 'ok');
+}
 function signOut(){
-  try { localStorage.removeItem('nodalis_admin_token'); } catch(e){}
   location.reload();
 }
 
@@ -1861,10 +1941,30 @@ function dashRender(){
 }
 
 /* ================= start ================= */
-(function(){
+(async function(){
+  if (vaultRead()) { authShow('login'); return; }
+  /* fresh device: look for the shared sealed login published on the site */
+  try {
+    const r = await fetch('admin-vault.json', {cache:'no-store'});
+    if (r.ok) {
+      const v = await r.json();
+      if (v && v.c && v.s && v.i) {
+        localStorage.setItem(VAULT_KEY, JSON.stringify(v));
+        authShow('login');
+        return;
+      }
+    }
+  } catch(e){}
   let saved = null;
   try { saved = localStorage.getItem('nodalis_admin_token'); } catch(e){}
-  if (saved) { token = saved; boot(); }
+  if (saved) {
+    /* older setup: token was remembered in the open — guide into sealing it */
+    document.getElementById('token').value = saved;
+    authShow('token');
+    document.getElementById('auth-token-note').innerHTML = 'Your saved token was found. Choose a username and password below to <b>seal it with encryption</b> — from then on you sign in with those instead.';
+  } else {
+    authShow('token');
+  }
 })();
 </script>
 </body>
