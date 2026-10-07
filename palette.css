@@ -96,3 +96,71 @@ nav{--gold-light:var(--nd-gold-light)}
 /* enquiry form: labels fit on one line and line up with the fields */
 .request-form label{letter-spacing:.14em !important}
 .request-form .form-actions, .request-form .cta-alt, .request-form .copy-note{text-align:center}
+
+/* ================= typography: Poppins everywhere ================= */
+:root{
+  --serif:'Poppins', system-ui, sans-serif !important;
+  --sans:'Poppins', system-ui, sans-serif !important;
+  --story:'Poppins', system-ui, sans-serif !important;
+}
+html body, html body *{font-family:'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif !important}
+body{font-weight:300}
+h1, h2, h3, .name, .cp-name, .chapter h2{font-weight:400 !important;letter-spacing:.02em !important}
+
+/* ================= logo: NODALIS in gold, with a shining strike line ================= */
+.logotype{
+  background:none !important;border:none !important;padding:0 !important;box-shadow:none !important;
+  animation:none !important;-webkit-text-fill-color:initial !important;text-indent:0 !important;
+  letter-spacing:normal !important;
+}
+.logotype::before, .logotype::after{content:none !important}
+.nd-logo{display:inline-flex;flex-direction:column;align-items:center;line-height:1;position:relative}
+.nd-word{
+  position:relative;display:block;
+  font-weight:600;
+  font-size:clamp(22px,2.3vw,30px);
+  letter-spacing:.34em;
+  padding-left:.34em;              /* balances the space letter-spacing leaves after the last letter */
+  background:linear-gradient(100deg,
+    #A27B2C 0%, #D4AE55 18%, #FFF3C8 30%, #E6C36A 40%, #A27B2C 58%, #CFA84F 78%, #A27B2C 100%);
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent !important;color:transparent;
+  animation:nd-shine 4.5s linear infinite;
+}
+@keyframes nd-shine{from{background-position:150% 50%}to{background-position:0% 50%}}
+
+/* the strike line through the word, with a glint that travels along it forever */
+.nd-strike{
+  position:absolute;left:.12em;right:-.1em;top:50%;
+  height:2px;margin-top:-1px;
+  background:linear-gradient(90deg, rgba(201,162,74,0), #C9A24A 10%, #EFD48E 50%, #C9A24A 90%, rgba(201,162,74,0));
+  box-shadow:0 0 6px rgba(239,212,142,.55);
+  overflow:hidden;pointer-events:none;
+}
+.nd-strike::after{
+  content:"";position:absolute;top:-2px;bottom:-2px;left:0;width:28%;
+  background:linear-gradient(90deg, rgba(255,250,230,0), #FFFBEA 50%, rgba(255,250,230,0));
+  filter:blur(.5px);
+  animation:nd-glint 2.8s cubic-bezier(.45,0,.55,1) infinite;
+}
+@keyframes nd-glint{from{transform:translateX(-120%)}to{transform:translateX(460%)}}
+
+.nd-tag{
+  display:block;margin-top:7px;
+  font-weight:500;font-size:8.5px;letter-spacing:.52em;padding-left:.52em;
+  text-transform:uppercase;
+  color:var(--nd-gold-light) !important;-webkit-text-fill-color:var(--nd-gold-light) !important;
+}
+footer .nd-word{font-size:22px}
+footer .logotype{display:inline-flex;justify-content:center;margin-bottom:16px}
+@media (max-width:760px){
+  .nd-word{font-size:21px}
+  .nd-tag{font-size:7.5px}
+}
+@media (prefers-reduced-motion: reduce){
+  .nd-word, .nd-strike::after{animation:none !important}
+}
+
+/* creator page accents (italic lines, drop cap) were violet: now maroon */
+:root{--violet:var(--nd-maroon) !important}
