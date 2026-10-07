@@ -107,7 +107,7 @@ html body, html body *{font-family:'Poppins', system-ui, -apple-system, 'Segoe U
 body{font-weight:300}
 h1, h2, h3, .name, .cp-name, .chapter h2{font-weight:400 !important;letter-spacing:.02em !important}
 
-/* ================= logo: white NODALIS in a gold frame, with a moving shine ================= */
+/* ================= logo: white NODALIS with a moving gold shine ================= */
 .logotype{
   background:none !important;border:none !important;padding:0 !important;box-shadow:none !important;
   animation:none !important;-webkit-text-fill-color:initial !important;text-indent:0 !important;
@@ -116,26 +116,15 @@ h1, h2, h3, .name, .cp-name, .chapter h2{font-weight:400 !important;letter-spaci
 .logotype::before, .logotype::after{content:none !important}
 .nd-logo{
   display:inline-flex;flex-direction:column;align-items:center;line-height:1;position:relative;
-  border:1px solid #D4AF6A;
-  padding:10px 20px 9px;
-  overflow:hidden;
-  animation:nd-glow 4.5s ease-in-out infinite;
+  padding:0;
 }
-.nd-logo::after{
-  content:"";position:absolute;top:-60%;bottom:-60%;left:-70%;width:45%;
-  background:linear-gradient(100deg, rgba(255,248,225,0), rgba(255,248,225,.5) 50%, rgba(255,248,225,0));
-  transform:skewX(-22deg);pointer-events:none;
-  animation:nd-sheen 4.5s ease-in-out infinite;
-}
-@keyframes nd-sheen{0%{left:-70%}55%,100%{left:135%}}
-@keyframes nd-glow{0%,100%{box-shadow:0 0 0 rgba(226,194,126,0)}50%{box-shadow:0 0 16px rgba(226,194,126,.35), inset 0 0 8px rgba(226,194,126,.12)}}
 .nd-word{
   position:relative;display:block;
   font-weight:600;
-  font-size:clamp(20px,2.1vw,27px);
+  font-size:clamp(16px,1.55vw,20px);
   letter-spacing:.34em;
   padding-left:.34em;              /* balances the space letter-spacing leaves after the last letter */
-  background:linear-gradient(100deg, #FFFFFF 0%, #FFFFFF 38%, #F3DFAE 48%, #FFFFFF 58%, #FFFFFF 100%);
+  background:linear-gradient(100deg, #FFFFFF 0%, #FFFFFF 36%, #E9CB86 46%, #FFF6DC 50%, #E9CB86 54%, #FFFFFF 64%, #FFFFFF 100%);
   background-size:300% 100%;
   -webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent !important;color:#fff;
@@ -144,20 +133,19 @@ h1, h2, h3, .name, .cp-name, .chapter h2{font-weight:400 !important;letter-spaci
 }
 @keyframes nd-shine{from{background-position:150% 50%}to{background-position:0% 50%}}
 .nd-tag{
-  display:block;margin-top:7px;
-  font-weight:500;font-size:8.5px;letter-spacing:.52em;padding-left:.52em;
+  display:block;margin-top:6px;
+  font-weight:500;font-size:7.5px;letter-spacing:.52em;padding-left:.52em;
   text-transform:uppercase;
   color:var(--nd-gold-light) !important;-webkit-text-fill-color:var(--nd-gold-light) !important;
 }
-footer .nd-word{font-size:20px}
+footer .nd-word{font-size:18px}
 footer .logotype{display:inline-flex;justify-content:center;margin-bottom:16px}
 @media (max-width:760px){
-  .nd-logo{padding:8px 14px 7px}
-  .nd-word{font-size:18px}
-  .nd-tag{font-size:7px;margin-top:6px}
+  .nd-word{font-size:16px}
+  .nd-tag{font-size:6.5px;margin-top:5px}
 }
 @media (prefers-reduced-motion: reduce){
-  .nd-word, .nd-logo, .nd-logo::after{animation:none !important}
+  .nd-word{animation:none !important}
 }
 
 /* creator page accents (italic lines, drop cap) were violet: now maroon */
