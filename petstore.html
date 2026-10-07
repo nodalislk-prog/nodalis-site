@@ -8,7 +8,6 @@
 <meta name="description" content="Nodalis Petstore. Handmade crochet sweaters, bandanas, toys and blankets for pets, made to order in Sri Lanka.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <style>
   :root{
     --bone:#FBF2F4;
@@ -546,6 +545,7 @@
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
 <link rel="stylesheet" href="palette.css">
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -566,30 +566,59 @@
 
 <div class="thread" aria-hidden="true"></div>
 
-<nav id="nav" aria-label="Main">
-  <div class="nav-links"><a href="#dogs">Dogs</a><a href="#cats">Cats</a><a href="#fitting">Fitting</a></div>
-  <a class="logotype" href="#top"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span><small>Petstore</small></a>
-  <div class="nav-links right"><a href="#enquire">Enquire</a><a href="index.html">Nodalis Home</a></div>
+<!-- nd:nav -->
+<nav id="nav" class="nd-nav" aria-label="Main">
+  <div class="nd-announce" data-c="site.announce">Handmade to order in Sri Lanka &nbsp;·&nbsp; Island-wide delivery</div>
+  <div class="nav-links">
+    <button class="nd-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nd-drawer"><span class="nd-burger-lines" aria-hidden="true"><i></i><i></i><i></i></span><span class="nd-burger-label">Menu</span></button>
+    <a class="nd-desk" href="women.html">Women</a><a class="nd-desk" href="mens.html">Men</a><a class="nd-desk" href="petstore.html" aria-current="page">Petstore</a>
+  </div>
+  <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
+  <div class="nav-links right">
+    <a class="nd-desk" href="journal.html">Journal</a><a class="nd-desk" href="#enquire">Enquire</a><a href="cart.html" id="basket-link">Basket<span id="basket-count" aria-hidden="true"></span></a>
+  </div>
 </nav>
+<div class="nd-drawer" id="nd-drawer" aria-hidden="true">
+  <div class="nd-scrim" data-nd-close></div>
+  <aside class="nd-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="nd-panel-head"><span class="nd-panel-title">Menu</span><button class="nd-close" type="button" data-nd-close aria-label="Close menu"><i></i><i></i></button></div>
+    <div class="nd-menu">
+      <a href="index.html">Home</a>
+      <a href="women.html">Women</a>
+      <a href="mens.html">Men</a>
+      <a href="petstore.html" aria-current="page">Petstore</a>
+      <div class="nd-sub"><a href="petstore.html#dogs">For Dogs</a><a href="petstore.html#cats">For Cats</a></div>
+      <a href="journal.html">Journal</a>
+      <a href="creator.html">The Creator</a>
+      <a href="#enquire">Commission a Piece</a>
+      <a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-panel-foot">
+      <p class="nd-panel-note" data-c="site.drawer-note">Every piece is crocheted by hand, to order, in Sri Lanka.</p>
+      <div class="nd-panel-social"><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+  </aside>
+</div>
+<!-- /nd:nav -->
 
 <header id="top">
   <div class="hero-caption">
-    <p class="eyebrow">Handmade Crochet for Pets · Sri Lanka</p>
-    <h1>For the Softest Members of the Family</h1>
-    <a class="discover" href="#collection">Discover the Pieces</a>
+    <p data-c="pets.001" class="eyebrow">Handmade Crochet for Pets · Sri Lanka</p>
+    <h1 data-c="pets.002">For the Softest Members of the Family</h1>
+    <a data-c="pets.003" class="discover" href="#collection">Discover the Pieces</a>
   </div>
 </header>
 
 <section id="collection">
   <div class="section-head">
     <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">Made to Order</p>
-    <h2>The Pet Collection</h2>
+    <p data-c="pets.004" class="eyebrow">Made to Order</p>
+    <h2 data-c="pets.005">The Pet Collection</h2>
   </div>
 
   <div id="pet-collection"></div>
 
-  <p class="collection-note">See our latest pet pieces on Instagram <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a></p>
+  <p class="collection-note">See our latest pet pieces on Instagram <a data-c="pets.006" href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a></p>
 </section>
 
 <script src="products.js"></script>
@@ -691,17 +720,17 @@ window.addEventListener('DOMContentLoaded', function(){
 <section id="fitting">
   <div class="section-head">
     <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">The Fitting</p>
+    <p data-c="pets.007" class="eyebrow">The Fitting</p>
   </div>
   <div class="fitting-inner">
     <div class="frame"><div class="ph" data-label="Photograph: measuring a pet / yarn detail"><img src="images/pet-fitting.jpg" alt="Measuring a pet for a made-to-measure Nodalis crochet piece" loading="eager" decoding="async" onerror="this.remove()"></div></div>
     <div class="fitting-copy">
-      <h2>Made to measure, down to the last paw.</h2>
-      <p>Every wearable piece is crocheted to your pet's own measurements. No standard sizes, no guesswork. Send us three simple measurements with your request and we take care of the rest.</p>
+      <h2 data-c="pets.008">Made to measure, down to the last paw.</h2>
+      <p data-c="pets.009">Every wearable piece is crocheted to your pet's own measurements. No standard sizes, no guesswork. Send us three simple measurements with your request and we take care of the rest.</p>
       <ul class="measure-list">
-        <li><span class="m-name">Neck</span><span class="m-how">Around the base of the neck, where a collar sits</span></li>
-        <li><span class="m-name">Chest</span><span class="m-how">Around the widest part, just behind the front legs</span></li>
-        <li><span class="m-name">Back</span><span class="m-how">From the base of the neck to the base of the tail</span></li>
+        <li><span data-c="pets.010" class="m-name">Neck</span><span data-c="pets.011" class="m-how">Around the base of the neck, where a collar sits</span></li>
+        <li><span data-c="pets.012" class="m-name">Chest</span><span data-c="pets.013" class="m-how">Around the widest part, just behind the front legs</span></li>
+        <li><span data-c="pets.014" class="m-name">Back</span><span data-c="pets.015" class="m-how">From the base of the neck to the base of the tail</span></li>
       </ul>
     </div>
   </div>
@@ -710,13 +739,13 @@ window.addEventListener('DOMContentLoaded', function(){
 <section id="enquire">
   <div class="section-head">
     <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">Orders &amp; Enquiries</p>
-    <h2>Commission a Piece</h2>
+    <p data-c="pets.016" class="eyebrow">Orders &amp; Enquiries</p>
+    <h2 data-c="pets.017">Commission a Piece</h2>
   </div>
-  <p>Tell us about your companion and what you'd like made and we will reply personally on WhatsApp to discuss yarn, colours, measurements, and timing.</p>
+  <p data-c="pets.018">Tell us about your companion and what you'd like made and we will reply personally on WhatsApp to discuss yarn, colours, measurements, and timing.</p>
 
   <form class="request-form" onsubmit="return sendRequest(event)">
-    <label for="rq-piece">What would you like made?</label>
+    <label data-c="pets.019" for="rq-piece">What would you like made?</label>
     <select id="rq-piece" required>
       <option value="" disabled selected>Select…</option>
       <optgroup label="For Dogs">
@@ -737,27 +766,49 @@ window.addEventListener('DOMContentLoaded', function(){
       </optgroup>
     </select>
 
-    <label for="rq-pet">Your pet: name &amp; kind</label>
+    <label data-c="pets.020" for="rq-pet">Your pet: name &amp; kind</label>
     <input id="rq-pet" type="text" placeholder="e.g. Milo, a small beagle" required>
 
-    <label for="rq-name">Your name</label>
+    <label data-c="pets.021" for="rq-name">Your name</label>
     <input id="rq-name" type="text" autocomplete="name" required>
 
-    <label for="rq-notes">Your request: measurements, colours, anything we should know</label>
+    <label data-c="pets.022" for="rq-notes">Your request: measurements, colours, anything we should know</label>
     <textarea id="rq-notes" placeholder="e.g. Neck 28 cm, chest 46 cm, back 38 cm, in cream…"></textarea>
 
     <div class="form-actions">
-      <button type="submit" class="cta">Send via WhatsApp</button>
-      <button type="button" class="cta cta-ig" onclick="sendViaInstagram()">Send via Instagram</button>
+      <button data-c="pets.023" type="submit" class="cta">Send via WhatsApp</button>
+      <button data-c="pets.024" type="button" class="cta cta-ig" onclick="sendViaInstagram()">Send via Instagram</button>
       <p class="ig-hint" id="ig-hint">Your message will be copied. Just paste it in our Instagram chat.</p>
     </div>
   </form>
 </section>
 
-<footer>
-  <div class="logotype"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span><small>Petstore</small></div>
-  <p class="fine">Handmade in Sri Lanka · <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a> · <a href="index.html">nodalis.lk</a></p>
+<!-- nd:footer -->
+<footer class="nd-footer">
+  <div class="nd-foot-top">
+    <div class="nd-foot-brand">
+      <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
+      <p data-c="site.footer-about">Handmade crochet, made to order in Sri Lanka. Every piece begins as a single thread and ends with the person it was made for.</p>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Shop</h4>
+      <a href="women.html">Women</a><a href="mens.html">Men</a><a href="petstore.html">Petstore</a><a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Atelier</h4>
+      <a href="creator.html">The Creator</a><a href="journal.html">Journal</a><a href="#enquire">Commission a Piece</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Contact</h4>
+      <a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><span>Colombo, Sri Lanka</span>
+    </div>
+  </div>
+  <div class="nd-foot-bottom">
+    <span>&copy; <span class="nd-year">2026</span> Nodalis</span>
+    <span data-c="site.footer-line">Handmade in Sri Lanka</span>
+  </div>
 </footer>
+<!-- /nd:footer -->
 
 <script>
   const nav = document.getElementById('nav');
@@ -802,5 +853,7 @@ window.addEventListener('DOMContentLoaded', function(){
 <script src="autoink.js"></script>
 <script src="warm.js"></script>
 <script src="cart.js"></script>
+<script src="content.js"></script>
+<script src="site.js"></script>
 </body>
 </html>

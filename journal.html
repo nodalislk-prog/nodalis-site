@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NODALIS | Journal</title>
+<meta name="description" content="The Nodalis Journal: care guides, fitting advice and stories from our handmade crochet atelier in Sri Lanka.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="catalog.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
+<link rel="stylesheet" href="palette.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<!-- nd:nav -->
+<nav id="nav" class="nd-nav" aria-label="Main">
+  <div class="nd-announce" data-c="site.announce">Handmade to order in Sri Lanka &nbsp;·&nbsp; Island-wide delivery</div>
+  <div class="nav-links">
+    <button class="nd-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nd-drawer"><span class="nd-burger-lines" aria-hidden="true"><i></i><i></i><i></i></span><span class="nd-burger-label">Menu</span></button>
+    <a class="nd-desk" href="women.html">Women</a><a class="nd-desk" href="mens.html">Men</a><a class="nd-desk" href="petstore.html">Petstore</a>
+  </div>
+  <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
+  <div class="nav-links right">
+    <a class="nd-desk" href="journal.html" aria-current="page">Journal</a><a class="nd-desk" href="index.html#enquire">Enquire</a><a href="cart.html" id="basket-link">Basket<span id="basket-count" aria-hidden="true"></span></a>
+  </div>
+</nav>
+<div class="nd-drawer" id="nd-drawer" aria-hidden="true">
+  <div class="nd-scrim" data-nd-close></div>
+  <aside class="nd-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="nd-panel-head"><span class="nd-panel-title">Menu</span><button class="nd-close" type="button" data-nd-close aria-label="Close menu"><i></i><i></i></button></div>
+    <div class="nd-menu">
+      <a href="index.html">Home</a>
+      <a href="women.html">Women</a>
+      <a href="mens.html">Men</a>
+      <a href="petstore.html">Petstore</a>
+      <div class="nd-sub"><a href="petstore.html#dogs">For Dogs</a><a href="petstore.html#cats">For Cats</a></div>
+      <a href="journal.html" aria-current="page">Journal</a>
+      <a href="creator.html">The Creator</a>
+      <a href="index.html#enquire">Commission a Piece</a>
+      <a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-panel-foot">
+      <p class="nd-panel-note" data-c="site.drawer-note">Every piece is crocheted by hand, to order, in Sri Lanka.</p>
+      <div class="nd-panel-social"><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+  </aside>
+</div>
+<!-- /nd:nav -->
+
+<main id="journal">
+  <header class="nd-j-head" id="j-list-head">
+    <p class="nd-eyebrow" data-c="journal.eyebrow">The Nodalis Journal</p>
+    <h1 data-c="journal.title">Notes from the Atelier</h1>
+    <p data-c="journal.intro">Care guides, fitting advice and the stories behind the pieces. Written slowly, like everything we make.</p>
+  </header>
+  <div class="nd-j-grid" id="j-grid"></div>
+  <p class="nd-j-empty" id="j-empty" hidden>New articles are on their way. Follow <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener" style="border-bottom:1px solid currentColor">@nodalis.lk</a> in the meantime.</p>
+
+  <article class="nd-article" id="j-article" hidden></article>
+</main>
+
+<!-- nd:footer -->
+<footer class="nd-footer">
+  <div class="nd-foot-top">
+    <div class="nd-foot-brand">
+      <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
+      <p data-c="site.footer-about">Handmade crochet, made to order in Sri Lanka. Every piece begins as a single thread and ends with the person it was made for.</p>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Shop</h4>
+      <a href="women.html">Women</a><a href="mens.html">Men</a><a href="petstore.html">Petstore</a><a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Atelier</h4>
+      <a href="creator.html">The Creator</a><a href="journal.html">Journal</a><a href="index.html#enquire">Commission a Piece</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Contact</h4>
+      <a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><span>Colombo, Sri Lanka</span>
+    </div>
+  </div>
+  <div class="nd-foot-bottom">
+    <span>&copy; <span class="nd-year">2026</span> Nodalis</span>
+    <span data-c="site.footer-line">Handmade in Sri Lanka</span>
+  </div>
+</footer>
+<!-- /nd:footer -->
+
+<script src="content.js"></script>
+<script src="site.js"></script>
+<script src="cart.js"></script>
+<script>
+(function(){
+  var J = window.NodalisJournal, T = window.NodalisText;
+  var list = J.published();
+  var id = new URLSearchParams(location.search).get('a');
+  var art = id && list.filter(function(a){ return a.id === id; })[0];
+
+  function bodyHtml(src){
+    var out = [], ul = null;
+    String(src || '').split(/\n\s*\n/).forEach(function(block){
+      block = block.trim(); if (!block) return;
+      var lines = block.split('\n');
+      if (lines.every(function(l){ return /^\s*-\s+/.test(l); })) {
+        out.push('<ul>' + lines.map(function(l){ return '<li>' + T.rich(l.replace(/^\s*-\s+/, '')) + '</li>'; }).join('') + '</ul>');
+      } else if (/^##\s+/.test(block)) {
+        out.push('<h2>' + T.escape(block.replace(/^##\s+/, '')) + '</h2>');
+      } else {
+        out.push('<p>' + T.rich(block) + '</p>');
+      }
+    });
+    return out.join('');
+  }
+
+  if (art) {
+    document.getElementById('j-list-head').hidden = true;
+    document.getElementById('j-grid').hidden = true;
+    var el = document.getElementById('j-article');
+    el.hidden = false;
+    document.title = 'NODALIS | ' + art.title;
+    var others = list.filter(function(a){ return a.id !== art.id; }).slice(0, 3);
+    el.innerHTML =
+      '<a class="nd-back" href="journal.html">&larr; All articles</a>' +
+      '<p class="nd-j-meta">' + T.escape(art.category || 'Journal') + (art.date ? ' &nbsp;·&nbsp; ' + J.fmtDate(art.date) : '') + '</p>' +
+      '<h1>' + T.escape(art.title) + '</h1>' +
+      (art.excerpt ? '<p class="nd-lede">' + T.escape(art.excerpt) + '</p>' : '') +
+      (art.cover ? '<div class="nd-cover"><img src="' + T.escape(art.cover) + '" alt="' + T.escape(art.title) + '" onerror="this.parentNode.remove()"></div>' : '') +
+      '<div class="nd-body">' + bodyHtml(art.body) + '</div>' +
+      '<div class="nd-article-end"><a class="nd-btn" href="journal.html">More from the Journal</a><a class="nd-btn solid" href="index.html#enquire">Commission a Piece</a></div>';
+    if (others.length) {
+      var more = document.createElement('section');
+      more.className = 'nd-j-teaser';
+      more.innerHTML = '<div class="nd-j-teaser-head"><h2>Keep reading</h2></div><div class="nd-j-grid">' + others.map(J.card).join('') + '</div>';
+      el.parentNode.insertBefore(more, el.nextSibling);
+    }
+  } else {
+    if (list.length) document.getElementById('j-grid').innerHTML = list.map(J.card).join('');
+    else document.getElementById('j-empty').hidden = false;
+  }
+})();
+</script>
+</body>
+</html>

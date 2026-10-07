@@ -4,115 +4,252 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Nodalis — Admin</title>
+<title>Nodalis Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F4EFF9; --panel:#FFFFFF; --ink:#3B2D59; --ink-soft:#6E5E96;
-    --yarn:#B08A2E; --gold:#EBC96A; --hairline:rgba(176,138,46,.4);
-    --danger:#A33B3B; --ok:#3E7A4E;
-    --serif:'Cormorant Garamond',Georgia,serif; --sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-    --radius:12px; --shadow:0 1px 3px rgba(59,45,89,.08), 0 8px 24px rgba(59,45,89,.06);
+    --bg:#F5F3EF; --panel:#FFFFFF; --line:#E8E3DB; --line-strong:#D9D2C6;
+    --ink:#1E1A17; --ink-soft:#6E665D; --ink-faint:#9A9188;
+    --maroon:#5E1224; --maroon-deep:#3A0A16; --maroon-tint:#F6ECEE;
+    --gold:#B08D4A; --gold-light:#E2C27E; --yarn:#B08D4A; --hairline:#E8E3DB;
+    --danger:#B4232F; --ok:#2E7D4F; --warn:#B7791F;
+    --serif:'Poppins',system-ui,sans-serif; --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --radius:12px; --radius-sm:8px;
+    --shadow:0 1px 2px rgba(30,26,23,.05), 0 4px 16px rgba(30,26,23,.04);
+    --shadow-lg:0 10px 40px rgba(30,26,23,.12);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:linear-gradient(180deg,#F6F1FB,#EFE7F7);min-height:100vh;color:var(--ink);font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.6}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
   a{color:inherit}
-  h1{font-family:var(--serif);font-weight:400;letter-spacing:.08em}
-  .wrap{max-width:980px;margin:0 auto;padding:36px 20px 80px}
-  .brand{
-    text-align:center;font-family:var(--serif);letter-spacing:.5em;text-indent:.42em;
-    text-transform:uppercase;color:var(--yarn);font-size:20px;margin-bottom:6px;
+  h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-.01em;color:var(--ink)}
+  .hidden{display:none!important}
+
+  /* ---------- login ---------- */
+  .login{min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr}
+  .login-brand{
+    background:radial-gradient(120% 90% at 0% 0%, #7A1A30 0%, var(--maroon) 40%, var(--maroon-deep) 100%);
+    color:#FBF4EC;padding:56px clamp(32px,5vw,72px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden
   }
-  .sub{text-align:center;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:34px}
-  .card{background:var(--panel);border:1px solid rgba(176,138,46,.25);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin-bottom:22px}
-  label{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:16px 0 6px}
-  input[type=text],input[type=password],textarea,select,input[type=number]{
-    width:100%;font-family:var(--sans);font-weight:400;font-size:15px;color:var(--ink);
-    background:#FBF9FE;border:1px solid rgba(110,94,150,.35);border-radius:8px;padding:11px 13px;outline:none;transition:border-color .2s, box-shadow .2s;
+  .login-brand::after{content:"";position:absolute;right:-120px;bottom:-120px;width:420px;height:420px;border:1px solid rgba(226,194,126,.25);border-radius:50%}
+  .login-brand::before{content:"";position:absolute;right:-60px;bottom:-60px;width:300px;height:300px;border:1px solid rgba(226,194,126,.18);border-radius:50%}
+  .brandmark{font-family:var(--serif);font-weight:600;letter-spacing:.34em;font-size:22px;color:var(--gold-light)}
+  .brandmark small{display:block;font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.5em;color:rgba(226,194,126,.8);margin-top:6px}
+  .login-brand h2{font-family:var(--serif);font-weight:300;font-size:clamp(28px,3vw,40px);line-height:1.25;color:#FBF4EC;max-width:16ch}
+  .login-brand p{color:rgba(251,244,236,.7);max-width:40ch;margin-top:14px}
+  .login-form{display:flex;align-items:center;justify-content:center;padding:48px 24px}
+  .login-box{width:100%;max-width:420px}
+  .login-box h1{font-size:26px;margin-bottom:6px}
+  .login-box .lead{color:var(--ink-soft);margin-bottom:22px}
+  @media(max-width:860px){ .login{grid-template-columns:1fr} .login-brand{min-height:auto;padding:36px 24px} .login-brand h2{font-size:24px;margin-top:28px} .login-brand::after,.login-brand::before{display:none} }
+
+  /* ---------- app shell ---------- */
+  .app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+  .side{
+    position:sticky;top:0;height:100vh;overflow-y:auto;
+    background:linear-gradient(180deg,#43101E 0%, var(--maroon-deep) 100%);
+    color:#F3E6E0;display:flex;flex-direction:column;padding:24px 14px 18px
   }
-  input:focus,textarea:focus,select:focus{box-shadow:0 0 0 3px rgba(176,138,46,.18)}
-  input:focus,textarea:focus,select:focus{border-color:var(--yarn)}
-  textarea{resize:vertical;min-height:80px}
-  button{
-    font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
-    padding:12px 22px;border:1px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);
-    cursor:pointer;transition:all .2s;
+  .side .brandmark{font-size:17px;padding:4px 12px 26px}
+  .side .brandmark small{font-size:8.5px}
+  .side-group{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(226,194,126,.65);padding:16px 12px 8px}
+  .side button.tab{
+    display:flex;align-items:center;gap:12px;width:100%;
+    font-family:var(--sans);font-size:14px;font-weight:450;letter-spacing:0;text-transform:none;text-align:left;
+    padding:10px 12px;margin:1px 0;border:0;border-radius:var(--radius-sm);
+    background:transparent;color:rgba(243,230,224,.82);cursor:pointer;transition:background .15s,color .15s
   }
-  button:hover{background:var(--ink);color:#fff}
-  button.primary{background:var(--yarn);border-color:var(--yarn);color:#fff}
-  button.primary:hover{background:#96751F;border-color:#96751F}
-  button.danger{border-color:var(--danger);color:var(--danger)}
-  button.danger:hover{background:var(--danger);color:#fff}
-  button.small{padding:7px 14px;font-size:11px}
-  button:disabled{opacity:.45;cursor:default}
+  .side button.tab svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+  .side button.tab:hover{background:rgba(255,255,255,.07);color:#fff}
+  .side button.tab,.side-foot a,.side-foot button{justify-content:flex-start}
+  .side button.tab.active{background:rgba(226,194,126,.16);color:#fff;box-shadow:inset 3px 0 0 var(--gold-light)}
+  .side-foot{margin-top:auto;padding:16px 4px 0;border-top:1px solid rgba(226,194,126,.15);display:flex;flex-direction:column;gap:4px}
+  .side-foot a,.side-foot button{
+    display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:13.5px;text-transform:none;letter-spacing:0;font-weight:450;
+    padding:9px 10px;border-radius:var(--radius-sm);color:rgba(243,230,224,.78);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left
+  }
+  .side-foot a:hover,.side-foot button:hover{background:rgba(255,255,255,.07);color:#fff}
+  .side-foot svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .main{min-width:0;display:flex;flex-direction:column}
+  .mainbar{
+    position:sticky;top:0;z-index:20;background:rgba(245,243,239,.88);backdrop-filter:blur(10px);
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:18px clamp(18px,3vw,40px);border-bottom:1px solid var(--line)
+  }
+  .mainbar .crumb{font-size:12px;color:var(--ink-faint);margin-bottom:2px}
+  .mainbar h1{font-size:22px}
+  .mainbar-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .content{padding:28px clamp(18px,3vw,40px) 90px;max-width:1240px;width:100%}
+  .burger-admin{display:none}
+  @media(max-width:960px){
+    .app{grid-template-columns:1fr}
+    .side{position:fixed;left:0;top:0;bottom:0;width:260px;z-index:50;transform:translateX(-100%);transition:transform .3s ease;box-shadow:var(--shadow-lg)}
+    .app.side-open .side{transform:none}
+    .burger-admin{display:inline-flex}
+    .mainbar h1{font-size:19px}
+  }
+
+  /* ---------- building blocks ---------- */
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+  .card h1{font-size:17px !important;margin-bottom:6px}
+  .card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .card-head h2{font-size:16px}
+  label{display:block;font-size:12.5px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink);margin:16px 0 6px}
+  label span{color:var(--ink-faint);font-weight:400}
+  input[type=text],input[type=password],input[type=date],input[type=number],textarea,select{
+    width:100%;font-family:var(--sans);font-size:14.5px;color:var(--ink);
+    background:#fff;border:1px solid var(--line-strong);border-radius:var(--radius-sm);padding:10px 12px;outline:none;transition:border-color .15s, box-shadow .15s
+  }
+  input:focus,textarea:focus,select:focus{border-color:var(--maroon);box-shadow:0 0 0 3px rgba(94,18,36,.12)}
+  textarea{resize:vertical;min-height:84px;line-height:1.6}
+  input[type=file]{font-size:13px;color:var(--ink-soft)}
+  input[type=checkbox]{accent-color:var(--maroon);width:16px;height:16px}
+  button,.btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:var(--sans);font-size:13.5px;font-weight:500;letter-spacing:0;text-transform:none;text-decoration:none;
+    padding:10px 18px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink);
+    cursor:pointer;transition:background .15s,border-color .15s,color .15s,box-shadow .15s;white-space:nowrap
+  }
+  button:hover,.btn:hover{border-color:var(--ink-faint);background:#FBFAF8}
+  button.primary,.btn.primary{background:var(--maroon);border-color:var(--maroon);color:#fff}
+  button.primary:hover,.btn.primary:hover{background:#4A0E1C;border-color:#4A0E1C}
+  button.danger{color:var(--danger);border-color:#EBC5C8;background:#fff}
+  button.danger:hover{background:var(--danger);border-color:var(--danger);color:#fff}
+  button.small,.btn.small{padding:7px 12px;font-size:13px}
+  button:disabled{opacity:.5;cursor:default}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-  @media(max-width:640px){.row,.row3{grid-template-columns:1fr}}
-  .plist{list-style:none}
-  .plist li{
-    display:flex;align-items:center;gap:14px;padding:13px 4px;border-bottom:1px solid var(--hairline);
+  @media(max-width:700px){.row,.row3{grid-template-columns:1fr}}
+  .muted{color:var(--ink-soft);font-size:13.5px}
+  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55}
+  .hint a{color:var(--maroon)}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:500;padding:3px 9px;border-radius:999px;background:#F1EEE9;color:var(--ink-soft);white-space:nowrap}
+  .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.7}
+  .badge.green{background:#E8F3EC;color:var(--ok)} .badge.amber{background:#FBF1E1;color:var(--warn)}
+  .badge.maroon{background:var(--maroon-tint);color:var(--maroon)} .badge.grey{background:#F1EEE9;color:var(--ink-soft)}
+  .badge.red{background:#FBE9EA;color:var(--danger)}
+
+  /* toast */
+  #log{
+    position:fixed;right:20px;bottom:20px;left:auto;z-index:200;max-width:420px;
+    background:var(--ink);color:#fff;font-size:13.5px;padding:12px 16px;border-radius:10px;box-shadow:var(--shadow-lg);display:none
   }
-  .plist .pname{font-family:var(--serif);font-size:17px;flex:1}
-  .plist .pcat{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
-  .imgslot{border:1px dashed var(--hairline);padding:12px;text-align:center}
-  .mg-card{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--hairline);padding:16px 18px;margin-bottom:10px;cursor:pointer;background:#fff}
-  .mg-card:hover{border-color:var(--yarn)}
-  .mg-name{font-family:var(--serif);font-size:19px;letter-spacing:.05em}
-  .mg-sub{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
-  .gv-cat{border:1px solid var(--hairline);margin-bottom:14px;background:#fff}
-  .gv-cat-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--hairline);background:#FBF9FE;flex-wrap:wrap}
-  .gv-cat-title{font-family:var(--serif);font-size:17px;letter-spacing:.04em}
-  .gv-cat-sub{font-size:12px;color:var(--ink-soft)}
-  .gv-plist{list-style:none;margin:0;padding:0}
-  .gv-plist li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--hairline)}
-  .gv-plist li:last-child{border-bottom:none}
-  .gv-empty{padding:12px 14px;font-size:13px;color:var(--ink-soft)}
-  .imgslot img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;margin-bottom:8px;background:#EFE9F6}
-  .imgslot .slotname{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+  #log.err{background:var(--danger)} #log.ok{background:var(--ok)}
+
+  /* ---------- overview ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:20px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px}
+  .kpi .k-label{font-size:12.5px;color:var(--ink-soft);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .kpi .k-label i{width:28px;height:28px;border-radius:8px;background:var(--maroon-tint);display:inline-flex;align-items:center;justify-content:center;color:var(--maroon);font-style:normal}
+  .kpi .k-label i svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .kpi .k-value{font-family:var(--serif);font-size:24px;font-weight:500;letter-spacing:-.01em}
+  .kpi .k-sub{font-size:12px;color:var(--ink-faint);margin-top:4px}
+  .grid-2{display:grid;grid-template-columns:1.5fr 1fr;gap:20px}
+  @media(max-width:1000px){.grid-2{grid-template-columns:1fr}}
+  .tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+  .tbl th{text-align:left;font-weight:500;font-size:12px;color:var(--ink-faint);padding:0 10px 10px;border-bottom:1px solid var(--line)}
+  .tbl td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+  .tbl tr:last-child td{border-bottom:0}
+  .tbl td.r,.tbl th.r{text-align:right}
+  .bar{height:8px;background:#F1EEE9;border-radius:99px;overflow:hidden;flex:1}
+  .bar i{display:block;height:100%;background:var(--maroon);border-radius:99px}
+  .stat-row{display:flex;align-items:center;gap:12px;padding:9px 0;font-size:13.5px}
+  .stat-row span:first-child{width:96px;color:var(--ink-soft)}
+  .stat-row b{font-weight:500;width:28px;text-align:right}
+  .quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .quick button{justify-content:flex-start;padding:14px 16px;height:auto}
+  .quick button svg{width:18px;height:18px;stroke:var(--maroon);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ---------- existing panels, refined ---------- */
+  .plist{list-style:none}
+  .plist li{display:flex;align-items:center;gap:14px;padding:12px 4px;border-bottom:1px solid var(--line)}
+  .plist li:last-child{border-bottom:0}
+  .plist .pname{font-family:var(--sans);font-weight:500;font-size:14.5px;flex:1}
+  .plist .pcat,.pcat{font-size:12.5px;color:var(--ink-soft)}
+  .imgslot{border:1px dashed var(--line-strong);border-radius:10px;padding:12px;text-align:center;background:#FCFBF9}
+  .imgslot img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;margin-bottom:8px;background:#F1EEE9;border-radius:6px}
+  .imgslot .slotname{font-size:12px;font-weight:500;color:var(--ink-soft);margin-bottom:8px}
   .imgslot input[type=file]{width:100%;font-size:12px}
+  .mg-card{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:10px;cursor:pointer;background:#fff;transition:border-color .15s, box-shadow .15s}
+  .mg-card:hover{border-color:var(--maroon);box-shadow:var(--shadow)}
+  .mg-name{font-family:var(--serif);font-size:16px;font-weight:500}
+  .mg-sub{font-size:13px;color:var(--ink-soft);margin-top:2px}
+  .gv-cat{border:1px solid var(--line);border-radius:10px;margin-bottom:14px;background:#fff;overflow:hidden}
+  .gv-cat-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:#FBFAF8;flex-wrap:wrap}
+  .gv-cat-title{font-family:var(--serif);font-size:15px;font-weight:500}
+  .gv-cat-sub{font-size:12.5px;color:var(--ink-soft)}
+  .gv-plist{list-style:none;margin:0;padding:0}
+  .gv-plist li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line)}
+  .gv-plist li:last-child{border-bottom:none}
+  .gv-empty{padding:12px 16px;font-size:13px;color:var(--ink-soft)}
   .chart-rows{width:100%;border-collapse:collapse;margin-top:4px}
   .chart-rows td{padding:3px}
   .chart-rows input{padding:8px 10px;font-size:14px}
   .chart-rows .rowdel{width:38px}
-  .muted{color:var(--ink-soft);font-size:13px}
-  #log{
-    position:fixed;left:0;right:0;bottom:0;background:#2A1F42;color:#E8DFF7;
-    font-size:13px;padding:10px 20px;letter-spacing:.04em;display:none;
-  }
-  #log.err{background:#5A2323}
-  #log.ok{background:#24462E}
-  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;flex-wrap:wrap}
-  .hidden{display:none!important}
-  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55}
-  button.tab{border-color:transparent;background:rgba(255,255,255,.6);color:var(--ink-soft)}
-  button.tab:hover{background:#fff;color:var(--ink)}
-  button.tab.active{background:var(--ink);border-color:var(--ink);color:#fff;box-shadow:var(--shadow)}
-  .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
-  .mslot{border:1px solid var(--hairline);background:var(--panel);padding:12px}
-  .mslot .mname{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-bottom:2px}
-  .mslot .mpath{font-size:11px;color:var(--ink-soft);margin-bottom:8px;word-break:break-all}
-  .mslot img,.mslot video{width:100%;aspect-ratio:1/1;object-fit:cover;background:#EFE9F6;display:block;margin-bottom:8px}
+  .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+  .mslot{border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px}
+  .mslot .mname{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+  .mslot .mpath{font-size:11.5px;color:var(--ink-faint);margin-bottom:8px;word-break:break-all}
+  .mslot img,.mslot video{width:100%;aspect-ratio:1/1;object-fit:cover;background:#F1EEE9;display:block;margin-bottom:8px;border-radius:6px}
   .mslot input[type=file]{width:100%;font-size:12px;margin-bottom:8px}
-  .mgroup-title{font-family:var(--serif);font-size:18px;letter-spacing:.06em;margin:26px 0 12px}
+  .mgroup-title{font-family:var(--serif);font-size:16px;font-weight:500;margin:28px 0 12px}
   .mgroup-title:first-child{margin-top:0}
-  .hint a{color:var(--yarn)}
-  .tclr{width:64px;height:36px;padding:2px;border:1px solid var(--hairline);background:#fff}
-  .cat-row{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--hairline)}
-  .cat-row .cname{font-family:var(--serif);font-size:16px;flex:1}
+  .tclr{width:64px;height:36px;padding:2px;border:1px solid var(--line);background:#fff;border-radius:6px}
+  .cat-row{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid var(--line)}
+  .cat-row .cname{font-weight:500;font-size:14.5px;flex:1}
   .cat-row.child{padding-left:34px}
-  .cat-row .ccount{font-size:11px;letter-spacing:.14em;color:var(--ink-soft)}
+  .cat-row .ccount{font-size:12.5px;color:var(--ink-soft)}
+
+  /* ---------- content editor ---------- */
+  .cnt{display:grid;grid-template-columns:230px 1fr;gap:20px;align-items:start}
+  @media(max-width:900px){.cnt{grid-template-columns:1fr}}
+  .cnt-pages{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:8px;position:sticky;top:90px}
+  .cnt-pages button{width:100%;justify-content:space-between;border:0;background:none;padding:10px 12px;font-weight:450}
+  .cnt-pages button:hover{background:#F6F3EE}
+  .cnt-pages button.on{background:var(--maroon-tint);color:var(--maroon);font-weight:500}
+  .cnt-pages button .badge{background:var(--maroon);color:#fff}
+  .cnt-pages button .badge::before{display:none}
+  .cnt-sec{margin-bottom:20px}
+  .cnt-sec-title{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin:6px 0 10px}
+  .cnt-field{padding:14px 0;border-bottom:1px solid var(--line)}
+  .cnt-field:last-child{border-bottom:0}
+  .cnt-field .cf-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+  .cnt-field .cf-label{font-size:12.5px;font-weight:500;display:flex;align-items:center;gap:8px}
+  .cnt-field .cf-reset{font-size:12px;color:var(--maroon);background:none;border:0;padding:0;cursor:pointer}
+  .cnt-field textarea{min-height:44px;resize:vertical;overflow:hidden}
+  .cnt-field.changed textarea{border-color:var(--gold);background:#FFFDF7}
+  .cnt-save{position:sticky;bottom:16px;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--ink);color:#fff;border-radius:12px;padding:12px 14px 12px 18px;box-shadow:var(--shadow-lg);margin-top:8px}
+  .cnt-save button{border-color:transparent}
+
+  /* ---------- journal ---------- */
+  .jr-list{display:grid;gap:12px}
+  .jr-item{display:grid;grid-template-columns:84px 1fr auto;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px 10px 10px}
+  .jr-item img,.jr-item .jr-ph{width:84px;height:64px;object-fit:cover;border-radius:6px;background:#F1EEE9;display:block}
+  .jr-item h3{font-size:15px;font-weight:500;margin-bottom:3px}
+  .jr-item .muted{font-size:12.5px}
+  .jr-cover{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:start}
+  .jr-cover img{width:200px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:#F1EEE9;display:block}
+  @media(max-width:700px){.jr-cover{grid-template-columns:1fr}.jr-item{grid-template-columns:64px 1fr}.jr-item>div:last-child{grid-column:1/-1}}
+  .switch{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:450;cursor:pointer;margin:0}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="brand">Nodalis</div>
-  <div class="sub">Atelier Admin</div>
+<div class="login" id="login-card">
+  <div class="login-brand">
+    <div class="brandmark">NODALIS<small>TIMELESS PIECES</small></div>
+    <div>
+      <h2>The atelier, behind the scenes.</h2>
+      <p>Products, orders, words and pictures for nodalis.lk, all in one place.</p>
+    </div>
+    <p style="font-size:12px;color:rgba(251,244,236,.5)">Handmade in Sri Lanka</p>
+  </div>
+  <div class="login-form"><div class="login-box">
+    <h1>Sign in</h1>
+    <p class="lead">Welcome back. Sign in to manage the website.</p>
 
-  <!-- ============ LOGIN ============ -->
-  <div class="card" id="login-card">
-    <h1 style="font-size:22px;margin-bottom:8px">Sign in</h1>
 
     <div id="auth-login" class="hidden">
       <label for="au-user">Username</label>
@@ -124,7 +261,7 @@
     </div>
 
     <div id="auth-token">
-      <p class="muted" id="auth-token-note">Paste your GitHub access token <b>once</b>, then choose a username and password — from then on, you \u2014 and anyone you trust with the username and password \u2014 sign in with those, on any device. The token is sealed with your password (AES encryption); without the password it is unreadable, and it is never shown to whoever signs in.</p>
+      <p class="muted" id="auth-token-note">Paste your GitHub access token <b>once</b>, then choose a username and password — from then on, you, and anyone you trust with the username and password, sign in with those, on any device. The token is sealed with your password (AES encryption); without the password it is unreadable, and it is never shown to whoever signs in.</p>
       <label for="token">Access token</label>
       <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
       <label for="au-newuser">Choose a username</label>
@@ -137,24 +274,42 @@
       <p class="hint">To create a token: GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token. Repository access: <b>Only select repositories → nodalis-site</b>. Permissions: <b>Contents → Read and write</b>. Copy the token and keep it like a password.</p>
       <p class="hint"><a href="#" onclick="tokenOnlySignIn();return false">Or sign in with the token just this once (no password saved)</a></p>
     </div>
-  </div>
+  </div></div>
+</div>
 
-  <!-- ============ DASHBOARD ============ -->
-  <div id="dash" class="hidden">
-    <div class="topbar">
-      <div>
-        <button class="small tab active" id="tab-products" onclick="showTab('products')">Products</button>
-        <button class="small tab" id="tab-categories" onclick="showTab('categories')">Sections</button>
-        <button class="small tab" id="tab-theme" onclick="showTab('theme')">Colours</button>
-        <button class="small tab" id="tab-media" onclick="showTab('media')">Site Media</button>
-        <button class="small tab" id="tab-orders" onclick="showTab('orders')">Orders</button>
-        <button class="small tab" id="tab-dashboard" onclick="showTab('dashboard')">Dashboard</button>
-      </div>
-      <div>
-        <button class="small" id="addbtn" onclick="newProduct()">+ Add product</button>
-        <button class="small" onclick="signOut()">Sign out</button>
-      </div>
+<div id="dash" class="hidden app">
+  <aside class="side">
+    <div class="brandmark">NODALIS<small>ATELIER ADMIN</small></div>
+    <nav>
+      <p class="side-group">Overview</p>
+      <button class="tab" id="tab-dashboard" onclick="showTab('dashboard')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashboard</span></button>
+      <button class="tab" id="tab-orders" onclick="showTab('orders')"><svg viewBox="0 0 24 24"><path d="M6 2h12l2 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><path d="M4 6h16M9 11h6M9 15h6"/></svg><span>Orders</span></button>
+      <p class="side-group">Shop</p>
+      <button class="tab" id="tab-products" onclick="showTab('products')"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span>Products</span></button>
+      <button class="tab" id="tab-categories" onclick="showTab('categories')"><svg viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h12"/></svg><span>Sections</span></button>
+      <p class="side-group">Website</p>
+      <button class="tab" id="tab-content" onclick="showTab('content')"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><span>Content</span></button>
+      <button class="tab" id="tab-journal" onclick="showTab('journal')"><svg viewBox="0 0 24 24"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M18 20h2V8M8 8h6M8 12h6"/></svg><span>Journal</span></button>
+      <button class="tab" id="tab-media" onclick="showTab('media')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg><span>Photos &amp; videos</span></button>
+      <button class="tab hidden" id="tab-theme" onclick="showTab('theme')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/></svg><span>Design</span></button>
+    </nav>
+    <div class="side-foot">
+      <a href="index.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M14 3h7v7M10 14 21 3M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>View website</a>
+      <button onclick="signOut()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Sign out</button>
     </div>
+  </aside>
+  <div class="main">
+    <header class="mainbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="small burger-admin" onclick="toggleSide()" aria-label="Menu">&#9776;</button>
+        <div><p class="crumb">Nodalis Admin</p><h1 id="page-title">Overview</h1></div>
+      </div>
+      <div class="mainbar-actions">
+        <button class="primary" id="addbtn" onclick="newProduct()">+ Add product</button>
+      </div>
+    </header>
+    <div class="content">
+      <div id="panels">
     <div id="panel-products">
       <div class="card" id="main-browser">
         <p class="muted" style="margin-bottom:14px"><b>Main</b> — your shop in three worlds. Open one to see its sections and every piece inside; add sections and pieces right where they belong.</p>
@@ -174,7 +329,7 @@
     </div>
 
     <div id="panel-media" class="hidden">
-        <div class="card">
+        <div class="card hidden">
           <h1 style="font-size:17px;margin-bottom:4px">The Creator — your story</h1>
           <p class="muted" style="margin-bottom:6px">Chapter IV on the homepage. Your portrait uploads in the “The Creator” slot below.</p>
           <label>Heading</label>
@@ -191,7 +346,7 @@
           </div>
         </div>
 
-      <p class="muted" style="margin-bottom:16px">Every image and video on the website. Pick a new file and it replaces the old one — the live site updates about a minute later. Any image type works \u2014 it is automatically resized and converted for the web before upload. Videos should be MP4.</p>
+      <p class="muted" style="margin-bottom:16px">Every image and video on the website. Pick a new file and it replaces the old one — the live site updates about a minute later. Any image type works; it is automatically resized and converted for the web before upload. Videos should be MP4.</p>
       <div id="media-groups"></div>
     </div>
 
@@ -459,17 +614,72 @@
     </div>
 
     <div id="panel-dashboard" class="hidden">
-      <div id="dash-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px"></div>
-      <div class="card">
-        <label style="margin-top:0">By status</label>
-        <div id="dash-status"></div>
+      <div class="kpis" id="dash-cards"></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h2>Recent orders</h2><button class="small" onclick="showTab('orders')">View all</button></div><div id="dash-recent"></div></div>
+        <div class="card"><div class="card-head"><h2>Orders by status</h2></div><div id="dash-status"></div></div>
       </div>
-      <div class="card">
-        <label style="margin-top:0">Best sellers</label>
-        <div id="dash-top"></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h2>Best sellers</h2></div><div id="dash-top"></div></div>
+        <div class="card"><div class="card-head"><h2>Quick actions</h2></div>
+          <div class="quick">
+            <button onclick="showTab('products');newProduct()"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add a product</button>
+            <button onclick="showTab('orders');orderNew()"><svg viewBox="0 0 24 24"><path d="M6 2h12l2 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/></svg>Record an order</button>
+            <button onclick="showTab('journal');jrNew()"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/></svg>Write an article</button>
+            <button onclick="showTab('content')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg>Edit website text</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div id="panel-content" class="hidden">
+      <div class="cnt">
+        <div class="cnt-pages" id="cnt-pages"></div>
+        <div>
+          <div class="card" style="padding:4px 24px 12px" id="cnt-fields"></div>
+          <div class="cnt-save hidden" id="cnt-save"><span id="cnt-save-msg"></span><div style="display:flex;gap:8px"><button class="small" onclick="contentDiscard()">Discard</button><button class="small primary" onclick="contentPublish()">Publish changes</button></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-journal" class="hidden">
+      <div id="jr-listview">
+        <div class="card">
+          <div class="card-head"><div><h2>Articles</h2><p class="muted">Published articles appear on the Journal page and the homepage. Drafts stay hidden.</p></div></div>
+          <div class="jr-list" id="jr-list"></div>
+        </div>
+      </div>
+      <div id="jr-editor" class="hidden">
+        <div class="card">
+          <div class="card-head"><h2 id="jr-ed-title">New article</h2><button class="small" onclick="jrClose()">&larr; All articles</button></div>
+          <label style="margin-top:0">Title</label><input type="text" id="jr-title" placeholder="How to care for your crochet piece">
+          <div class="row">
+            <div><label>Category <span>(shown above the title)</span></label><input type="text" id="jr-cat" placeholder="Care, Petstore, The Atelier"></div>
+            <div><label>Date</label><input type="date" id="jr-date"></div>
+          </div>
+          <label>Short summary <span>(shown on cards and under the title)</span></label><textarea id="jr-excerpt" rows="2"></textarea>
+          <label>Cover photo</label>
+          <div class="jr-cover">
+            <img id="jr-cover-img" alt="">
+            <div>
+              <input type="file" accept="image/*" id="jr-cover-file">
+              <p class="hint">Pick a photo from your device. It is resized automatically and uploaded when you save.</p>
+              <label>Or use an image already on the site <span>(path)</span></label>
+              <input type="text" id="jr-cover" placeholder="images/story-her.jpg">
+            </div>
+          </div>
+          <label>Article</label>
+          <textarea id="jr-body" rows="18"></textarea>
+          <p class="hint">Leave a blank line between paragraphs. Start a line with <b>##</b> for a heading, or with <b>-</b> for a list. Wrap words in *stars* for italic and **double stars** for bold.</p>
+          <label>Web address <span>(automatic)</span></label><input type="text" id="jr-id">
+          <div style="margin-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+            <label class="switch"><input type="checkbox" id="jr-pub"> Published</label>
+            <div style="display:flex;gap:10px"><button class="danger" id="jr-del" onclick="jrDelete()">Delete</button><button class="primary" id="jr-save" onclick="jrSave()">Save article</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div><!-- /panels -->
 
   <!-- ============ EDITOR ============ -->
   <div id="editor" class="hidden">
@@ -554,6 +764,8 @@
       <button class="danger" id="del-btn" onclick="deleteProduct()">Delete product</button>
     </div>
     <p class="hint">After saving, the live site updates in about a minute.</p>
+  </div>
+    </div>
   </div>
 </div>
 
@@ -886,7 +1098,9 @@ async function boot(){
     document.getElementById('dash').classList.remove('hidden');
     renderList();
     await loadOrders();
-    log('Loaded ' + PRODUCTS.length + ' products, ' + ORDERS.length + ' orders.', 'ok');
+    await loadContent();
+    showTab('dashboard');
+    log('Signed in. ' + PRODUCTS.length + ' products, ' + ORDERS.length + ' orders.', 'ok');
   } catch(e) {
     token = null;
     log(e.message.includes('401') ? 'That token was not accepted — check it and try again.' : e.message, 'err');
@@ -942,13 +1156,15 @@ function openEditor(i){
   galInit(i >= 0 ? p : null);
   document.getElementById('del-btn').style.display = i >= 0 ? '' : 'none';
   renderColorSlots();
-  document.getElementById('dash').classList.add('hidden');
+  document.getElementById('panels').classList.add('hidden');
   document.getElementById('editor').classList.remove('hidden');
+  document.querySelectorAll('.side button.tab').forEach(b => b.classList.toggle('active', b.id === 'tab-products'));
+  document.getElementById('page-title').textContent = i >= 0 ? 'Edit product' : 'New product';
+  document.getElementById('addbtn').style.display = 'none';
   window.scrollTo(0,0);
 }
 function closeEditor(){
-  document.getElementById('editor').classList.add('hidden');
-  document.getElementById('dash').classList.remove('hidden');
+  showTab('products');
 }
 document.getElementById('f-name').addEventListener('input', function(){
   if (editingIndex < 0) document.getElementById('f-id').value = slugify(this.value);
@@ -1262,16 +1478,26 @@ const SITE_MEDIA = [
 ];
 
 function showTab(t){
-  ['products','categories','theme','media','orders','dashboard'].forEach(x => {
+  ['dashboard','orders','products','categories','content','journal','media','theme'].forEach(x => {
     document.getElementById('tab-'+x).classList.toggle('active', t===x);
     document.getElementById('panel-'+x).classList.toggle('hidden', t!==x);
   });
-  document.getElementById('addbtn').style.display = t==='products' ? '' : 'none';
+  document.getElementById('editor').classList.add('hidden');
+  document.getElementById('panels').classList.remove('hidden');
+  document.getElementById('page-title').textContent = TAB_TITLES[t] || '';
+  const add = document.getElementById('addbtn'), a = TAB_ADD[t];
+  add.style.display = a ? '' : 'none';
+  if (a) { add.textContent = a[0]; add.onclick = a[1]; }
+  toggleSide(false);
+  window.scrollTo(0,0);
+  if (t==='products') renderList();
   if (t==='media') renderMedia();
   if (t==='categories') catRender();
-  if (t==='theme') themeFill(); creatorFill(); deliveryFill();
-  if (t==='orders') { payFill(); orderRenderList(); }
+  if (t==='theme') { themeFill(); }
+  if (t==='orders') { payFill(); deliveryFill(); orderRenderList(); }
   if (t==='dashboard') dashRender();
+  if (t==='content') contentRender();
+  if (t==='journal') jrRender();
 }
 function renderMedia(){
   const root = document.getElementById('media-groups');
@@ -1873,45 +2099,71 @@ function dashRender(){
   const active = ORDERS.filter(o => o.status !== 'Cancelled');
   const paid = active.filter(o => ['Paid','Making','Dispatched','In Transit','Delivered'].includes(o.status));
   const revenue = paid.reduce((s,o) => s + (Number(o.price)||0), 0);
-  const delivered = active.filter(o => o.status === 'Delivered');
   const month = new Date().toISOString().slice(0,7);
-  const thisMonth = paid.filter(o => (o.date||'').startsWith(month));
-  const monthRevenue = thisMonth.reduce((s,o) => s + (Number(o.price)||0), 0);
-
+  const monthRevenue = paid.filter(o => (o.date||'').startsWith(month)).reduce((s,o) => s + (Number(o.price)||0), 0);
+  const inProgress = active.filter(o => ['Paid','Making','Dispatched','In Transit'].includes(o.status)).length;
+  const awaiting = active.filter(o => o.status === 'New').length;
+  const ic = {
+    rev:'<svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M14 7h7v7"/></svg>',
+    cal:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>',
+    box:'<svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8"/></svg>',
+    clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    tag:'<svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/></svg>',
+    pen:'<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/></svg>'
+  };
+  const pubArticles = (CONTENT.journal||[]).filter(a => a.published !== false).length;
   const cards = [
-    ['Revenue (paid orders)', fmtLKRn(revenue)],
-    ['Revenue this month', fmtLKRn(monthRevenue)],
-    ['Orders', String(active.length)],
-    ['Delivered', String(delivered.length)],
-    ['Awaiting payment', String(active.filter(o => o.status === 'New').length)],
-    ['In progress', String(active.filter(o => ['Paid','Making','Dispatched','In Transit'].includes(o.status)).length)]
+    [ic.rev, 'Revenue (paid orders)', fmtLKRn(revenue), paid.length + ' paid orders'],
+    [ic.cal, 'Revenue this month', fmtLKRn(monthRevenue), new Date().toLocaleDateString('en-GB',{month:'long'})],
+    [ic.box, 'Active orders', String(active.length), inProgress + ' in progress'],
+    [ic.clock, 'Awaiting payment', String(awaiting), awaiting ? 'Follow up on WhatsApp' : 'All caught up'],
+    [ic.tag, 'Products', String(PRODUCTS.length), Object.keys(CATEGORIES).length + ' sections'],
+    [ic.pen, 'Journal articles', String(pubArticles), 'published']
   ];
   const cm = document.getElementById('dash-cards');
   cm.innerHTML = '';
   cards.forEach(c => {
     const d = document.createElement('div');
-    d.className = 'card';
-    d.style.marginBottom = '0';
-    d.innerHTML = '<div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px"></div>' +
-      '<div style="font-family:var(--serif);font-size:24px"></div>';
-    d.querySelector('div').textContent = c[0];
-    d.querySelectorAll('div')[1].textContent = c[1];
+    d.className = 'kpi';
+    d.innerHTML = '<div class="k-label"><i>' + c[0] + '</i><span></span></div><div class="k-value"></div><div class="k-sub"></div>';
+    d.querySelector('.k-label span').textContent = c[1];
+    d.querySelector('.k-value').textContent = c[2];
+    d.querySelector('.k-sub').textContent = c[3];
     cm.appendChild(d);
   });
 
+  const badgeFor = s => ({ 'New':'amber','Paid':'maroon','Making':'maroon','Dispatched':'maroon','In Transit':'maroon','Delivered':'green','Cancelled':'red' }[s] || 'grey');
+  const rc = document.getElementById('dash-recent');
+  const recent = ORDERS.slice().sort((a,b) => String(b.date||'').localeCompare(String(a.date||''))).slice(0,6);
+  if (!recent.length) rc.innerHTML = '<p class="muted">No orders yet. When a customer orders on WhatsApp, record it under Orders.</p>';
+  else {
+    rc.innerHTML = '<table class="tbl"><thead><tr><th>Order</th><th>Customer</th><th>Status</th><th class="r">Amount</th></tr></thead><tbody></tbody></table>';
+    const tb = rc.querySelector('tbody');
+    recent.forEach(o => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td><b style="font-weight:500"></b><div class="muted" style="font-size:12px"></div></td><td></td><td><span class="badge"></span></td><td class="r"></td>';
+      tr.querySelector('b').textContent = o.ref || '';
+      tr.querySelector('.muted').textContent = [o.productName, o.date].filter(Boolean).join('  ·  ');
+      tr.children[1].textContent = o.customer || '';
+      const b = tr.querySelector('.badge'); b.textContent = o.status || 'New'; b.className = 'badge ' + badgeFor(o.status);
+      tr.children[3].textContent = o.price ? fmtLKRn(o.price) : '';
+      tb.appendChild(tr);
+    });
+  }
+
   const st = document.getElementById('dash-status');
   st.innerHTML = '';
+  const maxN = Math.max(1, ...ORDER_STATUSES.map(s => ORDERS.filter(o => o.status === s).length));
   ORDER_STATUSES.forEach(s => {
     const n = ORDERS.filter(o => o.status === s).length;
-    if (!n) return;
     const d = document.createElement('div');
-    d.style.cssText = 'display:flex;justify-content:space-between;padding:8px 2px;border-bottom:1px solid var(--hairline)';
-    d.innerHTML = '<span></span><b style="font-weight:400"></b>';
+    d.className = 'stat-row';
+    d.innerHTML = '<span></span><div class="bar"><i></i></div><b></b>';
     d.querySelector('span').textContent = s;
+    d.querySelector('i').style.width = (n / maxN * 100) + '%';
     d.querySelector('b').textContent = n;
     st.appendChild(d);
   });
-  if (!st.children.length) st.innerHTML = '<p class="muted">No orders yet.</p>';
 
   const tops = {};
   paid.forEach(o => {
@@ -1920,17 +2172,331 @@ function dashRender(){
     tops[k].n++; tops[k].rev += Number(o.price)||0;
   });
   const tp = document.getElementById('dash-top');
-  tp.innerHTML = '';
-  Object.keys(tops).sort((a,b) => tops[b].rev - tops[a].rev).slice(0,8).forEach(k => {
-    const d = document.createElement('div');
-    d.style.cssText = 'display:flex;justify-content:space-between;gap:10px;padding:8px 2px;border-bottom:1px solid var(--hairline)';
-    d.innerHTML = '<span style="flex:1"></span><span class="pcat"></span><b style="font-weight:400"></b>';
-    d.querySelector('span').textContent = k;
-    d.querySelector('.pcat').textContent = tops[k].n + ' sold';
-    d.querySelector('b').textContent = fmtLKRn(tops[k].rev);
-    tp.appendChild(d);
+  const keys = Object.keys(tops).sort((a,b) => tops[b].rev - tops[a].rev).slice(0,6);
+  if (!keys.length) { tp.innerHTML = '<p class="muted">Your best sellers will appear here once orders are paid.</p>'; return; }
+  tp.innerHTML = '<table class="tbl"><thead><tr><th>Piece</th><th class="r">Sold</th><th class="r">Revenue</th></tr></thead><tbody></tbody></table>';
+  const tb2 = tp.querySelector('tbody');
+  keys.forEach(k => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td></td><td class="r"></td><td class="r"></td>';
+    tr.children[0].textContent = k; tr.children[1].textContent = tops[k].n; tr.children[2].textContent = fmtLKRn(tops[k].rev);
+    tb2.appendChild(tr);
   });
-  if (!tp.children.length) tp.innerHTML = '<p class="muted">Sales will appear here.</p>';
+}
+
+/* ================= website content (content.js) ================= */
+let CONTENT = { text:{}, journal:[] };
+let contentSha = null;
+let contentDraft = {};            /* key -> text being edited (not yet published) */
+let contentPage = 'index';
+const pageCache = {};
+const CONTENT_PAGES = [
+  ['site',     'Header & footer',    'index.html'],
+  ['index',    'Home',               'index.html'],
+  ['women',    'Women',              'women.html'],
+  ['mens',     'Men',                'mens.html'],
+  ['petstore', 'Petstore',           'petstore.html'],
+  ['creator',  'The Creator',        'creator.html'],
+  ['journal',  'Journal page',       'journal.html'],
+  ['cart',     'Basket & checkout',  'cart.html'],
+  ['product',  'Product page',       'product.html'],
+  ['category', 'Collection pages',   'category.html']
+];
+const SECTION_NAMES = {
+  'top':'Opening', 'enquire':'Enquiry form', 'collection':'Collection', 'fitting':'The fitting',
+  'creator-link':'Creator plate', 'nd-j-teaser':'Journal preview', 'chapter-her':'Chapter I: Her',
+  'chapter-him':'Chapter II: Him', 'chapter-pets':'Chapter III: Companions', 'j-list-head':'Journal heading',
+  'nd-drawer':'Burger menu', 'nav':'Announcement bar', 'basket':'Basket', 'checkout':'Checkout'
+};
+
+async function loadContent(){
+  try{
+    const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/content.js?ref='+BRANCH);
+    if (r.status === 404) { CONTENT = { text:{}, journal:[] }; contentSha = null; return; }
+    const j = await r.json();
+    contentSha = j.sha;
+    const src = decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))));
+    CONTENT = (new Function(src + '; return CONTENT;'))() || { text:{}, journal:[] };
+    CONTENT.text = CONTENT.text || {}; CONTENT.journal = CONTENT.journal || [];
+  }catch(e){ log('Could not load site content: ' + e.message, 'err'); }
+}
+function serializeContent(){
+  return '/* Nodalis editable content: site text and Journal articles.\n   Written by the admin panel (Content and Journal) on ' + new Date().toISOString().slice(0,10) + '. */\n\n' +
+         'const CONTENT = ' + JSON.stringify(CONTENT, null, 2) + ';\n';
+}
+async function saveContentFile(msg){
+  const res = await putFile('content.js', b64EncodeUtf8(serializeContent()), msg, contentSha);
+  contentSha = res.content.sha;
+}
+
+/* HTML from the page -> the plain text you edit (line breaks, *italic*, **bold**) */
+function htmlToEditable(html){
+  let s = String(html).replace(/\s+/g,' ').trim();
+  s = s.replace(/<br\s*\/?>\s*/gi,'\n').replace(/<\/?(strong|b)\b[^>]*>/gi,'**').replace(/<\/?(em|i)\b[^>]*>/gi,'*').replace(/<[^>]+>/g,'');
+  const t = document.createElement('textarea'); t.innerHTML = s;
+  return t.value.split('\n').map(l => l.trim()).join('\n').trim();
+}
+async function loadPageSource(file){
+  if (pageCache[file]) return pageCache[file];
+  const r = await gh('/repos/'+OWNER+'/'+REPO+'/contents/'+file+'?ref='+BRANCH);
+  if (r.status === 404) throw new Error(file + ' not found');
+  const j = await r.json();
+  const src = decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))));
+  pageCache[file] = new DOMParser().parseFromString(src, 'text/html');
+  return pageCache[file];
+}
+function fieldKind(el){
+  const tag = el.tagName.toLowerCase(), cls = el.className || '', len = (el.textContent||'').trim().length;
+  if (tag === 'h1') return 'Main heading';
+  if (/^h[2-4]$/.test(tag)) return 'Heading';
+  if (tag === 'label') return 'Form label';
+  if (tag === 'button') return 'Button';
+  if (tag === 'a') return 'Link text';
+  if (/eyebrow|kicker|meta|role|announce/.test(cls) || len < 44) return 'Short line';
+  return 'Paragraph';
+}
+function sectionName(el){
+  const host = el.closest('[id]:not([data-c]), section, header, footer, aside, main, article, nav');
+  if (!host) return 'Page';
+  const tag = host.tagName.toLowerCase();
+  if (tag === 'footer') return 'Footer';
+  const id = host.id || '';
+  if (SECTION_NAMES[id]) return SECTION_NAMES[id];
+  if (id) return id.replace(/[-_]+/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+  const c = (host.className || '').toString().split(/\s+/)[0];
+  if (c) return c.replace(/[-_]+/g,' ').replace(/\b\w/g, ch => ch.toUpperCase());
+  return tag === 'header' ? 'Opening' : 'Page';
+}
+function contentChangedCount(){
+  return Object.keys(contentDraft).length;
+}
+function contentRenderPages(){
+  const box = document.getElementById('cnt-pages');
+  box.innerHTML = '';
+  CONTENT_PAGES.forEach(([id, label]) => {
+    const b = document.createElement('button');
+    b.className = id === contentPage ? 'on' : '';
+    const n = Object.keys(contentDraft).filter(k => (id === 'site') === k.startsWith('site.') && (id === 'site' || keyPage(k) === id)).length;
+    b.innerHTML = '<span></span>' + (n ? '<span class="badge">' + n + '</span>' : '');
+    b.querySelector('span').textContent = label;
+    b.onclick = () => { contentPage = id; contentRender(); };
+    box.appendChild(b);
+  });
+}
+function keyPage(k){
+  const p = k.split('.')[0];
+  return { home:'index', pets:'petstore' }[p] || p;
+}
+async function contentRender(){
+  contentRenderPages();
+  const host = document.getElementById('cnt-fields');
+  const def = CONTENT_PAGES.find(p => p[0] === contentPage);
+  host.innerHTML = '<p class="muted" style="padding:18px 0">Loading ' + esc(def[1]) + '…</p>';
+  let doc;
+  try { doc = await loadPageSource(def[2]); }
+  catch(e){ host.innerHTML = '<p class="muted" style="padding:18px 0">Could not load this page: ' + esc(e.message) + '</p>'; return; }
+  if (contentPage !== def[0]) return;
+  const seen = {};
+  const els = Array.from(doc.querySelectorAll('[data-c]')).filter(el => {
+    const k = el.getAttribute('data-c');
+    if (seen[k]) return false; seen[k] = 1;
+    return contentPage === 'site' ? k.startsWith('site.') : !k.startsWith('site.');
+  });
+  host.innerHTML = '';
+  const intro = document.createElement('p');
+  intro.className = 'muted'; intro.style.padding = '16px 0 4px';
+  intro.innerHTML = 'Edit any text, then press <b>Publish changes</b>. The live site updates about a minute later. Press Enter for a new line, and wrap words in *stars* for italic.';
+  host.appendChild(intro);
+  if (!els.length) { host.insertAdjacentHTML('beforeend','<p class="muted" style="padding:12px 0">Nothing editable on this page yet.</p>'); return; }
+  let curSec = null, secBox = null;
+  els.forEach(el => {
+    const key = el.getAttribute('data-c');
+    const sec = sectionName(el);
+    if (sec !== curSec) {
+      curSec = sec;
+      secBox = document.createElement('div'); secBox.className = 'cnt-sec';
+      secBox.innerHTML = '<div class="cnt-sec-title"></div>';
+      secBox.firstChild.textContent = sec;
+      host.appendChild(secBox);
+    }
+    const original = htmlToEditable(el.innerHTML);
+    const saved = (CONTENT.text[key] != null && CONTENT.text[key] !== '') ? CONTENT.text[key] : original;
+    const value = key in contentDraft ? contentDraft[key] : saved;
+    const f = document.createElement('div');
+    f.className = 'cnt-field' + (key in contentDraft ? ' changed' : '');
+    f.innerHTML = '<div class="cf-head"><span class="cf-label"></span><button class="cf-reset" type="button">Restore original</button></div><textarea rows="1"></textarea>';
+    f.querySelector('.cf-label').textContent = fieldKind(el);
+    const ta = f.querySelector('textarea');
+    ta.value = value;
+    const reset = f.querySelector('.cf-reset');
+    reset.style.visibility = value !== original ? 'visible' : 'hidden';
+    const fit = () => { ta.style.height = 'auto'; ta.style.height = (ta.scrollHeight + 2) + 'px'; };
+    ta.addEventListener('input', () => {
+      if (ta.value === saved) delete contentDraft[key]; else contentDraft[key] = ta.value;
+      f.classList.toggle('changed', key in contentDraft);
+      reset.style.visibility = ta.value !== original ? 'visible' : 'hidden';
+      fit(); contentSaveBar(); contentRenderPages();
+    });
+    reset.onclick = () => { ta.value = original; ta.dispatchEvent(new Event('input')); };
+    f.dataset.original = original;
+    secBox.appendChild(f);
+    requestAnimationFrame(fit);
+  });
+  contentSaveBar();
+}
+function contentSaveBar(){
+  const n = contentChangedCount();
+  document.getElementById('cnt-save').classList.toggle('hidden', n === 0);
+  document.getElementById('cnt-save-msg').textContent = n === 1 ? '1 unpublished change' : n + ' unpublished changes';
+}
+function contentDiscard(){
+  if (!confirm('Discard all unpublished text changes?')) return;
+  contentDraft = {}; contentRender();
+}
+async function contentPublish(){
+  const btn = document.querySelector('#cnt-save .primary');
+  btn.disabled = true;
+  try{
+    /* compare each change with the page's original text: identical = no override needed */
+    const originals = {};
+    for (const [id, , file] of CONTENT_PAGES) {
+      try {
+        const doc = await loadPageSource(file);
+        doc.querySelectorAll('[data-c]').forEach(el => { originals[el.getAttribute('data-c')] = htmlToEditable(el.innerHTML); });
+      } catch(e){}
+    }
+    Object.keys(contentDraft).forEach(k => {
+      const v = contentDraft[k].replace(/\s+$/,'');
+      if (!v.trim() || v === originals[k]) delete CONTENT.text[k]; else CONTENT.text[k] = v;
+    });
+    log('Publishing text changes…');
+    await saveContentFile('Admin: website text');
+    contentDraft = {};
+    log('Published. The live site updates in about a minute.', 'ok');
+    contentRender();
+  }catch(e){ log('Could not publish: ' + e.message, 'err'); }
+  finally{ btn.disabled = false; }
+}
+
+/* ================= journal ================= */
+let jrEditing = null;            /* id of the article being edited, null = new */
+let jrCoverFile = null;
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+function jrRender(){
+  document.getElementById('jr-listview').classList.remove('hidden');
+  document.getElementById('jr-editor').classList.add('hidden');
+  const list = document.getElementById('jr-list');
+  const items = (CONTENT.journal || []).slice().sort((a,b) => String(b.date||'').localeCompare(String(a.date||'')));
+  list.innerHTML = '';
+  if (!items.length) { list.innerHTML = '<p class="muted">No articles yet. Press <b>+ New article</b> to write the first one.</p>'; return; }
+  items.forEach(a => {
+    const d = document.createElement('div');
+    d.className = 'jr-item';
+    d.innerHTML = '<div class="jr-ph"></div><div><h3></h3><p class="muted"></p></div><div style="display:flex;gap:8px;align-items:center"><span class="badge"></span><button class="small">Edit</button></div>';
+    if (a.cover) { const im = document.createElement('img'); im.src = a.cover; im.alt = ''; im.onerror = () => im.remove(); d.firstChild.replaceWith(im); }
+    d.querySelector('h3').textContent = a.title || 'Untitled';
+    d.querySelector('.muted').textContent = [a.category, a.date].filter(Boolean).join('  ·  ');
+    const b = d.querySelector('.badge');
+    b.textContent = a.published === false ? 'Draft' : 'Published';
+    b.className = 'badge ' + (a.published === false ? 'grey' : 'green');
+    d.querySelector('button').onclick = () => jrOpen(a.id);
+    list.appendChild(d);
+  });
+}
+function jrNew(){ jrOpen(null); }
+function jrOpen(id){
+  const a = id ? (CONTENT.journal.find(x => x.id === id) || {}) : { date: todayISO(), published: true };
+  jrEditing = id; jrCoverFile = null;
+  document.getElementById('jr-ed-title').textContent = id ? 'Edit article' : 'New article';
+  document.getElementById('jr-title').value = a.title || '';
+  document.getElementById('jr-cat').value = a.category || '';
+  document.getElementById('jr-date').value = a.date || todayISO();
+  document.getElementById('jr-excerpt').value = a.excerpt || '';
+  document.getElementById('jr-body').value = a.body || '';
+  document.getElementById('jr-cover').value = a.cover || '';
+  document.getElementById('jr-id').value = a.id || '';
+  document.getElementById('jr-pub').checked = a.published !== false;
+  document.getElementById('jr-cover-file').value = '';
+  const img = document.getElementById('jr-cover-img');
+  if (a.cover) img.src = a.cover; else img.removeAttribute('src');
+  document.getElementById('jr-del').style.display = id ? '' : 'none';
+  document.getElementById('jr-listview').classList.add('hidden');
+  document.getElementById('jr-editor').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+function jrClose(){ jrRender(); }
+async function jrSave(){
+  const btn = document.getElementById('jr-save');
+  const title = document.getElementById('jr-title').value.trim();
+  if (!title) { log('The article needs a title.', 'err'); return; }
+  let id = slugify(document.getElementById('jr-id').value.trim() || title);
+  if (CONTENT.journal.some(x => x.id === id && x.id !== jrEditing)) { log('Another article already uses that web address. Change it slightly.', 'err'); return; }
+  btn.disabled = true;
+  try{
+    let cover = document.getElementById('jr-cover').value.trim();
+    if (jrCoverFile) {
+      log('Uploading cover photo…');
+      const path = 'images/journal/' + id + '.jpg';
+      const b64 = await processImage(jrCoverFile, 1800, 0.8);
+      await putFile(path, b64, 'Admin: journal cover ' + id, await getSha(path));
+      cover = path; jrCoverFile = null;
+    }
+    const art = {
+      id: id, title: title,
+      category: document.getElementById('jr-cat').value.trim(),
+      date: document.getElementById('jr-date').value || todayISO(),
+      cover: cover,
+      excerpt: document.getElementById('jr-excerpt').value.trim(),
+      published: document.getElementById('jr-pub').checked,
+      body: document.getElementById('jr-body').value.replace(/\r/g,'').trim()
+    };
+    const ix = CONTENT.journal.findIndex(x => x.id === jrEditing);
+    if (ix >= 0) CONTENT.journal[ix] = art; else CONTENT.journal.push(art);
+    log('Saving article…');
+    await saveContentFile('Admin: journal ' + title);
+    jrEditing = id;
+    document.getElementById('jr-id').value = id;
+    document.getElementById('jr-cover').value = cover;
+    document.getElementById('jr-del').style.display = '';
+    document.getElementById('jr-ed-title').textContent = 'Edit article';
+    log(art.published ? 'Saved and published. Live in about a minute.' : 'Saved as a draft. It stays hidden until you tick Published.', 'ok');
+  }catch(e){ log('Could not save: ' + e.message, 'err'); }
+  finally{ btn.disabled = false; }
+}
+async function jrDelete(){
+  if (!jrEditing) return;
+  const a = CONTENT.journal.find(x => x.id === jrEditing);
+  if (!confirm('Delete "' + (a ? a.title : jrEditing) + '"? This removes it from the website.')) return;
+  try{
+    CONTENT.journal = CONTENT.journal.filter(x => x.id !== jrEditing);
+    log('Deleting…');
+    await saveContentFile('Admin: delete journal ' + jrEditing);
+    log('Article deleted.', 'ok');
+    jrEditing = null; jrRender();
+  }catch(e){ log('Could not delete: ' + e.message, 'err'); }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const f = document.getElementById('jr-cover-file');
+  if (f) f.addEventListener('change', () => {
+    jrCoverFile = f.files[0] || null;
+    if (jrCoverFile) document.getElementById('jr-cover-img').src = URL.createObjectURL(jrCoverFile);
+  });
+  const t = document.getElementById('jr-title');
+  if (t) t.addEventListener('input', () => { if (!jrEditing) document.getElementById('jr-id').value = slugify(t.value); });
+});
+
+/* ================= shell ================= */
+const TAB_TITLES = { dashboard:'Overview', orders:'Orders', products:'Products', categories:'Sections',
+  content:'Website content', journal:'Journal', media:'Photos & videos', theme:'Design' };
+const TAB_ADD = {
+  products:   ['+ Add product', () => newProduct()],
+  orders:     ['+ Add order',   () => orderNew()],
+  categories: ['+ Add section', () => catNew()],
+  journal:    ['+ New article', () => jrNew()]
+};
+function toggleSide(force){
+  const app = document.getElementById('dash');
+  app.classList.toggle('side-open', force == null ? !app.classList.contains('side-open') : force);
 }
 
 /* ================= start ================= */

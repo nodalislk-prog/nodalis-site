@@ -7,10 +7,10 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="catalog.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
 <link rel="stylesheet" href="palette.css">
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -29,24 +29,78 @@
   </defs>
 </svg>
 
-<nav aria-label="Main">
-  <div class="nav-links"><a href="index.html">Home</a><a href="petstore.html">Petstore</a></div>
+<!-- nd:nav -->
+<nav id="nav" class="nd-nav" aria-label="Main">
+  <div class="nd-announce" data-c="site.announce">Handmade to order in Sri Lanka &nbsp;·&nbsp; Island-wide delivery</div>
+  <div class="nav-links">
+    <button class="nd-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nd-drawer"><span class="nd-burger-lines" aria-hidden="true"><i></i><i></i><i></i></span><span class="nd-burger-label">Menu</span></button>
+    <a class="nd-desk" href="women.html">Women</a><a class="nd-desk" href="mens.html">Men</a><a class="nd-desk" href="petstore.html">Petstore</a>
+  </div>
   <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
-  <div class="nav-links right"><a href="index.html#enquire">Enquire</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a></div>
+  <div class="nav-links right">
+    <a class="nd-desk" href="journal.html">Journal</a><a class="nd-desk" href="index.html#enquire">Enquire</a><a href="cart.html" id="basket-link">Basket<span id="basket-count" aria-hidden="true"></span></a>
+  </div>
 </nav>
+<div class="nd-drawer" id="nd-drawer" aria-hidden="true">
+  <div class="nd-scrim" data-nd-close></div>
+  <aside class="nd-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="nd-panel-head"><span class="nd-panel-title">Menu</span><button class="nd-close" type="button" data-nd-close aria-label="Close menu"><i></i><i></i></button></div>
+    <div class="nd-menu">
+      <a href="index.html">Home</a>
+      <a href="women.html">Women</a>
+      <a href="mens.html">Men</a>
+      <a href="petstore.html">Petstore</a>
+      <div class="nd-sub"><a href="petstore.html#dogs">For Dogs</a><a href="petstore.html#cats">For Cats</a></div>
+      <a href="journal.html">Journal</a>
+      <a href="creator.html">The Creator</a>
+      <a href="index.html#enquire">Commission a Piece</a>
+      <a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-panel-foot">
+      <p class="nd-panel-note" data-c="site.drawer-note">Every piece is crocheted by hand, to order, in Sri Lanka.</p>
+      <div class="nd-panel-social"><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+  </aside>
+</div>
+<!-- /nd:nav -->
 
 <main>
-  <p class="crumb" id="crumb"><a href="index.html">Home</a></p>
+  <p class="crumb" id="crumb"><a data-c="category.001" href="index.html">Home</a></p>
   <div class="page-head">
     <span class="knot" aria-hidden="true"></span>
     <p class="eyebrow" id="cat-line">Handmade · Made to order</p>
     <h1 id="cat-title">Collection</h1>
   </div>
   <div class="cat-grid" id="grid"></div>
-  <p class="empty-note" id="empty" hidden>New pieces for this collection are on the hook right now. See our latest on <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener" style="border-bottom:1px solid var(--hairline)">Instagram</a>, or enquire about a custom piece.</p>
+  <p class="empty-note" id="empty" hidden>New pieces for this collection are on the hook right now. See our latest on <a data-c="category.002" href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener" style="border-bottom:1px solid var(--hairline)">Instagram</a>, or enquire about a custom piece.</p>
 </main>
 
-<footer>Handmade in Sri Lanka · <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a> · <a href="index.html">nodalis.lk</a></footer>
+<!-- nd:footer -->
+<footer class="nd-footer">
+  <div class="nd-foot-top">
+    <div class="nd-foot-brand">
+      <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
+      <p data-c="site.footer-about">Handmade crochet, made to order in Sri Lanka. Every piece begins as a single thread and ends with the person it was made for.</p>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Shop</h4>
+      <a href="women.html">Women</a><a href="mens.html">Men</a><a href="petstore.html">Petstore</a><a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Atelier</h4>
+      <a href="creator.html">The Creator</a><a href="journal.html">Journal</a><a href="index.html#enquire">Commission a Piece</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Contact</h4>
+      <a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><span>Colombo, Sri Lanka</span>
+    </div>
+  </div>
+  <div class="nd-foot-bottom">
+    <span>&copy; <span class="nd-year">2026</span> Nodalis</span>
+    <span data-c="site.footer-line">Handmade in Sri Lanka</span>
+  </div>
+</footer>
+<!-- /nd:footer -->
 
 <script src="products.js"></script>
 <script>
@@ -197,5 +251,7 @@ window.addEventListener('DOMContentLoaded', function(){
 <script src="autoink.js"></script>
 <script src="warm.js"></script>
 <script src="cart.js"></script>
+<script src="content.js"></script>
+<script src="site.js"></script>
 </body>
 </html>

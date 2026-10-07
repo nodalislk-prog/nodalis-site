@@ -9,7 +9,6 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="catalog.css">
 <style>
   .basket-wrap{max-width:860px;margin:0 auto;padding:clamp(28px,5vw,56px) 20px 80px}
@@ -39,6 +38,7 @@
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
 <link rel="stylesheet" href="palette.css">
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -57,36 +57,65 @@
   </defs>
 </svg>
 
-<nav aria-label="Main">
-  <div class="nav-links"><a href="index.html">Home</a><a href="petstore.html">Petstore</a></div>
+<!-- nd:nav -->
+<nav id="nav" class="nd-nav" aria-label="Main">
+  <div class="nd-announce" data-c="site.announce">Handmade to order in Sri Lanka &nbsp;·&nbsp; Island-wide delivery</div>
+  <div class="nav-links">
+    <button class="nd-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nd-drawer"><span class="nd-burger-lines" aria-hidden="true"><i></i><i></i><i></i></span><span class="nd-burger-label">Menu</span></button>
+    <a class="nd-desk" href="women.html">Women</a><a class="nd-desk" href="mens.html">Men</a><a class="nd-desk" href="petstore.html">Petstore</a>
+  </div>
   <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
-  <div class="nav-links right"><a href="index.html#enquire">Enquire</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a></div>
+  <div class="nav-links right">
+    <a class="nd-desk" href="journal.html">Journal</a><a class="nd-desk" href="index.html#enquire">Enquire</a><a href="cart.html" id="basket-link" aria-current="page">Basket<span id="basket-count" aria-hidden="true"></span></a>
+  </div>
 </nav>
+<div class="nd-drawer" id="nd-drawer" aria-hidden="true">
+  <div class="nd-scrim" data-nd-close></div>
+  <aside class="nd-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="nd-panel-head"><span class="nd-panel-title">Menu</span><button class="nd-close" type="button" data-nd-close aria-label="Close menu"><i></i><i></i></button></div>
+    <div class="nd-menu">
+      <a href="index.html">Home</a>
+      <a href="women.html">Women</a>
+      <a href="mens.html">Men</a>
+      <a href="petstore.html">Petstore</a>
+      <div class="nd-sub"><a href="petstore.html#dogs">For Dogs</a><a href="petstore.html#cats">For Cats</a></div>
+      <a href="journal.html">Journal</a>
+      <a href="creator.html">The Creator</a>
+      <a href="index.html#enquire">Commission a Piece</a>
+      <a href="cart.html" aria-current="page">Your Basket</a>
+    </div>
+    <div class="nd-panel-foot">
+      <p class="nd-panel-note" data-c="site.drawer-note">Every piece is crocheted by hand, to order, in Sri Lanka.</p>
+      <div class="nd-panel-social"><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+  </aside>
+</div>
+<!-- /nd:nav -->
 
 <main>
 <div class="basket-wrap">
-  <h1 class="basket-title">Your Basket</h1>
-  <p class="basket-sub">Every piece, gathered in one order</p>
+  <h1 data-c="cart.001" class="basket-title">Your Basket</h1>
+  <p data-c="cart.002" class="basket-sub">Every piece, gathered in one order</p>
 
   <div id="b-list"></div>
 
   <div class="b-empty" id="b-empty" hidden>
-    <p>Your basket is empty. The story is waiting to be worn.</p>
-    <a href="index.html">Browse the collections</a>
+    <p data-c="cart.003">Your basket is empty. The story is waiting to be worn.</p>
+    <a data-c="cart.004" href="index.html">Browse the collections</a>
   </div>
 
   <div class="b-totals" id="b-totals" hidden>
     <div class="co-line"><span>Pieces (<span id="b-count"></span>)</span><span id="b-subtotal"></span></div>
-    <div class="co-line"><span>Delivery</span><span id="b-delivery"></span></div>
-    <div class="co-line co-total"><span>Total to pay</span><span id="b-total"></span></div>
-    <button class="order-btn" style="width:100%;margin-top:20px" onclick="openCheckout()">Order Everything via WhatsApp</button>
-    <p class="order-hint" style="text-align:center">One message, all your pieces. We reply personally to confirm measurements, timing, and payment.</p>
+    <div class="co-line"><span data-c="cart.005">Delivery</span><span id="b-delivery"></span></div>
+    <div class="co-line co-total"><span data-c="cart.006">Total to pay</span><span id="b-total"></span></div>
+    <button data-c="cart.007" class="order-btn" style="width:100%;margin-top:20px" onclick="openCheckout()">Order Everything via WhatsApp</button>
+    <p data-c="cart.008" class="order-hint" style="text-align:center">One message, all your pieces. We reply personally to confirm measurements, timing, and payment.</p>
   </div>
 
   <div class="b-sent" id="b-sent">
-    <h2>Your order is on its way to us</h2>
-    <p>WhatsApp has opened with everything written. Attach your payment receipt in the chat and your order is confirmed.</p>
-    <a href="index.html" style="display:inline-block;margin-top:18px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid var(--yarn);color:var(--yarn);padding-bottom:3px">Back to the story</a>
+    <h2 data-c="cart.009">Your order is on its way to us</h2>
+    <p data-c="cart.010">WhatsApp has opened with everything written. Attach your payment receipt in the chat and your order is confirmed.</p>
+    <a data-c="cart.011" href="index.html" style="display:inline-block;margin-top:18px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid var(--yarn);color:var(--yarn);padding-bottom:3px">Back to the story</a>
   </div>
 </div>
 </main>
@@ -94,63 +123,63 @@
 <div id="checkout" style="display:none;position:fixed;inset:0;z-index:99;background:rgba(30,15,35,.5);align-items:center;justify-content:center;padding:18px">
   <div style="background:var(--bg-top);border:1px solid var(--hairline);outline:1px solid var(--hairline);outline-offset:5px;max-width:560px;width:100%;max-height:88vh;overflow:auto;padding:clamp(22px,4vw,36px)">
     <span class="knot" aria-hidden="true"></span>
-    <h2 style="font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.06em;text-align:center;margin-bottom:6px">Complete Your Order</h2>
+    <h2 data-c="cart.012" style="font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.06em;text-align:center;margin-bottom:6px">Complete Your Order</h2>
     <p style="text-align:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--yarn);margin-bottom:8px">Order ref <span id="co-ref"></span></p>
     <p id="co-summary" style="text-align:center;color:var(--ink-soft);margin-bottom:26px"></p>
 
-    <p class="opt-label">Step 1: Delivery details</p>
+    <p data-c="cart.013" class="opt-label">Step 1: Delivery details</p>
     <div class="co-fields">
-      <label class="co-l" for="d-name">Full name *</label>
+      <label data-c="cart.014" class="co-l" for="d-name">Full name *</label>
       <input class="co-i" id="d-name" type="text" autocomplete="name" placeholder="Name for the delivery label">
 
-      <label class="co-l" for="d-phone">Contact number *</label>
+      <label data-c="cart.015" class="co-l" for="d-phone">Contact number *</label>
       <input class="co-i" id="d-phone" type="tel" autocomplete="tel" placeholder="07X XXX XXXX">
 
-      <label class="co-l" for="d-addr">Delivery address *</label>
+      <label data-c="cart.016" class="co-l" for="d-addr">Delivery address *</label>
       <input class="co-i" id="d-addr" type="text" autocomplete="address-line1" placeholder="House number / street">
       <input class="co-i" id="d-addr2" type="text" autocomplete="address-line2" placeholder="Area, landmark (optional)" style="margin-top:8px">
 
       <div class="co-row">
         <div>
-          <label class="co-l" for="d-city">City / Town *</label>
+          <label data-c="cart.017" class="co-l" for="d-city">City / Town *</label>
           <input class="co-i" id="d-city" type="text" autocomplete="address-level2" placeholder="Colombo">
         </div>
         <div>
-          <label class="co-l" for="d-zip">Postal code</label>
+          <label data-c="cart.018" class="co-l" for="d-zip">Postal code</label>
           <input class="co-i" id="d-zip" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="00300">
         </div>
       </div>
 
       <div class="co-row">
         <div>
-          <label class="co-l" for="d-district">District *</label>
+          <label data-c="cart.019" class="co-l" for="d-district">District *</label>
           <input class="co-i" id="d-district" type="text" placeholder="Colombo">
         </div>
         <div>
-          <label class="co-l" for="d-country">Country</label>
+          <label data-c="cart.020" class="co-l" for="d-country">Country</label>
           <input class="co-i" id="d-country" type="text" autocomplete="country-name" value="Sri Lanka">
         </div>
       </div>
 
-      <label class="co-l" for="d-notes">Anything we should know</label>
+      <label data-c="cart.021" class="co-l" for="d-notes">Anything we should know</label>
       <textarea class="co-i" id="d-notes" rows="2" placeholder="Delivery instructions, gift note, preferred date…"></textarea>
 
       <p id="d-delivery" class="co-delivery"></p>
       <p id="d-error" class="co-err" hidden></p>
-      <p class="co-privacy">Your details go straight into your WhatsApp message to us and are never stored on this website.</p>
+      <p data-c="cart.022" class="co-privacy">Your details go straight into your WhatsApp message to us and are never stored on this website.</p>
     </div>
 
     <div id="co-totals" class="co-summary">
       <div id="co-items"></div>
-      <div class="co-line"><span>Delivery</span><span id="co-delivery-amt"></span></div>
-      <div class="co-line co-total"><span>Total to pay</span><span id="co-total-amt"></span></div>
+      <div class="co-line"><span data-c="cart.023">Delivery</span><span id="co-delivery-amt"></span></div>
+      <div class="co-line co-total"><span data-c="cart.024">Total to pay</span><span id="co-total-amt"></span></div>
     </div>
 
     <div id="co-pay-section">
-      <p class="opt-label" style="margin-top:0">Step 2: Make your payment</p>
+      <p data-c="cart.025" class="opt-label" style="margin-top:0">Step 2: Make your payment</p>
 
       <div id="co-paypal" hidden style="border:1px solid var(--hairline);padding:18px;margin-bottom:14px;text-align:center">
-        <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">PayPal</p>
+        <p data-c="cart.026" style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px">PayPal</p>
         <a id="co-paypal-link" href="#" target="_blank" rel="noopener" class="order-btn" style="margin-top:0">Pay with PayPal</a>
         <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px">Add your order ref <b id="co-ref3"></b> in the PayPal note.</p>
       </div>
@@ -164,12 +193,12 @@
       <p id="co-nopay" hidden style="color:var(--ink-soft);font-size:14px;border:1px solid var(--hairline);padding:14px 16px;margin-bottom:14px">We will share the payment details with you personally on WhatsApp.</p>
     </div>
 
-    <p class="opt-label">Step 3: Send us your order &amp; receipt</p>
+    <p data-c="cart.027" class="opt-label">Step 3: Send us your order &amp; receipt</p>
     <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:6px">Press the button below and WhatsApp opens with your order already written. Then <b style="font-weight:500;color:var(--ink)">attach your payment receipt</b> (a screenshot or photo) in the chat, and your order is confirmed.</p>
     <p id="co-note" style="font-size:12.5px;color:var(--ink-soft)"></p>
 
-    <button class="order-btn" style="width:100%;margin-top:18px" onclick="confirmOrder()">Open WhatsApp &amp; Send My Order</button>
-    <p style="text-align:center;margin-top:14px"><a href="#" onclick="closeCheckout();return false" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;border-bottom:1px solid var(--hairline)">Cancel</a></p>
+    <button data-c="cart.028" class="order-btn" style="width:100%;margin-top:18px" onclick="confirmOrder()">Open WhatsApp &amp; Send My Order</button>
+    <p style="text-align:center;margin-top:14px"><a data-c="cart.029" href="#" onclick="closeCheckout();return false" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;border-bottom:1px solid var(--hairline)">Cancel</a></p>
   </div>
 </div>
 
@@ -384,5 +413,33 @@
 
   render();
 </script>
+<!-- nd:footer -->
+<footer class="nd-footer">
+  <div class="nd-foot-top">
+    <div class="nd-foot-brand">
+      <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
+      <p data-c="site.footer-about">Handmade crochet, made to order in Sri Lanka. Every piece begins as a single thread and ends with the person it was made for.</p>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Shop</h4>
+      <a href="women.html">Women</a><a href="mens.html">Men</a><a href="petstore.html">Petstore</a><a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Atelier</h4>
+      <a href="creator.html">The Creator</a><a href="journal.html">Journal</a><a href="index.html#enquire">Commission a Piece</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Contact</h4>
+      <a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><span>Colombo, Sri Lanka</span>
+    </div>
+  </div>
+  <div class="nd-foot-bottom">
+    <span>&copy; <span class="nd-year">2026</span> Nodalis</span>
+    <span data-c="site.footer-line">Handmade in Sri Lanka</span>
+  </div>
+</footer>
+<!-- /nd:footer -->
+<script src="content.js"></script>
+<script src="site.js"></script>
 </body>
 </html>

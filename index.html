@@ -8,7 +8,6 @@
 <meta name="description" content="Nodalis. Handmade crochet pieces, made to order in Sri Lanka.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <style>
   :root{
     --bone:#F6F3FB;
@@ -670,6 +669,7 @@
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
 <link rel="stylesheet" href="palette.css">
+<link rel="stylesheet" href="site.css">
 </head>
 <body data-thread-start="ball">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -690,11 +690,40 @@
 
 <div class="thread" aria-hidden="true"></div>
 
-<nav id="nav" aria-label="Main">
-  <div class="nav-links"><a href="#chapter-her">Her</a><a href="#chapter-him">Him</a><a href="petstore.html">Pets</a><a href="creator.html">Creator</a></div>
-  <a class="logotype" href="#top"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
-  <div class="nav-links right"><a href="#enquire">Enquire</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a></div>
+<!-- nd:nav -->
+<nav id="nav" class="nd-nav" aria-label="Main">
+  <div class="nd-announce" data-c="site.announce">Handmade to order in Sri Lanka &nbsp;·&nbsp; Island-wide delivery</div>
+  <div class="nav-links">
+    <button class="nd-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nd-drawer"><span class="nd-burger-lines" aria-hidden="true"><i></i><i></i><i></i></span><span class="nd-burger-label">Menu</span></button>
+    <a class="nd-desk" href="women.html">Women</a><a class="nd-desk" href="mens.html">Men</a><a class="nd-desk" href="petstore.html">Petstore</a>
+  </div>
+  <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
+  <div class="nav-links right">
+    <a class="nd-desk" href="journal.html">Journal</a><a class="nd-desk" href="#enquire">Enquire</a><a href="cart.html" id="basket-link">Basket<span id="basket-count" aria-hidden="true"></span></a>
+  </div>
 </nav>
+<div class="nd-drawer" id="nd-drawer" aria-hidden="true">
+  <div class="nd-scrim" data-nd-close></div>
+  <aside class="nd-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="nd-panel-head"><span class="nd-panel-title">Menu</span><button class="nd-close" type="button" data-nd-close aria-label="Close menu"><i></i><i></i></button></div>
+    <div class="nd-menu">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="women.html">Women</a>
+      <a href="mens.html">Men</a>
+      <a href="petstore.html">Petstore</a>
+      <div class="nd-sub"><a href="petstore.html#dogs">For Dogs</a><a href="petstore.html#cats">For Cats</a></div>
+      <a href="journal.html">Journal</a>
+      <a href="creator.html">The Creator</a>
+      <a href="#enquire">Commission a Piece</a>
+      <a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-panel-foot">
+      <p class="nd-panel-note" data-c="site.drawer-note">Every piece is crocheted by hand, to order, in Sri Lanka.</p>
+      <div class="nd-panel-social"><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+  </aside>
+</div>
+<!-- /nd:nav -->
 
 <header id="top">
   <div class="hero-reels">
@@ -724,9 +753,9 @@
     </div>
   </div>
   <div class="hero-caption">
-    <p class="eyebrow">Prologue · Handmade Crochet · Sri Lanka</p>
-    <h1>Every piece begins as a single, unbroken thread.</h1>
-    <a class="discover" href="#chapter-her">Follow the Thread</a>
+    <p data-c="home.001" class="eyebrow">Prologue · Handmade Crochet · Sri Lanka</p>
+    <h1 data-c="home.002">Every piece begins as a single, unbroken thread.</h1>
+    <a data-c="home.003" class="discover" href="#chapter-her">Follow the Thread</a>
   </div>
 </header>
 
@@ -744,10 +773,10 @@
         <div class="frame"><div class="ph" data-label="Photograph: her portrait"><img src="images/story-her.jpg" alt="The Nodalis Woman wearing a handmade crochet piece" loading="eager" decoding="async" fetchpriority="high" onerror="this.remove()"></div></div>
       </div>
       <div class="chapter-copy">
-        <p class="chap-eyebrow">Chapter I</p>
-        <h2>The Nodalis Woman</h2>
-        <p class="chap-line">The thread took its time with her. Three evenings, a hundred small knots, and then it was hers, and no one else's, forever.</p>
-        <a class="cta" href="women.html">Read Her Story</a>
+        <p data-c="home.004" class="chap-eyebrow">Chapter I</p>
+        <h2 data-c="home.005">The Nodalis Woman</h2>
+        <p data-c="home.006" class="chap-line">The thread took its time with her. Three evenings, a hundred small knots, and then it was hers, and no one else's, forever.</p>
+        <a data-c="home.007" class="cta" href="women.html">Read Her Story</a>
       </div>
     </div>
   </div>
@@ -762,10 +791,10 @@
         <div class="frame"><div class="ph" data-label="Photograph: his portrait"><img src="images/story-him.jpg" alt="The Nodalis Man wearing a handmade crochet piece" loading="lazy" decoding="async" onerror="this.remove()"></div></div>
       </div>
       <div class="chapter-copy">
-        <p class="chap-eyebrow">Chapter II</p>
-        <h2>The Nodalis Man</h2>
-        <p class="chap-line">There is a man these stitches were counted for. When he wears it, he knows exactly how slowly it was made.</p>
-        <a class="cta" href="mens.html">Read His Story</a>
+        <p data-c="home.008" class="chap-eyebrow">Chapter II</p>
+        <h2 data-c="home.009">The Nodalis Man</h2>
+        <p data-c="home.010" class="chap-line">There is a man these stitches were counted for. When he wears it, he knows exactly how slowly it was made.</p>
+        <a data-c="home.011" class="cta" href="mens.html">Read His Story</a>
       </div>
     </div>
   </div>
@@ -780,14 +809,25 @@
         <div class="frame"><div class="ph" data-label="Photograph: the companions"><img src="images/story-pets.jpg" alt="A companion in a handmade Nodalis crochet piece" loading="lazy" decoding="async" onerror="this.remove()"></div></div>
       </div>
       <div class="chapter-copy">
-        <p class="chap-eyebrow">Chapter III</p>
-        <h2>The Companions</h2>
-        <p class="chap-line">And then the smallest ones of the house came asking, so the hands measured a neck, a chest, a wagging back, and began again.</p>
-        <a class="cta" href="petstore.html">Visit the Petstore</a>
+        <p data-c="home.012" class="chap-eyebrow">Chapter III</p>
+        <h2 data-c="home.013">The Companions</h2>
+        <p data-c="home.014" class="chap-line">And then the smallest ones of the house came asking, so the hands measured a neck, a chest, a wagging back, and began again.</p>
+        <a data-c="home.015" class="cta" href="petstore.html">Visit the Petstore</a>
       </div>
     </div>
   </div>
   <div class="chapter-thread" aria-hidden="true" style="margin-top:clamp(20px,3vh,34px)"></div>
+</section>
+
+<section class="nd-j-teaser" id="nd-j-teaser">
+  <div class="nd-j-teaser-head">
+    <div>
+      <p class="nd-eyebrow" data-c="home.journal-eyebrow">From the Journal</p>
+      <h2 data-c="home.journal-title">Notes from the Atelier</h2>
+    </div>
+    <a class="nd-btn" href="journal.html">All articles</a>
+  </div>
+  <div class="nd-j-grid" id="nd-j-teaser-grid"></div>
 </section>
 
 <section id="creator-link">
@@ -803,10 +843,10 @@
       </svg>
       <span class="cp-copy">
         <span class="cp-text">
-          <span class="cp-kicker">Chapter IV</span>
-          <span class="cp-name">The Creator</span>
+          <span data-c="home.016" class="cp-kicker">Chapter IV</span>
+          <span data-c="home.017" class="cp-name">The Creator</span>
         </span>
-        <span class="cp-btn">Enter the Chapter &#8594;</span>
+        <span data-c="home.018" class="cp-btn">Enter the Chapter &#8594;</span>
       </span>
     </span>
   </a>
@@ -816,13 +856,13 @@
 <section id="enquire">
   <div class="section-head">
     <span class="knot" aria-hidden="true"></span>
-    <p class="eyebrow">Epilogue · Orders &amp; Enquiries</p>
-    <h2>Begin Your Own Chapter</h2>
+    <p data-c="home.019" class="eyebrow">Epilogue · Orders &amp; Enquiries</p>
+    <h2 data-c="home.020">Begin Your Own Chapter</h2>
   </div>
-  <p>Every Nodalis piece is made to order, by hand. Tell us what you have in mind and we will reply personally on WhatsApp to discuss sizing, yarn, colours, and timing.</p>
+  <p data-c="home.021">Every Nodalis piece is made to order, by hand. Tell us what you have in mind and we will reply personally on WhatsApp to discuss sizing, yarn, colours, and timing.</p>
 
   <form class="request-form" onsubmit="return sendRequest(event)">
-    <label for="rq-piece">What would you like made?</label>
+    <label data-c="home.022" for="rq-piece">What would you like made?</label>
     <select id="rq-piece" required>
       <option value="" disabled selected>Select…</option>
       <option>A top</option>
@@ -834,25 +874,47 @@
       <option>A custom piece (my own idea)</option>
     </select>
 
-    <label for="rq-name">Your name</label>
+    <label data-c="home.023" for="rq-name">Your name</label>
     <input id="rq-name" type="text" autocomplete="name" required>
 
-    <label for="rq-notes">Your request: size, colours, anything we should know</label>
+    <label data-c="home.024" for="rq-notes">Your request: size, colours, anything we should know</label>
     <textarea id="rq-notes" placeholder="e.g. Size M, in cream instead of caramel…"></textarea>
 
     <div class="form-actions">
-      <button type="submit" class="cta">Send via WhatsApp</button>
-      <button type="button" class="cta cta-ig" onclick="sendViaInstagram()">Send via Instagram</button>
+      <button data-c="home.025" type="submit" class="cta">Send via WhatsApp</button>
+      <button data-c="home.026" type="button" class="cta cta-ig" onclick="sendViaInstagram()">Send via Instagram</button>
       <p class="ig-hint" id="ig-hint">Your message will be copied. Just paste it in our Instagram chat.</p>
     </div>
   </form>
-  <p class="collection-note bottom-note">Check our Instagram to view our recent pieces <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a></p>
+  <p class="collection-note bottom-note">Check our Instagram to view our recent pieces <a data-c="home.027" href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a></p>
 </section>
 
-<footer>
-  <div class="logotype"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></div>
-  <p class="fine">Handmade in Sri Lanka · <a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">@nodalis.lk</a> · nodalis.lk</p>
+<!-- nd:footer -->
+<footer class="nd-footer">
+  <div class="nd-foot-top">
+    <div class="nd-foot-brand">
+      <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
+      <p data-c="site.footer-about">Handmade crochet, made to order in Sri Lanka. Every piece begins as a single thread and ends with the person it was made for.</p>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Shop</h4>
+      <a href="women.html">Women</a><a href="mens.html">Men</a><a href="petstore.html">Petstore</a><a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Atelier</h4>
+      <a href="creator.html">The Creator</a><a href="journal.html">Journal</a><a href="#enquire">Commission a Piece</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Contact</h4>
+      <a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><span>Colombo, Sri Lanka</span>
+    </div>
+  </div>
+  <div class="nd-foot-bottom">
+    <span>&copy; <span class="nd-year">2026</span> Nodalis</span>
+    <span data-c="site.footer-line">Handmade in Sri Lanka</span>
+  </div>
 </footer>
+<!-- /nd:footer -->
 
 <script>
   // play/pause per hero reel
@@ -990,5 +1052,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 <script src="warm.js"></script>
 <script src="cart.js"></script>
+<script src="content.js"></script>
+<script src="site.js"></script>
 </body>
 </html>

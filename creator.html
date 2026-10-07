@@ -8,7 +8,6 @@
 <meta name="description" content="The story of Nodalis Crochet Atelier, and the two people behind it: Krishanthani Vadivel, Founder & Creator, and Ajenth Kanagaraj, Co-Founder & Storyteller.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
 <style>
   :root{
     --cream:#FDFBF7;
@@ -277,6 +276,7 @@
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
 <link rel="stylesheet" href="palette.css">
+<link rel="stylesheet" href="site.css">
 </head>
 <body id="top">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -295,17 +295,46 @@
   </defs>
 </svg>
 
-<nav id="nav" aria-label="Main">
-  <div class="nav-links"><a href="index.html#chapter-her">Her</a><a href="index.html#chapter-him">Him</a><a href="petstore.html">Pets</a></div>
+<!-- nd:nav -->
+<nav id="nav" class="nd-nav" aria-label="Main">
+  <div class="nd-announce" data-c="site.announce">Handmade to order in Sri Lanka &nbsp;·&nbsp; Island-wide delivery</div>
+  <div class="nav-links">
+    <button class="nd-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nd-drawer"><span class="nd-burger-lines" aria-hidden="true"><i></i><i></i><i></i></span><span class="nd-burger-label">Menu</span></button>
+    <a class="nd-desk" href="women.html">Women</a><a class="nd-desk" href="mens.html">Men</a><a class="nd-desk" href="petstore.html">Petstore</a>
+  </div>
   <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
-  <div class="nav-links right"><a href="index.html#enquire">Enquire</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a></div>
+  <div class="nav-links right">
+    <a class="nd-desk" href="journal.html">Journal</a><a class="nd-desk" href="index.html#enquire">Enquire</a><a href="cart.html" id="basket-link">Basket<span id="basket-count" aria-hidden="true"></span></a>
+  </div>
 </nav>
+<div class="nd-drawer" id="nd-drawer" aria-hidden="true">
+  <div class="nd-scrim" data-nd-close></div>
+  <aside class="nd-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="nd-panel-head"><span class="nd-panel-title">Menu</span><button class="nd-close" type="button" data-nd-close aria-label="Close menu"><i></i><i></i></button></div>
+    <div class="nd-menu">
+      <a href="index.html">Home</a>
+      <a href="women.html">Women</a>
+      <a href="mens.html">Men</a>
+      <a href="petstore.html">Petstore</a>
+      <div class="nd-sub"><a href="petstore.html#dogs">For Dogs</a><a href="petstore.html#cats">For Cats</a></div>
+      <a href="journal.html">Journal</a>
+      <a href="creator.html" aria-current="page">The Creator</a>
+      <a href="index.html#enquire">Commission a Piece</a>
+      <a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-panel-foot">
+      <p class="nd-panel-note" data-c="site.drawer-note">Every piece is crocheted by hand, to order, in Sri Lanka.</p>
+      <div class="nd-panel-social"><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+  </aside>
+</div>
+<!-- /nd:nav -->
 
 <header class="chapter-title wrap">
   <div class="num" aria-hidden="true">IV</div>
-  <p class="eyebrow">Chapter IV</p>
-  <h1>The Creator</h1>
-  <p class="tagline">Nodalis Crochet Atelier · Colombo</p>
+  <p data-c="creator.001" class="eyebrow">Chapter IV</p>
+  <h1 data-c="creator.002">The Creator</h1>
+  <p data-c="creator.003" class="tagline">Nodalis Crochet Atelier · Colombo</p>
   <div class="hair" aria-hidden="true"></div>
 </header>
 
@@ -315,14 +344,14 @@
   <div class="inner">
     <span class="knot" aria-hidden="true"></span>
     <div class="sec-head">
-      <p class="eyebrow">Section I: Our Beginning</p>
-      <h2>Before it was a thread,<br><em>it was a thought.</em></h2>
+      <p data-c="creator.004" class="eyebrow">Section I: Our Beginning</p>
+      <h2 data-c="creator.005">Before it was a thread,<br><em>it was a thought.</em></h2>
     </div>
-    <p class="lead">Nodalis began the way most quiet things begin: as an image in someone's head that refused to leave. A shape, a texture, a colour held together in the imagination long before there was any yarn to hold.</p>
-    <p>Crochet is unusual among the crafts. Nothing is cut from a bolt of cloth or fed through a machine. Each piece is built from a single continuous thread, one loop drawn through another, thousands of times, by a hand that has to decide again and again where the next one goes. There is no shortcut hidden inside it. There is only attention, given slowly.</p>
-    <p>That is what we found worth building a house around. Not the craft itself, but what the craft preserves: the hours, the small corrections, the evening a sleeve was unpicked and begun again. A finished piece carries all of it. You cannot see the time in the stitches, but you can feel that it was spent.</p>
-    <p class="soft">So Nodalis is not a collection of products. It is an imagination made touchable: pieces designed to be uncommon, made to belong to one person, and finished by hands that knew whose they would be.</p>
-    <p class="closing-line">From imagination, into your hands.</p>
+    <p data-c="creator.006" class="lead">Nodalis began the way most quiet things begin: as an image in someone's head that refused to leave. A shape, a texture, a colour held together in the imagination long before there was any yarn to hold.</p>
+    <p data-c="creator.007">Crochet is unusual among the crafts. Nothing is cut from a bolt of cloth or fed through a machine. Each piece is built from a single continuous thread, one loop drawn through another, thousands of times, by a hand that has to decide again and again where the next one goes. There is no shortcut hidden inside it. There is only attention, given slowly.</p>
+    <p data-c="creator.008">That is what we found worth building a house around. Not the craft itself, but what the craft preserves: the hours, the small corrections, the evening a sleeve was unpicked and begun again. A finished piece carries all of it. You cannot see the time in the stitches, but you can feel that it was spent.</p>
+    <p data-c="creator.009" class="soft">So Nodalis is not a collection of products. It is an imagination made touchable: pieces designed to be uncommon, made to belong to one person, and finished by hands that knew whose they would be.</p>
+    <p data-c="creator.010" class="closing-line">From imagination, into your hands.</p>
   </div>
 </section>
 
@@ -334,12 +363,12 @@
       <div class="frame"><div class="ph" data-label="Portrait: Krishanthani Vadivel"><img src="images/creator.jpg" alt="Krishanthani Vadivel, founder and creator of Nodalis" loading="lazy" decoding="async" onerror="this.remove()"></div></div>
     </div>
     <div>
-      <p class="eyebrow">Section II: The Creator</p>
-      <div class="name">Krishanthani Vadivel</div>
-      <div class="role">Founder &amp; Creator</div>
-      <p>Every Nodalis piece exists because she imagined it first, usually complete, usually before there was any pattern for it.</p>
-      <p>She works the way a designer works and the way a maker works, without much of a line between the two. A silhouette is considered, a palette chosen, a stitch tested and rejected, a proportion adjusted because it looked right on paper and wrong on a body. Then the same hands that decided it sit down and make it, loop by loop, until the thing in her head and the thing on the table are finally the same object.</p>
-      <p>What she is building is larger than any single garment: a world with its own colours, its own vocabulary, its own way of dressing a woman, a man, a small dog waiting by the door. Nodalis is that world, imagined by her, and brought into existence by her hands.</p>
+      <p data-c="creator.011" class="eyebrow">Section II: The Creator</p>
+      <div data-c="creator.012" class="name">Krishanthani Vadivel</div>
+      <div data-c="creator.013" class="role">Founder &amp; Creator</div>
+      <p data-c="creator.014">Every Nodalis piece exists because she imagined it first, usually complete, usually before there was any pattern for it.</p>
+      <p data-c="creator.015">She works the way a designer works and the way a maker works, without much of a line between the two. A silhouette is considered, a palette chosen, a stitch tested and rejected, a proportion adjusted because it looked right on paper and wrong on a body. Then the same hands that decided it sit down and make it, loop by loop, until the thing in her head and the thing on the table are finally the same object.</p>
+      <p data-c="creator.016">What she is building is larger than any single garment: a world with its own colours, its own vocabulary, its own way of dressing a woman, a man, a small dog waiting by the door. Nodalis is that world, imagined by her, and brought into existence by her hands.</p>
     </div>
   </div>
 </section>
@@ -352,12 +381,12 @@
       <div class="frame"><div class="ph" data-label="Portrait: Ajenth Kanagaraj"><img src="images/storyteller.jpg" alt="Ajenth Kanagaraj, co-founder and storyteller of Nodalis" loading="lazy" decoding="async" onerror="this.remove()"></div></div>
     </div>
     <div>
-      <p class="eyebrow">Section III: The Storyteller</p>
-      <div class="name">Ajenth Kanagaraj</div>
-      <div class="role">Co-Founder &amp; Storyteller</div>
-      <p>A made thing does not explain itself. Someone has to find the words, the frame, the order in which it should be seen.</p>
-      <p>That is his work at Nodalis: turning a world that exists in yarn and instinct into something people outside it can enter. How a piece is photographed, what is said about it, what is deliberately left unsaid: these decisions carry the atelier's voice as surely as the stitching carries its hand.</p>
-      <p class="soft">The Creator makes the world. The Storyteller makes it legible.</p>
+      <p data-c="creator.017" class="eyebrow">Section III: The Storyteller</p>
+      <div data-c="creator.018" class="name">Ajenth Kanagaraj</div>
+      <div data-c="creator.019" class="role">Co-Founder &amp; Storyteller</div>
+      <p data-c="creator.020">A made thing does not explain itself. Someone has to find the words, the frame, the order in which it should be seen.</p>
+      <p data-c="creator.021">That is his work at Nodalis: turning a world that exists in yarn and instinct into something people outside it can enter. How a piece is photographed, what is said about it, what is deliberately left unsaid: these decisions carry the atelier's voice as surely as the stitching carries its hand.</p>
+      <p data-c="creator.022" class="soft">The Creator makes the world. The Storyteller makes it legible.</p>
     </div>
   </div>
 </section>
@@ -366,19 +395,41 @@
 
 <section class="finale wrap rv">
   <span class="knot" aria-hidden="true"></span>
-  <p class="eyebrow">Nodalis</p>
+  <p data-c="creator.023" class="eyebrow">Nodalis</p>
   <div class="lines">
-    <span>An idea imagined.</span>
-    <span>A craft created.</span>
-    <span>A story waiting to be worn, held, and remembered.</span>
+    <span data-c="creator.024">An idea imagined.</span>
+    <span data-c="creator.025">A craft created.</span>
+    <span data-c="creator.026">A story waiting to be worn, held, and remembered.</span>
   </div>
-  <a class="cta" href="index.html#enquire">Begin Your Own Chapter</a>
+  <a data-c="creator.027" class="cta" href="index.html#enquire">Begin Your Own Chapter</a>
 </section>
 
-<footer>
-  <div class="logotype"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></div>
-  <p class="fine">Handmade in Sri Lanka · @nodalis.lk · nodalis.lk</p>
+<!-- nd:footer -->
+<footer class="nd-footer">
+  <div class="nd-foot-top">
+    <div class="nd-foot-brand">
+      <a class="logotype" href="index.html"><span class="nd-logo" role="img" aria-label="Nodalis"><span class="nd-word">NODALIS<span class="nd-strike" aria-hidden="true"></span></span><span class="nd-tag" aria-hidden="true">Timeless Pieces</span></span></a>
+      <p data-c="site.footer-about">Handmade crochet, made to order in Sri Lanka. Every piece begins as a single thread and ends with the person it was made for.</p>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Shop</h4>
+      <a href="women.html">Women</a><a href="mens.html">Men</a><a href="petstore.html">Petstore</a><a href="cart.html">Your Basket</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Atelier</h4>
+      <a href="creator.html">The Creator</a><a href="journal.html">Journal</a><a href="index.html#enquire">Commission a Piece</a>
+    </div>
+    <div class="nd-foot-col">
+      <h4>Contact</h4>
+      <a href="https://wa.me/94767003630" target="_blank" rel="noopener">WhatsApp</a><a href="https://instagram.com/nodalis.lk" target="_blank" rel="noopener">Instagram</a><span>Colombo, Sri Lanka</span>
+    </div>
+  </div>
+  <div class="nd-foot-bottom">
+    <span>&copy; <span class="nd-year">2026</span> Nodalis</span>
+    <span data-c="site.footer-line">Handmade in Sri Lanka</span>
+  </div>
 </footer>
+<!-- /nd:footer -->
 
 <script src="products.js"></script>
 <script>
@@ -446,5 +497,7 @@ window.addEventListener('DOMContentLoaded', function(){
 <script src="autoink.js"></script>
 <script src="warm.js"></script>
 <script src="cart.js"></script>
+<script src="content.js"></script>
+<script src="site.js"></script>
 </body>
 </html>
