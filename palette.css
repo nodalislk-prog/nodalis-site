@@ -1,64 +1,98 @@
 /* Nodalis — site-wide palette.
-   One place for the house colours: beige pages, lavender header and footer.
-   Loaded last on every public page, so it wins over each page's own colours.
-   To change the palette later, edit the four values below. */
+   One place for the house colours: white pages, rich maroon header and footer,
+   black text with gold accents. Loaded last on every public page, so it wins
+   over each page's own colours. To change the palette, edit the values below. */
 :root{
-  --nd-beige:#F5EDE1;        /* page background */
-  --nd-lavender:#DCCFEA;     /* header + footer */
-  --nd-plum:#3A2440;         /* text on lavender */
-  --nd-plum-soft:#5E4868;    /* secondary text on lavender */
-  --nd-gold-deep:#8A6424;    /* wordmark on lavender */
+  --nd-page:#FFFFFF;          /* page background */
+  --nd-maroon:#5E1224;        /* header + footer */
+  --nd-black:#141414;         /* main text */
+  --nd-gold:#85652A;          /* gold text: labels, small lines (readable on white) */
+  --nd-gold-line:#B08D4A;     /* gold rules, knots, thread */
+  --nd-cream:#FBF4EC;         /* text on maroon */
+  --nd-gold-light:#E2C27E;    /* gold on maroon */
 }
 
-/* pages: flat beige (written as a one-colour gradient so the
-   automatic text-contrast helper still reads it and picks dark text) */
-html{background:var(--nd-beige)}
+/* ---------- page: white ---------- */
+html{background:var(--nd-page)}
 body{
-  background:linear-gradient(180deg,var(--nd-beige) 0%,var(--nd-beige) 100%) !important;
-  background-color:var(--nd-beige) !important;
+  background:linear-gradient(180deg,var(--nd-page) 0%,var(--nd-page) 100%) !important;
+  background-color:var(--nd-page) !important;
+  color:var(--nd-black);
 }
 
-/* header */
+/* ---------- text: black, with gold for labels and secondary lines ---------- */
+:root, body, section, header, .chapter, .profile, #atelier, #enquire, #fitting,
+#collection, #mens-collection, #petstore-teaser{
+  --ink:var(--nd-black) !important;
+  --ink-soft:var(--nd-gold) !important;
+  --yarn:var(--nd-gold-line) !important;
+  --hairline:rgba(176,141,74,.45) !important;
+}
+
+/* ---------- header: rich maroon ---------- */
 nav, #nav{
-  background:var(--nd-lavender) !important;
-  --ink:var(--nd-plum) !important;
-  --ink-soft:var(--nd-plum-soft) !important;
-  --nav-bg:var(--nd-lavender) !important;
-  border-bottom:1px solid rgba(138,100,36,.22) !important;
+  background:var(--nd-maroon) !important;
+  --nav-bg:var(--nd-maroon) !important;
+  --ink:var(--nd-cream) !important;
+  --ink-soft:var(--nd-gold-light) !important;
+  border-bottom:1px solid rgba(226,194,126,.35) !important;
 }
-nav .nav-links a, #nav .nav-links a{color:var(--nd-plum-soft) !important}
-nav .nav-links a:hover, #nav .nav-links a:hover{color:var(--nd-plum) !important}
-nav .logotype small{color:var(--nd-plum-soft) !important}
-nav .logotype small{-webkit-text-fill-color:var(--nd-plum-soft) !important}
+nav .nav-links a, #nav .nav-links a{color:var(--nd-cream) !important}
+nav .nav-links a:hover, #nav .nav-links a:hover{color:var(--nd-gold-light) !important}
+nav .logotype small{color:var(--nd-gold-light) !important;-webkit-text-fill-color:var(--nd-gold-light) !important}
 
-/* footer */
+/* ---------- footer: rich maroon ---------- */
 footer{
-  background:var(--nd-lavender) !important;
-  --ink:var(--nd-plum) !important;
-  --ink-soft:var(--nd-plum-soft) !important;
-  --yarn:var(--nd-gold-deep) !important;
-  --hairline:rgba(138,100,36,.32) !important;
-  color:var(--nd-plum) !important;
+  background:var(--nd-maroon) !important;
+  --ink:var(--nd-cream) !important;
+  --ink-soft:var(--nd-gold-light) !important;
+  --yarn:var(--nd-gold-light) !important;
+  --hairline:rgba(226,194,126,.4) !important;
+  color:var(--nd-cream) !important;
+  border-top:none !important;
 }
-footer a{color:var(--nd-plum)}
+footer .fine, footer p{color:var(--nd-cream) !important}
+footer a{color:var(--nd-gold-light) !important}
 
-/* wordmark: deep gold so it reads on lavender */
-nav .wordmark-svg path, footer .wordmark-svg path{fill:var(--nd-gold-deep) !important}
-nav .wordmark-svg, footer .wordmark-svg{filter:none !important}
-nav .logotype, footer .logotype{color:var(--nd-gold-deep) !important}
+/* gold wordmark keeps its shimmer on maroon */
+nav .logotype, footer .logotype{color:#C9A45C !important}
 
-/* sections that used to sit on the dark lower gradient */
-#atelier, #enquire, #fitting{
-  --ink:#2D2D2D;
-  --ink-soft:#5C5460;
-  --yarn:#7A5620;
-  --hairline:rgba(122,86,32,.35);
-}
-.collection-note a{color:#2D2D2D !important}
+/* ---------- old purple accents → maroon and gold ---------- */
+.chap-eyebrow{color:var(--nd-gold) !important}
+.chapter-num{color:var(--nd-maroon) !important}
+.chapter-thread{background:linear-gradient(180deg,var(--nd-gold-line),var(--nd-maroon)) !important}
+.cp-loop{stroke:var(--nd-gold-line) !important}
+.cp-btn{background:var(--nd-maroon) !important;border-color:var(--nd-maroon) !important;color:var(--nd-cream) !important}
+.creator-plate:hover .cp-panel{border-color:var(--nd-maroon) !important}
+.chip.on,.size-chip.on{border-color:var(--nd-maroon) !important;color:var(--nd-maroon) !important}
+.crumbs a:hover,.filters a:hover{color:var(--nd-maroon) !important}
 
-/* creator page: its closing lines were written in ivory for the old dark ground */
+/* buttons: black outline, maroon fill on hover */
+.cta:hover{background:var(--nd-maroon) !important;border-color:var(--nd-maroon) !important;color:var(--nd-cream) !important}
+
+/* creator page: its closing lines were written for a dark ground */
 :root{
-  --ivory:#3A2440;
-  --ivory-soft:#5E4868;
-  --gold-light:#8A6424;
+  --ivory:var(--nd-black);
+  --ivory-soft:var(--nd-gold);
+  --gold-light:var(--nd-gold);
 }
+nav{--gold-light:var(--nd-gold-light)}
+
+/* ---------- Instagram line: text centred, button on its own line ---------- */
+.collection-note{
+  text-align:center !important;
+  max-width:none !important;
+  color:var(--nd-gold) !important;
+}
+.collection-note a{
+  display:table !important;
+  margin:18px auto 0 !important;
+  color:var(--nd-black) !important;
+  border-color:var(--nd-gold-line) !important;
+  outline-color:rgba(176,141,74,.4) !important;
+}
+.collection-note a:hover{background:var(--nd-maroon) !important;color:var(--nd-cream) !important;border-color:var(--nd-maroon) !important}
+
+/* enquiry form: labels fit on one line and line up with the fields */
+.request-form label{letter-spacing:.14em !important}
+.request-form .form-actions, .request-form .cta-alt, .request-form .copy-note{text-align:center}
