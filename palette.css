@@ -1,0 +1,64 @@
+/* Nodalis — site-wide palette.
+   One place for the house colours: beige pages, lavender header and footer.
+   Loaded last on every public page, so it wins over each page's own colours.
+   To change the palette later, edit the four values below. */
+:root{
+  --nd-beige:#F5EDE1;        /* page background */
+  --nd-lavender:#DCCFEA;     /* header + footer */
+  --nd-plum:#3A2440;         /* text on lavender */
+  --nd-plum-soft:#5E4868;    /* secondary text on lavender */
+  --nd-gold-deep:#8A6424;    /* wordmark on lavender */
+}
+
+/* pages: flat beige (written as a one-colour gradient so the
+   automatic text-contrast helper still reads it and picks dark text) */
+html{background:var(--nd-beige)}
+body{
+  background:linear-gradient(180deg,var(--nd-beige) 0%,var(--nd-beige) 100%) !important;
+  background-color:var(--nd-beige) !important;
+}
+
+/* header */
+nav, #nav{
+  background:var(--nd-lavender) !important;
+  --ink:var(--nd-plum) !important;
+  --ink-soft:var(--nd-plum-soft) !important;
+  --nav-bg:var(--nd-lavender) !important;
+  border-bottom:1px solid rgba(138,100,36,.22) !important;
+}
+nav .nav-links a, #nav .nav-links a{color:var(--nd-plum-soft) !important}
+nav .nav-links a:hover, #nav .nav-links a:hover{color:var(--nd-plum) !important}
+nav .logotype small{color:var(--nd-plum-soft) !important}
+nav .logotype small{-webkit-text-fill-color:var(--nd-plum-soft) !important}
+
+/* footer */
+footer{
+  background:var(--nd-lavender) !important;
+  --ink:var(--nd-plum) !important;
+  --ink-soft:var(--nd-plum-soft) !important;
+  --yarn:var(--nd-gold-deep) !important;
+  --hairline:rgba(138,100,36,.32) !important;
+  color:var(--nd-plum) !important;
+}
+footer a{color:var(--nd-plum)}
+
+/* wordmark: deep gold so it reads on lavender */
+nav .wordmark-svg path, footer .wordmark-svg path{fill:var(--nd-gold-deep) !important}
+nav .wordmark-svg, footer .wordmark-svg{filter:none !important}
+nav .logotype, footer .logotype{color:var(--nd-gold-deep) !important}
+
+/* sections that used to sit on the dark lower gradient */
+#atelier, #enquire, #fitting{
+  --ink:#2D2D2D;
+  --ink-soft:#5C5460;
+  --yarn:#7A5620;
+  --hairline:rgba(122,86,32,.35);
+}
+.collection-note a{color:#2D2D2D !important}
+
+/* creator page: its closing lines were written in ivory for the old dark ground */
+:root{
+  --ivory:#3A2440;
+  --ivory-soft:#5E4868;
+  --gold-light:#8A6424;
+}
