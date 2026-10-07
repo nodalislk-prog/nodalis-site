@@ -1,4 +1,4 @@
-/* Nodalis site data — edited via admin.html on 2026-09-17 */
+/* Nodalis site data — edited via admin.html on 2026-10-07 */
 
 const SITE = {
   "payment": {
@@ -13,21 +13,21 @@ const SITE = {
     "v": 5,
     "gold": "#b98a4b",
     "apparel": {
-      "bgTop": "#fdfbf7",
+      "bgTop": "#ffffff",
       "bgBottom": "#f5ecf3",
       "ink": "#2d2d2d",
       "inkSoft": "#7a6473",
       "nav": "#3a1f42"
     },
     "pet": {
-      "bgTop": "#fdfbf7",
+      "bgTop": "#ffffff",
       "bgBottom": "#f7eedc",
       "ink": "#2d2d2d",
       "inkSoft": "#7a6a62",
       "nav": "#3a2a3e"
     },
     "mens": {
-      "bgTop": "#fbf9f4",
+      "bgTop": "#ffffff",
       "bgBottom": "#eeeaf1",
       "ink": "#2d2d2d",
       "inkSoft": "#645c74",
@@ -46,7 +46,7 @@ const SITE = {
   },
   "type": {
     "serif": "Prata",
-    "sans": "Karla",
+    "sans": "Inter",
     "base": 16,
     "hscale": 90
   }
