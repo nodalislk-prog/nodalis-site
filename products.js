@@ -739,8 +739,7 @@ const PRODUCTS = [
     "images": [
       "cocoa-stripe-mesh-top-front.jpg",
       "cocoa-stripe-mesh-top-g2.jpg",
-      "cocoa-stripe-mesh-top-g3.jpg",
-      "cocoa-stripe-mesh-top-g4.jpg"
+      "cocoa-stripe-mesh-top-g3.jpg"
     ]
   },
   {
@@ -792,33 +791,7 @@ const PRODUCTS = [
     "basePrice": 4500,
     "sizeStep": 500,
     "images": [
-      "rainbow-chevron-top-front.jpg",
-      "rainbow-chevron-top-g2.jpg"
-    ]
-  },
-  {
-    "id": "cloud-mesh-top",
-    "name": "The Cloud Mesh Top",
-    "category": "tops",
-    "price": "from LKR 4,500",
-    "short": "Oversized white mesh top with a soft, uneven hem",
-    "description": "An oversized top in fine white mesh with a soft, uneven hem. Throw it over a swimsuit, a slip or a vest top for an easy layered look. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
-    "colors": [
-      "White"
-    ],
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "sizeChart": [],
-    "basePrice": 4500,
-    "sizeStep": 500,
-    "images": [
-      "cloud-mesh-top-front.jpg"
+      "rainbow-chevron-top-front.jpg"
     ]
   },
   {
@@ -896,10 +869,7 @@ const PRODUCTS = [
     ],
     "sizeChart": [],
     "images": [
-      "navy-granny-square-set-front.jpg",
-      "navy-granny-square-set-g2.jpg",
-      "navy-granny-square-set-g3.jpg",
-      "navy-granny-square-set-g4.jpg"
+      "navy-granny-square-set-front.jpg"
     ]
   },
   {
@@ -946,9 +916,7 @@ const PRODUCTS = [
     ],
     "sizeChart": [],
     "images": [
-      "fiesta-granny-square-maxi-skirt-front.jpg",
-      "fiesta-granny-square-maxi-skirt-g2.jpg",
-      "fiesta-granny-square-maxi-skirt-g3.jpg"
+      "fiesta-granny-square-maxi-skirt-front.jpg"
     ]
   },
   {
