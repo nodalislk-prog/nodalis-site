@@ -563,7 +563,7 @@ const PRODUCTS = [
     "basePrice": 6500,
     "sizeStep": 500,
     "short": "Striped bee dress with antennae hat",
-    "description": "The full bee: a black-and-yellow striped dress with a flared yellow skirt, and a matching hat with pompom antennae that ties softly under the chin. Crocheted by hand to your dog's own measurements — made for photos.",
+    "description": "The full bee: a black-and-yellow striped dress with a flared yellow skirt, and a matching hat with pompom antennae that ties softly under the chin. Crocheted by hand to your dog's own measurements, made for photos.",
     "colors": [
       "Bee Yellow & Black",
       "Custom colours"
@@ -634,7 +634,7 @@ const PRODUCTS = [
     "category": "tops",
     "price": "from LKR 4,500",
     "short": "Cream granny-square vest, threaded with autumn confetti and tied at the sides",
-    "description": "An open-work vest in soft cream, worked square by square and edged in a speckled yarn that scatters amber, rust, and midnight through the weave like confetti. The sides fasten with hand-braided lace-up ties — loosen them for an easy drape, pull them close for a fitted shape — so one piece flatters many bodies. Wears beautifully over a bralette or a slip top, with denim or a summer skirt. Crocheted entirely by hand; gentle cold hand-wash, dry flat.",
+    "description": "An open-work vest in soft cream, worked square by square and edged in a speckled yarn that scatters amber, rust, and midnight through the weave like confetti. The sides fasten with hand-braided lace-up ties. Loosen them for an easy drape or pull them close for a fitted shape, so one piece flatters many bodies. Wears beautifully over a bralette or a slip top, with denim or a summer skirt. Crocheted entirely by hand; gentle cold hand-wash, dry flat.",
     "colors": [
       "Cream"
     ],
@@ -648,15 +648,24 @@ const PRODUCTS = [
     ],
     "sizeChart": [],
     "basePrice": 4500,
-    "sizeStep": 500
+    "sizeStep": 500,
+    "images": [
+      "the-confetti-lace-up-vest-front.jpg",
+      "the-confetti-lace-up-vest-g2.jpg",
+      "the-confetti-lace-up-vest-g3.jpg",
+      "the-confetti-lace-up-vest-g4.jpg",
+      "the-confetti-lace-up-vest-g5.jpg",
+      "the-confetti-lace-up-vest-side.jpg",
+      "the-confetti-lace-up-vest-size.jpg"
+    ]
   },
   {
     "id": "granny-square-crocheted-shirt",
-    "name": "Granny Square Crocheted Shirt",
+    "name": "The Olive Granny Square Shirt",
     "category": "shirt",
-    "price": "8000",
-    "short": "Granny Square Crocheted Shirt",
-    "description": "Granny Square Crocheted Shirt",
+    "price": "from LKR 7,000",
+    "short": "Short-sleeve camp-collar shirt in olive and cream granny squares",
+    "description": "A relaxed short-sleeve shirt with a camp collar and button front, made of granny squares in olive green framed in cream. Light and breathable, it wears well open over a tee or buttoned on its own. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
     "colors": [
       "Off White"
     ],
@@ -669,10 +678,305 @@ const PRODUCTS = [
       "XXL"
     ],
     "sizeChart": [],
-    "basePrice": 8000,
+    "basePrice": 7000,
     "sizeStep": 300,
     "images": [
-      "granny-square-crocheted-shirt-front.jpg"
+      "granny-square-crocheted-shirt-front.jpg",
+      "granny-square-crocheted-shirt-g2.jpg",
+      "granny-square-crocheted-shirt-g3.jpg",
+      "granny-square-crocheted-shirt-g4.jpg"
+    ]
+  },
+  {
+    "id": "sunburst-tie-front-vest",
+    "name": "The Sunburst Tie-Front Vest",
+    "category": "tops",
+    "price": "from LKR 4,500",
+    "short": "Cream granny-square vest with sunburst medallions and a tasselled tie front",
+    "description": "A sleeveless vest in soft cream, set with sunburst medallions in terracotta, sage and sand. It closes at the front with braided ties finished in tassels, so you can wear it open over a slip or tied close on its own. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Cream"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 4500,
+    "sizeStep": 500,
+    "images": [
+      "sunburst-tie-front-vest-front.jpg",
+      "sunburst-tie-front-vest-g2.jpg",
+      "sunburst-tie-front-vest-g3.jpg",
+      "sunburst-tie-front-vest-g4.jpg"
+    ]
+  },
+  {
+    "id": "cocoa-stripe-mesh-top",
+    "name": "The Cocoa Stripe Mesh Top",
+    "category": "tops",
+    "price": "from LKR 4,500",
+    "short": "Open-weave cropped top in cocoa and cream stripes with bell sleeves",
+    "description": "A light, open-weave top in bands of cocoa brown and cream, with a wide boat neck and long bell sleeves. Cropped just above the waist, it layers easily over a camisole or a bralette. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Cocoa & Cream"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 4500,
+    "sizeStep": 500,
+    "images": [
+      "cocoa-stripe-mesh-top-front.jpg",
+      "cocoa-stripe-mesh-top-g2.jpg",
+      "cocoa-stripe-mesh-top-g3.jpg",
+      "cocoa-stripe-mesh-top-g4.jpg"
+    ]
+  },
+  {
+    "id": "pastel-wave-mesh-top",
+    "name": "The Pastel Wave Mesh Top",
+    "category": "tops",
+    "price": "from LKR 4,500",
+    "short": "Airy cropped top in soft waves of lilac, lemon and cream",
+    "description": "An airy, open-stitch top in gentle waves of lilac, lemon and cream. Relaxed shoulders and full sleeves give it an easy shape, and the cropped hem sits well with high-waisted trousers. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Lilac & Lemon"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 4500,
+    "sizeStep": 500,
+    "images": [
+      "pastel-wave-mesh-top-front.jpg",
+      "pastel-wave-mesh-top-g2.jpg",
+      "pastel-wave-mesh-top-g3.jpg"
+    ]
+  },
+  {
+    "id": "rainbow-chevron-top",
+    "name": "The Rainbow Chevron Top",
+    "category": "tops",
+    "price": "from LKR 4,500",
+    "short": "Cropped V-neck top in a bright rainbow chevron",
+    "description": "A cropped V-neck top worked in a chevron of every colour, with a scalloped hem that follows the zigzag. Bright on its own in summer, or layered over a white tee. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Rainbow"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 4500,
+    "sizeStep": 500,
+    "images": [
+      "rainbow-chevron-top-front.jpg",
+      "rainbow-chevron-top-g2.jpg"
+    ]
+  },
+  {
+    "id": "cloud-mesh-top",
+    "name": "The Cloud Mesh Top",
+    "category": "tops",
+    "price": "from LKR 4,500",
+    "short": "Oversized white mesh top with a soft, uneven hem",
+    "description": "An oversized top in fine white mesh with a soft, uneven hem. Throw it over a swimsuit, a slip or a vest top for an easy layered look. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "White"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 4500,
+    "sizeStep": 500,
+    "images": [
+      "cloud-mesh-top-front.jpg"
+    ]
+  },
+  {
+    "id": "noir-square-dress",
+    "name": "The Noir Square Dress",
+    "category": "frocks",
+    "price": "from LKR 12,000",
+    "short": "Sleeveless mini dress in a bold black and cream square pattern",
+    "description": "A sleeveless mini dress with a single granny square framing the bodice and black and cream stripes running down to the hem. Fitted through the body, with a clean boat neck. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Black & Cream"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 12000,
+    "sizeStep": 500,
+    "images": [
+      "noir-square-dress-front.jpg",
+      "noir-square-dress-g2.jpg",
+      "noir-square-dress-g3.jpg"
+    ]
+  },
+  {
+    "id": "terracotta-granny-square-dress",
+    "name": "The Terracotta Granny Square Dress",
+    "category": "frocks",
+    "price": "from LKR 12,000",
+    "short": "Granny square mini dress in terracotta and cream with a tie waist",
+    "description": "A sleeveless mini dress made of granny squares, each with a cream flower framed in terracotta. A braided cord with tassels ties at the waist to shape the fit. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Terracotta & Cream"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 12000,
+    "sizeStep": 500,
+    "images": [
+      "terracotta-granny-square-dress-front.jpg",
+      "terracotta-granny-square-dress-g2.jpg",
+      "terracotta-granny-square-dress-g3.jpg",
+      "terracotta-granny-square-dress-g4.jpg"
+    ]
+  },
+  {
+    "id": "navy-granny-square-set",
+    "name": "The Navy Granny Square Set",
+    "category": "shirts",
+    "price": "Price on request",
+    "short": "Short-sleeve shirt and drawstring shorts in navy and cream",
+    "description": "A matching set of a collared short-sleeve shirt and drawstring shorts, both worked in navy and cream granny squares. Wear them together, or style each piece on its own. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Navy & Cream"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "images": [
+      "navy-granny-square-set-front.jpg",
+      "navy-granny-square-set-g2.jpg",
+      "navy-granny-square-set-g3.jpg",
+      "navy-granny-square-set-g4.jpg"
+    ]
+  },
+  {
+    "id": "mocha-granny-square-set",
+    "name": "The Mocha Granny Square Set",
+    "category": "shirts",
+    "price": "Price on request",
+    "short": "Cropped shirt and shorts in mocha and cream granny squares",
+    "description": "A cropped short-sleeve shirt with a soft collar and matching shorts, worked in mocha and cream granny squares. Easy for warm days and holidays. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Mocha & Cream"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "images": [
+      "mocha-granny-square-set-front.jpg",
+      "mocha-granny-square-set-g2.jpg"
+    ]
+  },
+  {
+    "id": "fiesta-granny-square-maxi-skirt",
+    "name": "The Fiesta Granny Square Maxi Skirt",
+    "category": "skirts",
+    "price": "Price on request",
+    "short": "Multicolour granny square maxi skirt with a fringed hem",
+    "description": "A long, straight skirt made of bright granny squares on a cream ground, finished with a swinging fringe at the hem. Pair it with a simple tank and sandals. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Multicolour"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "images": [
+      "fiesta-granny-square-maxi-skirt-front.jpg",
+      "fiesta-granny-square-maxi-skirt-g2.jpg",
+      "fiesta-granny-square-maxi-skirt-g3.jpg"
+    ]
+  },
+  {
+    "id": "cocoa-granny-square-shirt",
+    "name": "The Cocoa Granny Square Shirt",
+    "category": "shirt",
+    "price": "from LKR 7,000",
+    "short": "Short-sleeve camp-collar shirt in cocoa and cream granny squares",
+    "description": "A relaxed short-sleeve shirt with a camp collar and button front, made of cream granny squares with cocoa brown centres. Light and breathable, it wears well open over a tee or buttoned on its own. Crocheted entirely by hand to your size. Gentle cold hand wash, dry flat.",
+    "colors": [
+      "Cocoa & Cream"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sizeChart": [],
+    "basePrice": 7000,
+    "sizeStep": 300,
+    "images": [
+      "cocoa-granny-square-shirt-front.jpg",
+      "cocoa-granny-square-shirt-g2.jpg",
+      "cocoa-granny-square-shirt-g3.jpg",
+      "cocoa-granny-square-shirt-g4.jpg"
     ]
   }
 ];
