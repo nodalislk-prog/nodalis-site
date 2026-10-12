@@ -4,12 +4,13 @@
    over each page's own colours. To change the palette, edit the values below. */
 :root{
   --nd-page:#FFFFFF;          /* page background */
-  --nd-maroon:#5E1224;        /* header + footer */
+  --nd-maroon:#8A6A2E;        /* accent fill: buttons, selected chips (deep gold) */
   --nd-black:#141414;         /* main text */
   --nd-gold:#85652A;          /* gold text: labels, small lines (readable on white) */
   --nd-gold-line:#B08D4A;     /* gold rules, knots, thread */
-  --nd-cream:#FBF4EC;         /* text on maroon */
-  --nd-gold-light:#E2C27E;    /* gold on maroon */
+  --nd-cream:#FFFFFF;         /* text on the accent fill */
+  --nd-gold-light:#9A7637;    /* gold text on white */
+  --nd-peach:#FBF1E8;         /* soft peach: announcement bar, footer */
 }
 
 /* ---------- page: white ---------- */

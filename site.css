@@ -228,3 +228,70 @@ footer.nd-footer{
 header#top{padding-top:150px !important}
 @media (max-width:900px){ header#top{padding-top:118px !important} }
 .hero-reels .reel{border:0 !important;outline:0 !important}
+
+/* ================= white & gold theme =================
+   White header, soft peach footer, black text, gold accents.
+   (Overrides the darker header/footer styles above.) */
+nav#nav.nd-nav, nav, #nav{
+  background:rgba(255,255,255,.97) !important;
+  --nav-bg:#FFFFFF !important;
+  --ink:#141414 !important;
+  --ink-soft:var(--nd-gold-light) !important;
+  border-bottom:1px solid rgba(176,141,74,.32) !important;
+  box-shadow:0 1px 0 rgba(176,141,74,.08), 0 8px 24px rgba(20,20,20,.03) !important;
+}
+.nd-announce{
+  background:var(--nd-peach) !important;
+  color:#7A5C25 !important;
+  border-bottom:1px solid rgba(176,141,74,.22) !important;
+}
+nav .nav-links a, #nav .nav-links a, .nd-burger{color:#141414 !important}
+nav .nav-links a:hover, #nav .nav-links a:hover{color:var(--nd-gold-light) !important}
+nav#nav .nav-links a::after{background:var(--nd-gold-line) !important}
+#basket-count{background:var(--nd-gold-line) !important;color:#FFFFFF !important}
+
+/* logo: shimmering gold on white */
+.nd-word{
+  background:linear-gradient(100deg, #8A6A2E 0%, #B08D4A 22%, #D9B76E 38%, #FFF4D2 48%, #D9B76E 58%, #B08D4A 76%, #8A6A2E 100%) !important;
+  background-size:300% 100% !important;
+  -webkit-background-clip:text !important;background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.6)) drop-shadow(0 0 5px rgba(217,183,110,.28)) !important;
+}
+.nd-tag{color:#7A5C25 !important;-webkit-text-fill-color:#7A5C25 !important}
+
+/* drawer */
+.nd-scrim{background:rgba(30,24,16,.28) !important}
+.nd-panel{background:#FFFFFF !important;color:#141414 !important;border-right:1px solid rgba(176,141,74,.3)}
+.nd-panel-title, .nd-sub a, .nd-panel-social a{color:var(--nd-gold-light) !important}
+.nd-close{color:#141414 !important;border-color:rgba(176,141,74,.45) !important}
+.nd-close:hover{border-color:var(--nd-gold-line) !important}
+.nd-menu > a{color:#141414 !important;border-bottom-color:rgba(176,141,74,.2) !important}
+.nd-menu > a:hover, .nd-menu > a[aria-current="page"]{color:var(--nd-gold-light) !important}
+.nd-sub{border-bottom-color:rgba(176,141,74,.2) !important}
+.nd-sub a:hover{color:#141414 !important}
+.nd-panel-note{color:#5A5148 !important}
+.nd-drawer.open .nd-panel{box-shadow:24px 0 60px rgba(30,24,16,.12) !important}
+
+/* footer */
+footer, footer.nd-footer{
+  background:var(--nd-peach) !important;
+  color:#141414 !important;
+  --ink:#141414 !important;
+  --ink-soft:var(--nd-gold-light) !important;
+  --yarn:var(--nd-gold-line) !important;
+  border-top:1px solid rgba(176,141,74,.3) !important;
+}
+footer .fine, footer p, .nd-foot-brand p{color:#4A433C !important}
+footer a{color:#141414 !important}
+.nd-foot-top{border-bottom-color:rgba(176,141,74,.3) !important}
+.nd-foot-col h4{color:var(--nd-gold-light) !important}
+.nd-foot-col a, .nd-foot-col span{color:#141414 !important}
+.nd-foot-col a:hover{color:var(--nd-gold-light) !important}
+.nd-foot-bottom{color:#6E655B !important}
+
+/* buttons: black outline, gold fill on hover */
+.cta:hover, .nd-btn:hover, .collection-note a:hover, .cp-btn{background:var(--nd-gold-line) !important;border-color:var(--nd-gold-line) !important;color:#FFFFFF !important}
+.nd-btn.solid{background:#141414 !important;border-color:#141414 !important;color:#FFFFFF !important}
+.nd-btn.solid:hover{background:var(--nd-gold-line) !important;border-color:var(--nd-gold-line) !important}
+::selection{background:#E9D3A4;color:#141414}
